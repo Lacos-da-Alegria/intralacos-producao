@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+          
+          	
+          	<div class="row mt">
+                  <div class="col-md-12">
+                      <div class="content-panel">
+                          <table class="table table-striped table-advance table-hover">
+	                  	  	  <h3 style="margin-left:10px;"> <b> <i class="fa fa-tags" aria-hidden="true"></i> Controle de Tags </b> 
+	                  	  	  	<button data-toggle="modal" href="#modalTag" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> <span class="hidden-phone">  Nova Tag</span></button>
+	                  	  	  </h3>	                  	      	                   	  
+	                  	  	  <hr>
+                              <thead>
+                              <tr>
+                                  <th><i class="fa fa-tag " aria-hidden="true"></i> <span class="hidden-phone"> Tag</span></th>
+                                  <th><i class="fa fa-file-code-o " aria-hidden="true"></i> <span class="hidden-phone"> Tipo</span></th>
+                                  <th><i class="fa fa-question-circle "></i> <span class="hidden-phone">Status</span></th>
+                                  <th><i class="fa fa-commenting-o "></i> <span class="hidden-phone">Descricao</span></th>
+                                  <th><i class="fa fa-star-half-o" aria-hidden="true"></i> <span class="hidden-phone">Alterar Status</span></th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr th:each="tag : ${tags}">
+	                              <td th:text="${tag.nome}"></td>
+	                              <td th:text="${tag.textoTipo()}"></td>
+	                              <td th:text="${tag.textoStatus()}"></td>
+	                              <td th:text="${tag.descricao}"></td>
+	                              <td><a onclick="clickAndDisable(this);" th:href="'/ongs/update/tag?tag='+${tag.id}" style="font-size:13px;" th:class="${tag.status == 1 ? 'btn btn-success btn-xs fa fa-history' : 'btn btn-danger btn-xs fa fa-history'}"></a></td>
+                              </tr>   
+                              </tbody>
+                          </table>
+                      </div><!-- /content-panel -->
+                  </div><!-- /col-md-12 -->
+              </div><!-- /row -->		
+	
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+				  
+		          <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="modalTag" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-b">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered"><i class="fa fa-book" aria-hidden="true"></i> Cadastrar Tag</h4>
+		                      </div>
+		                      
+		              <form class="form-horizontal style-form" action="/ongs/add/tag" method = "post">
+		                      
+		                 <div class="modal-body">
+		                 
+		                 <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Tipo</label>
+                              <div class="col-sm-10">  
+                               	   <select class="form-control" name="tipo"  required>
+                                    	<option value="">Escolha um Tipo</option>
+                                    	<option value="1">Caracteristica</option>
+                                    	<option value="2">Atividade</option>
+                                    	<option value="3">Ponto Crítico</option>
+                                    </select> 
+                              </div>
+                          </div> 
+                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Tag </label> 
+                              <div class="col-sm-10">
+                                 <input class="form-control" type="text" name="nome" required>
+                              </div>
+                          </div> 
+						    <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Descrição</label>
+                              <div class="col-sm-10">
+                                 <textarea rows="8" class="form-control placeholder-no-fix" name="descricao" required></textarea>
+                              </div>
+                          </div> 
+						</div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-primary" type="submit">Cadastrar</button>
+		                      </div>
+		                      
+		                      </form>
+		                        	
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+
+    <div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+	
+	<script type="text/javascript">
+    
+        function clickAndDisable(link) {
+            // disable subsequent clicks
+            link.onclick = function(event) {
+               event.preventDefault();
+            }
+          };
+    
+    </script> 
+
+  </body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+            
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+       <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+	
+			
+		<div class="form-panel">
+		    <h1>Cadastrar Equipe Administrativa</h1>
+		  	<hr>
+			<div class="row">
+			
+			<form class="form-horizontal style-form" th:action="@{/diretor/cadastrar/equipe}" method = "post">	
+			      <!-- left column -->
+			      <div class="col-md-3">
+			        <div class="text-center">
+			          <img src="/assets/img/equipe.jpg" class="avatar img-circle" alt="avatar" name="pic" accept="asset/img/*">
+			          <h6>Preencha o máximo possível!</h6> 			          
+			        </div>
+			      </div>
+		      
+		      <!-- edit form column -->
+		      <div class="col-md-8 personal-info ">
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>Nome</b></label>
+		              <div class="col-sm-10">
+		               <input name="nome" class="form-control" type="text" required >
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>E-mail do Lider</b></label>
+		              <div class="col-sm-10">
+		              <input name = "email" class="form-control" type="email">
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>Númeto de Membros</b></label>
+		              <div class="col-sm-10">
+		              <input name = "numeroMembros" class="form-control" type="number">
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>Objetivo</b></label>
+		              <div class="col-sm-10">
+		               <input name="objetivo" class="form-control" type="text" required >
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>Descrição</b></label>
+		              <div class="col-sm-10">
+		               <textarea rows="8" class="form-control placeholder-no-fix" name="descricao"></textarea>
+		              </div>
+		          </div>
+		          
+		          	<div class="form-group">
+		            	<label class="col-md-2 control-label"></label>
+		         	 	<div class="modal-footer">
+		              	<input class="btn btn-primary" value="Criar Equipe" type="submit">
+		             		 <span></span>
+		              	<input class="btn btn-default" value="Cancelar" type="reset">
+		             </div>
+		            
+		          </div>
+		          </div>
+		        </form>
+		      </div>
+		      
+		      	
+		  </div><!-- /row mt -->	
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+				  
+          </section>
+      </section>	
+
+      <!--main content end-->
+
+  </section>
+
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>	
+	
+	<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=3xxlvr4x4mfh2h5wsc9vh3bdq5b2st3sxgv8iowhcxy83kbv"></script>
+ 	<script>tinymce.init({ selector:'textarea', menubar: false, height: 250 });</script>
+
+  </body>
+</html>

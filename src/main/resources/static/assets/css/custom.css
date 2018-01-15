@@ -1,0 +1,145 @@
+/*
+Custom CSS for Intralaços
+*/
+
+.il-form-spaccing {
+	padding: 6px;
+	margin-bottom: 5px;
+}
+
+.il-form-label b {
+	color: #797979;
+	font-weight: bold;
+}
+
+.validation-message{
+	color: red;
+	font-size: 90%;
+}
+
+.il-fields-required {
+	margin-left: 70%;
+	color: red;
+}
+
+.il-term-p {
+	text-indent: 3em;
+	text-align: justify;
+	text-justify: inter-word;
+	margin-left: 15px;
+}
+
+.faqHeader {
+    font-size: 27px;
+    margin: 20px;
+}
+
+.panel-heading [data-toggle="collapse"]:after {
+    font-family: 'Glyphicons Halflings';
+    content: "\e072"; /* "play" icon */
+    float: right;
+    color: #F58723;
+    font-size: 18px;
+    line-height: 22px;
+    /* rotate "play" icon from > (right arrow) to down arrow */
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+}
+
+.panel-heading [data-toggle="collapse"].collapsed:after {
+    /* rotate "play" icon from > (right arrow) to ^ (up arrow) */
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+    color: #454444;
+}
+
+@media only screen and (min-width: 760px) {
+	.classe-teste{
+		width:60%; 
+		margin-right:3%;
+	}
+	
+	/* Dropdown Button */
+	.dropbtn {
+	    background-color: #4CAF50;
+	    color: white;
+	    padding: 16px;
+	    font-size: 16px;
+	    border: none;
+	    cursor: pointer;
+	}
+	
+	/* The container <div> - needed to position the dropdown content */
+	.dropdown {
+	    position: relative;
+	    display: inline-block;
+	}
+	
+	/* Dropdown Content (Hidden by Default) */
+	.dropdown-content {
+	    display: none;
+	    position: absolute;
+	    background-color: #f9f9f9;
+	    min-width: 160px;
+	    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	    z-index: 1;
+	}
+	
+	/* Links inside the dropdown */
+	.dropdown-content a {
+	    color: black;
+	    padding: 12px 16px;
+	    text-decoration: none;
+	    display: block;
+	}
+	
+	/* Change color of dropdown links on hover */
+	.dropdown-content a:hover {background-color: #f1f1f1}
+	
+	/* Show the dropdown menu on hover */
+	.dropdown:hover .dropdown-content {
+	    display: block;
+	}
+	
+	/* Change the background color of the dropdown button when the dropdown content is shown */
+	.dropdown:hover .dropbtn {
+	    background-color: #3e8e41;
+	}
+	
+	.buttom-chamada {
+		text-shadow: 1px 1px 1px #ccc; 
+		font-size: 1.2em;
+	}
+
+}
+
+@media
+only screen and (-webkit-min-device-pixel-ratio : 1.5),
+only screen and (min-device-pixel-ratio : 1.5),
+only screen and (min-device-width : 320px) and (max-device-width : 758px) {
+
+	.il-fields-required {
+		margin-left: 5%;
+	}
+	
+	.validation-message {
+		font-size: 100%;
+	}
+	
+	.il-btn-send {
+		width: 90%;
+	}
+	
+}
+
+@media only screen and (min-width: 1025px) {
+     .demanda-margem {
+         margin-top:-30px
+     }
+} 

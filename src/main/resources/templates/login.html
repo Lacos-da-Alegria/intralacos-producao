@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body class="0c6f5469-e1b5-44af-8973-e0092174af85">
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+
+	  <div id="login-page">
+	  
+	  	<div class="container" >
+	  	
+		      <div class="form-login">
+		        <h2 class="form-login-heading" style="background: #ce3030">Somente Para Testes</h2><!-- Área do Voluntário -->
+		        <div class="login-wrap ">
+		        	<div th:if="${successMessage != null}">
+					    <div class="alert alert-success" th:utext="${successMessage}"></div>
+					</div>
+					<div th:if="${errorMessage != null}">
+					    <div class="alert alert-danger" th:utext="${errorMessage}"></div>
+					</div>
+		        	
+					<div th:if="${param.error}">
+					    <div class="alert alert-danger">
+					       Usuário e Senha inválidas.
+					    </div>
+					</div>
+					<div th:if="${param.logout}">
+					    <div class="alert alert-info">
+					        Você foi desconectado.
+					    </div>
+					</div>
+						<form th:action="@{/login}" method="post">
+			            <input name="username" type="text" class="form-control" placeholder="login" autofocus required>
+			            <br>
+			            <input name="password" type="password" class="form-control" placeholder="senha" required>
+			            <label class="checkbox">
+			                <span class="pull-right">
+			                    <a data-toggle="modal" href="#esqueciSenha" class = "link-underline"> Esqueceu a Senha ou Login?</a>
+			
+			                </span>
+			            </label>
+			            <button class="btn btn-theme btn-block" type="submit"><i class="fa fa-lock"></i> Iniciar Sessão</button>
+					</form>	
+					<h2 class="lock-screen">Ainda não é Voluntário?</h2>
+					
+					<div>	
+					<p>Basta preecher o cadastro e logar para obter mais informações.</p>
+		         
+									
+		            <a class="btn btn-theme btn-block" th:href="@{/cadastro}"><i class="fa"></i> Fazer Cadastro</a>
+		           	
+					</div>
+				</div>
+				</div>	
+			</div>
+		</div>
+        <!-- Modal -->
+        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="esqueciSenha" class="modal fade">
+             <div class="modal-dialog">
+                 <div class="modal-content">
+                     <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                         <h4 class="modal-title">Esqueceu a Senha?</h4>
+                     </div>
+                     <form action = "/cadastro/reset/info" method="get">
+                     <div class="modal-body">
+                         <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+                         <input type="email" name="email" placeholder="E-mail" class="form-control placeholder-no-fix">
+
+                     </div>
+                     <div class="modal-footer">
+                         <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+                         <button class="btn btn-theme" type="submit">Enviar</button>
+                     </div>
+                     </form>
+                 </div>
+             </div>
+         </div>
+         <!-- modal -->
+         
+         		<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalCancelar" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-d">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Esse IntraLaços não é válido para participação de Atividades</h4>
+		                      </div>
+		                      <div class="modal-body centered">
+		                          <p>Esse aqui é o novo intralaços, que esta passando por  <b>testes</b> antes de entrar em ação.</p>
+		                          <p>Você pode ajudar a testar. É so entrar com o seu login e a senha é o seu CPF, caso queira, é só ir em <b>esqueci minha senha ou login</b> para alterar a senha ou lembrar o login</p>
+		                          <p>Caso encontre algum erro favor abrir uma ouvidoria de preferência, ou pode falar comigo, Ricardo, no whatsapp (61) 98250-4895</p>
+		                          <p>Caso queria se inscrever em uma atividade para essa semana favor clicar aqui no link <a href="http://intralacos.com">http://intralacos.com<a></p>		                       	
+		                      </div>
+		                      <div class="modal-footer">
+		                       <input  type="hidden" id="ativCancelar">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		
+	  	
+		
+	 
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <!--BACKSTRETCH-->
+    <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+    <script type="text/javascript" src="assets/js/jquery.backstretch.min.js"></script>
+    <script>
+        $.backstretch("assets/img/login-bg2.jpg", {speed: 500});
+        
+        $( document ).ready(function() {
+    		$('#ModalCancelar').modal('show');
+    	});
+
+        
+    </script>
+
+  </body>
+</html>

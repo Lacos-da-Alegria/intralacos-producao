@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+					
+					<div class="row">
+						<div th:class="${rodada ? 'col-sm-12' : 'col-sm-6'}" th:style="${rodada ? '' : 'margin-top:35px;'}">
+							<h1 class="centered" th:text="${rodada ? 'A lista ficará disponível a partir de Quarta-Feira' : 'Lista de Atividade'}"></h1>
+						</div>
+					<div class="col-sm-6" th:if="${!rodada}">	
+						<div class="col-sm-12 col-sm-12" style="margin:5px; margin-top:16px;">
+							<label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Ações</b></label>
+		             	 	<select class="form-control select2" id="agenda" name="agenda"  style="width:100%;">
+		             	 		<option value="">Selecione uma ação</option>
+								<option th:each="acao : ${acoes}" th:value="${acao.id}" th:text="${acao.nome}" th:selected="${agenda != null && agenda.id == acao.id}"></option>
+		                	</select>
+		             	</div>
+		             	<div class="col-sm-12 col-sm-12" style="margin:5px">
+							<label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Hospitais</b></label>
+		             	 	<select class="form-control select2" id="hospital" name="hospital"  style="width:100%;">
+		             	 		<option value="">Selecione um hospital</option>
+								<option th:each="hospital : ${hospitais}" th:value="${hospital.id}" th:text="${hospital.nome+ ' - ' + hospital.tag}" th:selected="${hospital_ != null && hospital.id == hospital_.id}"></option>
+		                	</select>
+		             	</div>
+		            </div>
+	
+                  	</div><!-- /row mt -->	
+                  	
+                  	<div class="row mt">
+                      <div class="col-lg-4 col-md-8 col-sm-8 mb">
+							<div class="weather-2 pn" style="height:470px">
+							<div class="weather-2-header">
+									<div class="row centered mt-2">										
+										<p><i class="fa fa-heart"></i>&nbsp&nbspLista de Voluntários</p>	
+									</div>
+								</div><!-- /weather-2 header -->
+								
+						<div style="height:429px;line-height:3em;overflow:auto;padding:5px;">
+								
+							<div class="custom-check goleft">
+				             <table id="todo" class="table table-hover custom-check">
+				              <tbody>
+								<tr th:each="voluntario,iter : ${fila.lista}">
+									<td>				                      
+			                     	   <a th:text="${iter.index+1}+'º'"></a>
+			      					</td>
+			      					<td>				                      
+			                     	   <a><i th:if="${voluntario.isAniversariante()}" class="fa fa-birthday-cake" aria-hidden="true"> - </i><span th:text="${voluntario.nome}"></span></a>
+			      					</td>
+			      					<td>				                      
+			                     	   <a th:text="${voluntario.nomeDoutor}"></a>
+			      					</td>
+			      				</tr>
+				              </tbody>
+				          </table>	
+						</div><!-- /table-responsive -->
+								
+						</div><!-- scrollbar -->
+					
+					</div><!--/content-panel -->
+				</div><!--/col-md-4 -->
+                      	
+
+                      	<div class="col-lg-4 col-md-4 col-sm-4 mb">
+							<div class="weather-2 pn" style="height:470px">
+							<div class="weather-2-header">
+									<div class="row">
+										<div class="centered mt-2">	
+											<p><i class="fa li_star"></i>&nbsp&nbspLista dos Apoios</p>
+										</div>
+										
+									</div>
+								</div><!-- /weather-2 header -->
+						<div style="height:429px;line-height:3em;overflow:auto;padding:5px;">
+
+								
+							<div class="custom-check goleft">
+				             <table id="todo" class="table table-hover custom-check">
+				              <tbody>
+								<tr th:each="voluntario,iter : ${fila.equipe}">
+									<td>				                      
+			                     	   <a th:text="${iter.index+1}+'º'"></a>
+			      					</td>
+			      					<td>				                      
+			                     	   <a><i th:if="${voluntario.isAniversariante()}" class="fa fa-birthday-cake" aria-hidden="true"> - </i><span th:text="${voluntario.nome}"></span></a>
+			      					</td>
+			      					<td>				                      
+			                     	   <a th:text="${voluntario.nomeDoutor}"></a>
+			      					</td>
+			      				</tr>				                
+				              </tbody>
+				          </table>
+						</div><!-- /table-responsive -->
+								
+						</div><!-- scrollbar -->
+					
+					</div><!--/content-panel -->
+				</div><!--/col-md-4 -->
+                      	
+						<div class="col-lg-4 col-md-4 col-sm-4 mb">
+							<div class="weather-2 pn" style="height:470px">
+							<div class="weather-2-header">
+									<div class="row">
+										<div class="centered mt-2">	
+											<p><i class="fa fa-tasks"></i>&nbsp&nbspLista de Espera</p>
+										</div>
+									</div>
+								</div><!-- /weather-2 header -->
+						<div style="height:429px;line-height:3em;overflow:auto;padding:5px;">
+
+								
+						<div class="custom-check goleft">
+				             <table id="todo" class="table table-hover custom-check">
+				              <tbody>
+								<tr th:each="voluntario,iter : ${fila.espera}">
+									<td>				                      
+			                     	   <a th:text="${iter.index+1}+'º'"></a>
+			      					</td>
+			      					<td>				                      
+			                     	   <a><i th:if="${voluntario.isAniversariante()}" class="fa fa-birthday-cake" aria-hidden="true"> - </i><span th:text="${voluntario.nome}"></span></a>
+			      					</td>
+			      					<td>				                      
+			                     	   <a th:text="${voluntario.nomeDoutor}"></a>
+			      					</td>
+			      				</tr>
+				              </tbody>
+				          </table>
+						</div><!-- /table-responsive -->
+								
+						</div><!-- scrollbar -->
+					
+					</div><!--/content-panel -->
+				</div><!--/col-md-4 -->
+                      	
+
+                    </div><!-- /row -->
+                  	
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+				  
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+	
+	<script type="text/javascript">
+		$('#hospital').on('change', function() {
+		  console.log( this.value );
+		  window.location.href = "/voluntario/lista/hospital?hospital="+this.value;
+		});
+		
+		$('#agenda').on('change', function() {
+			  console.log( this.value );
+			  window.location.href = "/voluntario/lista/acao?agenda="+this.value;
+		});
+		
+		$('.select2').select2();
+		
+	</script>
+
+  </body>
+</html>

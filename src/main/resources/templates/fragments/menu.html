@@ -1,0 +1,185 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+		<div id="sidebar"  class="nav-collapse " th:fragment="side">
+              <!-- sidebar menu start-->
+			<ul class="sidebar-menu" id="nav-accordion">
+              
+              	  <p class="centered"><a href="/info/usuario"><img th:src="${@userInfo.getVoluntario().profilePic()}" class="img-circle" height="60" width="60"></a></p>
+              	  <h5 th:text="${@userInfo.getVoluntario().getNome()}" class="centered"></h5>
+              	  
+                  <li class="mt">
+                      <a th:href="${@userInfo.hrefText()}">
+                          <i class="fa li_heart"></i>
+                          <span th:text="${@userInfo.roleText()}"></span>
+                      </a>
+                  </li>
+				  
+				  <li class="sub-menu">
+                      <a href="/info/usuario">
+                          <i class="fa li_user"></i>
+                          <span>Minha Conta</span>
+                      </a>
+                  </li>
+                  
+                  <li class="sub-menu">
+                      <a href="/info/ouvidoria">
+                          <i class="fa fa-ticket"></i>
+                          <span>Ouvidoria</span>
+                      </a>
+                  </li>
+                  
+                    
+		          <li class="sub-menu">
+                      <a href="javascript:;" >
+   					  <i class="fa fa-plus" aria-hidden="true"></i>
+                          <span>Mais Laços</span>
+                      </a>
+                       <ul class="sub">      
+                          <!--  <li><a  href="construcao">Voluntário Nota 10</a></li> -->
+                          <li><a class="typeform-share" href="https://ricardo249.typeform.com/to/CHaHvE" data-mode="1" target="_blank">Quiz Laços</a></li>
+	                      <li><a  href="/info/aniversariantes">Aniversariantes de Hoje</a></li>
+	                      <li sec:authorize="hasRole('NOVATO')"><a data-toggle="modal" href="#myModaAtivar">Não Sou Novato</a></li>      
+                      </ul>
+                  	</li>
+			    	
+			        <li class="sub-menu">
+                      <a href="javascript:;" >
+                          <i class="fa li_tag"></i>
+                          <span>Informações Importantes</span>
+                      </a>
+                       <ul class="sub">
+                       
+                       	  <li><a  href="https://drive.google.com/file/d/0BwsuXGjVO_-veGl0blhfR1RVWDQ/view" target="_blank">Diretrizes</a></li>          
+                          <li><a  href="/assets/docs/estatuto.pdf" target="blank">Estatuto</a></li>
+                          <li><a  href="/info/faq">Perguntas Frequentes</a></li>
+                          <li><a href="https://lacosinforma.wordpress.com/" target="_blank">Laços Informa</a></li>
+                          <li><a  href="/info/termo">Termo de Adesão</a></li>
+                      </ul>
+                  	</li>
+                  
+                  <li sec:authorize="hasRole('VOLUNTARIO')" class="sub-menu">
+                      <a href="/voluntario/lista/atividade" >
+                          <i class="fa fa-list-ol"></i>
+                          <span>Lista da Atividade</span>
+                      </a>
+                  </li>
+                
+				
+					
+                  <li sec:authorize="hasAnyRole('COORD', 'DHOSP', 'DEXEC')" class="sub-menu">
+                      <a href="/coordenador/home" >
+                          <i class="fa fa-hospital-o"></i>
+                          <span>Painel da Atividade</span>
+                      </a>
+                  </li>
+
+                  <li sec:authorize="hasAnyRole('CONTROL', 'DHOSP', 'DEXEC')" class="sub-menu">
+                      <a href="/controlador/page" >
+                          <i class="fa fa-diamond"></i>
+                          <span>Controle de Novatos</span>
+                      </a>
+                  </li>
+                
+                <li sec:authorize="hasAnyRole('ATEND')" class="sub-menu">
+                      <a href="/atendimento/page" >
+                      	  <span th:if="${chamadosAbertos > 0}" class="button__badge blink" th:text="${chamadosAbertos}" style="top: 10px; right: 83%"></span>
+                          <i class="fa fa-comments"></i>
+                          <span>Atendimento</span>
+                      </a>
+                  </li>
+
+                 <li sec:authorize="hasAnyRole('ONGS', 'DONGS', 'DEXEC')" class="sub-menu">
+                      <a href="javascript:;" >
+                          <i class="fa fa-university"></i>
+                          <span>Controle Ongs</span>
+                      </a>
+                      <ul class="sub">
+                          <li><a  href="/polo/instituicoes">Instituições</a></li>
+                          <li><a  href="/polo/calendario">Calendário de Ações</a></li>
+                          <span sec:authorize="hasAnyRole('DONGS', 'DEXEC')">
+						  <li><a  href="/ongs/equipes">Equipe Ong's</a></li>
+                          <li><a  href="/ongs/tags">Controle de Tags</a></li>
+                          </span>
+                      </ul>
+                  </li>
+                 
+                 
+                  <li sec:authorize="hasAnyRole('DEMANDA', 'LIDER', 'DIRETOR')" class="sub-menu">
+                      <a href="/demanda/page" >
+                          <i class="fa fa-briefcase"></i>
+                          <span>Controle de Demandas</span>
+                      </a>
+                  </li>
+                  
+                  <li sec:authorize="hasAnyRole('SUSTENTA', 'ADMIN')" class="sub-menu">
+                      <a href="/sustentacao/page" >
+                          <i class="fa fa-medkit"></i>
+                          <span>Sustentação</span>
+                      </a>
+                  </li>
+
+                  <li sec:authorize="hasAnyRole('ADMIN')" class="sub-menu">
+                      <a href="javascript:;" >
+                          <i class="fa fa-cogs"></i>
+                          <span>Admin Page</span>
+                      </a>
+                      <ul class="sub">
+                      	<li><a href="/admin/diretoria"> Controle de Diretores</a></li>
+                      	<li><a href="/admin/controle/analistas"> Equipe de Sustentação</a></li>
+                      	
+                      </ul>
+                  </li>
+                  
+                  <li sec:authorize="hasAnyRole('DIRETOR')" class="sub-menu">
+                      <a href="javascript:;" >
+                          <i class="fa fa-hand-spock-o"></i>
+                          <span>Diretoria</span>
+                      </a>
+                      <ul class="sub">
+                      	  <li><a href="/diretor/cadastro/equipes"> Cadastro de Equipe</a></li>	
+                      	<div sec:authorize="hasAnyRole('DHOSP')" th:remove="tag">
+                          <li><a href="/hospitais/recurso/humano"> Recurso Humano</a></li>
+                          <li><a href="/hospitais/controle"> Controle de Hospitais</a></li>
+                        </div>
+                        <div sec:authorize="hasAnyRole('DCOM')" th:remove="tag">
+                          <li><a href="/comunicacao/ouvidoria"> Controle da Ouvidoria</a></li>
+                          <li><a href="/comunicacao/cadastro/notificacao">Cadastrar Notificação</a></li>
+                        </div>
+                      </ul>
+                  </li>
+                  
+                  <li class="sub-menu">
+                      <a href="javascript:;" >
+                          <i class="fa li_news"></i>
+                          <span>Sobre</span>
+                      </a>
+                      <ul class="sub">
+                          <li><a  href="/info/historia">Laços da Alegria</a></li>
+                          <li><a  href="/info/ajudar">Como Posso Ajudar</a></li>
+                      </ul>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="/info/contato" >
+                          <i class="fa li_phone"></i>
+                          <span>Contatos</span>
+                      </a>
+                  </li>
+                 
+
+              </ul>
+         <!-- sidebar menu end-->
+         
+		<script>(function(){var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm_share',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';if(!gi.call(d,id)){js=ce.call(d,'script');js.id=id;js.src=b+'share.js';q=gt.call(d,'script')[0];q.parentNode.insertBefore(js,q)}id=id+'_';if(!gi.call(d,id)){qs=ce.call(d,'link');qs.rel='stylesheet';qs.id=id;qs.href=b+'share-button.css';s=gt.call(d,'head')[0];s.appendChild(qs,s)}})()</script>       
+         
+
+              <!-- sidebar menu end-->
+       </div>
+
+	
+</body>
+</html>
+
+			       
+         

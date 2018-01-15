@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+            
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+          
+          	<h3><i class="fa fa-fort-awesome" aria-hidden="true"></i> Diretoria de ONG's
+          	      <button class="btn btn-success pull-right" data-toggle="modal" href="#AddRecursoHumano"><i class="fa fa-check" ></i>Adicionar Membro</button>
+	    	  	  <button data-toggle="modal" href="#modalRegional" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> <span class="hidden-phone">  Nova Regional</span></button>
+          	</h3>
+
+              <div th:each="polo : ${polos}" class="row mt">
+                  <div class="col-md-12">
+                      <div class="content-panel">
+                          <table class="table table-striped table-advance table-hover">
+                          
+	                  	  	  <div class="dropdown"><h4 style="margin-left:10px;" th:text="${polo.nome}"> 
+	                  	  	  </h4>
+								  <div class="dropdown-content">
+								  		<a th:each="regiao : ${polo.regioes}"><span class="label label-default" th:text="${regiao.nome}"></span> <button data-toggle="modal" href="#ModalLiberar" th:onclick="'retirarRegiao('+${regiao.id}+');'" class="btn btn-danger btn-xs" style="margin-left:10px;"><i class="fa fa-times "></i></button></a>
+								  </div>
+								</div>
+								<button data-toggle="modal" href="#addRegiao" th:onclick="'addRegiao('+${polo.id}+');'" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> <span class="hidden-phone">  Adcionar Região</span></button>
+	                  	  	  <hr>
+                              <thead>
+                              <tr>
+                                  <th><i class="fa fa-user"></i> Nome</th>
+                                  <th><i class="fa fa-whatsapp"></i> WhatsApp</th>
+                                  <th class="hidden-phone"><i class=" fa fa-envelope-o"></i> E-mail</th>
+                                  <th class="hidden-phone"><i class="fa fa-globe"></i> Região</th>
+                                  <th><i class="fa fa-times-circle-o"></i> Remover</th>
+                                  <th></th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr th:each="membro : ${polo.membros}">
+                                  <td th:text="${membro.nome}"></td>
+                                  <td th:text="${membro.whatsapp}"></td>
+                                  <td class="hidden-phone" th:text="${membro.email}"></td>
+                                  <td class="hidden-phone" th:text="${membro.regiao.nome}"></td>
+                                  <td>
+                                      <button data-toggle="modal" href="#ModalRetirar" th:onclick="'modalRetirar('+${membro.id}+');'" class="btn btn-danger btn-xs" style="margin-left:10px;"><i class="fa fa-times "></i></button>
+                                  </td>
+                              </tr>   
+                              </tbody>
+                          </table>
+                    <label class="col-md-2 control-label"></label>
+		         	 <div class="modal-footer">
+		              </div>
+                      </div><!-- /content-panel -->
+                  </div><!-- /col-md-12 -->
+              </div><!-- /row -->		
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+				  
+		          <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalRetirar" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-d">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Retirada de Recurso Humano</h4>
+		                      </div>
+		                      <div class="modal-body centered">
+		                          <p>Você Realmente quer <b>Retirar</b> esse Recurso Humano?</p>		                       	
+		                      </div>
+		                      <form action="/ongs/remove/membro" method="post">
+		                      <div class="modal-footer">
+		                       <input hidden type="number" name="voluntario" id="retirarCord" >
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                          <button class="btn btn-danger" type="submit">Confirmar Retirada</button>
+		                      </div>
+		                      </form>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		           <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalLiberar" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-d">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Retirar Regiao</h4>
+		                      </div>
+		                      <div class="modal-body centered">
+		                          <p>Você Realmente quer <b>Retirar</b> esse Região?</p>		                       	
+		                      </div>
+		                      <form action="/ongs/remove/regiao" method="post">
+		                      <div class="modal-footer">
+		                       <input hidden type="number" name="regiao" id="retirarRegiao">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                          <button class="btn btn-danger" type="submit">Confirmar Retirada</button>
+		                      </div>
+		                      </form>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		         <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="AddRecursoHumano" class="modal fade">
+		              <div class="modal-dialog">
+		              <form class="form-horizontal style-form" action="/ongs/adicionar/membro"  method="post">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Adicionar Recurso Humano</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                      <div class="form-group" >
+		                      	<p style="margin-left:15px;">Entra Abaixo com as infomações e clique em adiconar.</p>
+		                      </div>
+						          <div class="form-group">  
+						            <label class="col-sm-2 col-sm-2 control-label"><b>E-mail</b></label>
+						              <div class="col-sm-10">
+						              <input class="form-control" name = "email" placeholder="Email Cadastrado no IntraLaços" type="text" required>
+						              </div>
+						          </div>
+						          <div class="form-group">  
+						            <label class="col-sm-2 col-sm-2 control-label"><b>Polo Regional</b></label>
+						              <div class="col-sm-10">
+						              	<select class="form-control" name = "polo" required>
+											  <option th:each="polo : ${polos}" th:value="${polo.id}" th:text="${polo.nome}"></option>
+										</select>						             
+						              </div>
+						          </div>						          						      		                      
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="submit">Adicionar</button>
+		                      </div>
+		                      </div>
+		                     </form>
+		                  </div>
+		              </div>
+		          <!-- modal -->
+		          
+		          <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="modalRegional" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-b">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered"><i class="fa fa-book" aria-hidden="true"></i> Cadastrar Regional</h4>
+		                      </div>
+		                      
+		              <form class="form-horizontal style-form" action="/ongs/cadastrar/polo" method = "post" enctype="multipart/form-data">
+		                      
+		                 <div class="modal-body">
+		                 
+                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Nome Polo </label> 
+                              <div class="col-sm-10">
+                                 <input class="form-control" type="text" name="nome" required>
+                              </div>
+                          </div> 
+						  <div class="form-group">  
+				            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Região Administrativa</b></label>
+				              <div class="col-sm-10">
+				              	<select class="form-control select2" multiple="multiple" name="regioes"  required style="width:100%;">
+									<option th:each="regiao : ${regioes}" th:value="${regiao.id}" th:text="${regiao.nome}"></option>
+				                </select> 
+				              </div>
+				          </div> 
+						</div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-primary" type="submit">Cadastrar</button>
+		                      </div>
+		                      
+		                      </form>
+		                        	
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		          <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="addRegiao" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-b">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered"><i class="fa fa-book" aria-hidden="true"></i> Adcionar Região</h4>
+		                      </div>
+		                      
+		              <form class="form-horizontal style-form" action="/ongs/add/regiao" method = "post" enctype="multipart/form-data">
+		                  
+		                  <input type="hidden" name="polo" id="poloId">     
+		                  
+		                 <div class="modal-body">
+						  <div class="form-group">  
+				            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Região Administrativa</b></label>
+				              <div class="col-sm-10">
+				             	 <select class="form-control select2" multiple="multiple" name="regioes"  required style="width:100%;">
+									<option th:each="regiao : ${regioes}" th:value="${regiao.id}" th:text="${regiao.nome}"></option>
+				                </select>  
+				              </div>
+				          </div> 
+						</div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-primary" type="submit">Adcionar</button>
+		                      </div>
+		                      
+		                      </form>
+		                        	
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+             
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+
+    <div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+        
+    <script type="text/javascript">
+    
+    function modalRetirar(coordId) {
+        // altera as informações do modal cancelar             
+      	  document.getElementById("retirarCord").value = coordId;
+        
+      };
+      
+    function retirarRegiao(coordId) {
+          // altera as informações do modal cancelar             
+        	  document.getElementById("retirarRegiao").value = coordId;
+          
+        };
+        
+  	function addRegiao(poloId) {
+    	console.log(poloId);
+  		document.getElementById("poloId").value = poloId;
+    };
+          
+    $('.select2').select2();
+        
+    </script> 
+
+  </body>
+</html>

@@ -1,0 +1,44 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+    <header class="header black-bg" th:fragment="header">
+          <div class="sidebar-toggle-box">
+              <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Menu"></div>
+          </div>
+            
+	<a th:href="${@userInfo.hrefText()}" class="logo hidden-phone"><b th:text="${@userInfo.roleText()}"></b></a>
+
+      <div class="nav notify-row" id="top_menu">
+          <!--  notification start -->
+          <ul class="nav top-menu">
+              <!-- settings start -->
+              <li class="dropdown tooltips" data-placement="left" data-original-title="Indique Um Amigo">
+                  <a data-toggle="modal" class="dropdown-toggle" href="volunteer-area.html#myModal">
+                      <i class="fa li_megaphone" ></i>                            
+                  </a>
+                  					
+              </li>
+              <!-- settings end -->
+              <!-- inbox dropdown start-->
+              
+               <li class="dropdown tooltips" data-placement="left" data-original-title="Ir para Ouvidoria">
+                  <a class="dropdown-toggle" href="/info/ouvidoria">
+                      <i class="fa li_bubble" ></i>                     
+					  <span th:if="${@userInfo.getRespostas() > 0}" class="button__badge blink" th:text="${@userInfo.getRespostas()}"></span>	                                                     
+                  </a>
+              </li>  
+              <!-- inbox dropdown end -->
+          </ul>      
+          <!--  notification end -->
+      </div>
+      
+      <div class="top-menu">
+      	<ul class="nav pull-right top-menu">
+              <li><a class="logout" href="/logout">Logout</a></li>
+      	</ul>
+      </div>
+ </header>
+
+	
+</body>
+</html>

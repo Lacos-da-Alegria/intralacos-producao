@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+            
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+
+		<div class="form-panel">
+		    <h1>Sustentação Intralaços
+		    <a data-toggle="modal" href="#searchVoluntario" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-search fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Localizar Voluntário</span></a>
+		    </h1>
+		  	<hr>
+			<div class="row">
+			
+		      <form class="form-horizontal style-form" th:action="@{/sustentacao/atualizar/voluntario}" th:object="${voluntario}" method = "post">
+		      <!-- edit form column -->
+		      <div class="col-md-12 personal-info ">
+		      		<div th:if="${successMessage != null}">
+					    <div class="alert alert-success" th:utext="${successMessage}"></div>
+					</div>
+					<div th:if="${errorMessage != null}">
+					    <div class="alert alert-danger" th:utext="${errorMessage}"></div>
+					</div>
+					<input name = "id" th:field="*{id}" type="hidden">
+					<div class="form-group">
+		           	<label class="col-sm-2 col-sm-2 control-label"><b>Nome do Voluntário</b></label>
+		           		<div class="col-sm-10">
+                           <input type="text" class="form-control" name="nome" th:field="*{nome}" readonly>
+                        </div>		         
+		           	</div>
+		           <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>CPF</b></label>
+		              <div class="col-sm-10">
+		              <label th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"
+								class="validation-message"></label>
+		              <input class="form-control" name = "cpf" th:field="*{cpf}" type="text">
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>Email</b></label>
+		              <div class="col-sm-10">
+		              <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+								class="validation-message"></label>
+		              <input name="email" class="form-control" th:field="*{email}" type="text">
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>Login</b></label>
+		              <div class="col-sm-10">
+		              <label th:if="${#fields.hasErrors('login')}" th:errors="*{login}"
+								class="validation-message"></label>
+		               <input class="form-control" th:field="*{login}" type="text">
+		              </div>
+		          </div>
+		          <div class="form-group">
+		            <label class="col-md-2 control-label"></label>
+		         	 <div class="modal-footer">
+		              <input class="btn btn-primary" value="Atualizar Informações" type="submit">
+		              <span></span>
+		              <input class="btn btn-default" value="Cancelar" type="reset">
+		              </div>
+		            
+		          </div>
+		          </div>
+		        </form>
+		        
+		   </div>  	
+		  </div><!-- /row mt -->	
+	
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+		        
+		        <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="searchVoluntario" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-b">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title"><i class="fa fa-search" aria-hidden="true"></i> Localizar Voluntário</h4>
+		                      </div>
+		                      <form class="form-horizontal" action="/sustentacao/search" method = "post" >
+		                      <div class="modal-body">
+		                       	 <div class="form-group">  
+						            <label class="col-sm-2 col-sm-2 control-label"><b>Campo à Pesquisar</b></label>
+						              <div class="col-sm-10">
+						              	<select name="campo" class="form-control" required>	
+				                      	  <option value="login">Login</option>
+				                      	  <option value="email">E-mail</option>
+				                      	  <option value="cpf">CPF</option>
+				                      	  <option value="whatsapp">Whatsapp</option>
+				                      	  
+										</select>
+						              </div>
+						          </div>
+									<div class="form-group">
+						           	<label class="col-sm-2 col-sm-2 control-label"><b>Valor da Pesquisa</b></label>
+						           		<div class="col-sm-10">
+				                           <input type="text" class="form-control" name="valor">
+				                        </div>		         
+						           	</div>
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-primary" type="submit">Atualizar</button>
+		                      </div>
+		                      </form> 
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+				  
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+	
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+
+  </body>
+</html>

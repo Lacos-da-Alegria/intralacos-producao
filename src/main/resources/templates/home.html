@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+
+              <div class="row">
+                  <div class="col-lg-9">
+				  
+				  <h1 class= "centered">Atividades dessa Semana!</h1>
+				  
+				  <ul class="nav nav-pills" th:if="${#lists.size(acoes) > 0 }">
+				    <li class="active"><a data-toggle="pill" href="#home">Hospitais</a></li>
+				    <li ><a data-toggle="pill" href="#menu1">Ong's <span class="badge bg-important" th:text="${#lists.size(acoes)}"></span></a></li>
+				  </ul>
+				  
+		 <div class="tab-content">
+         <div id="home" class="tab-pane fade in active row mt">        
+                    
+         <!-- Comeca a logica chosse when dos botoens de participacao das atividades -->
+         
+			<!-- Inicio Card Atividade Hospital -->	
+			<div th:each="hospital : ${hospitais}" class="col-lg-4 col-md-4 col-sm-4 mb">
+				<div class="content-panel pn">
+					<div class="col-xs-4 col-xs-offset-8">
+						<button class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getHospitalInfo('+${hospital.id}+')'">INFO</button>
+					</div>
+					<div id="profile-01" th:style="'background-image: url('+${hospital.imageHospital()}+'); background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
+						<br><h3 class="with-shadow" th:text="${hospital.tag}"></h3>
+					</div>
+						<span hidden th:id="'hospital-' + ${hospital.id}" th:data-situacao="${hospital.situacao}"></span>
+						<a th:onclick="'registroHospital('+${hospital.id}+')'" >
+							<div th:id="'corH-' + ${hospital.id}" class="centered profile-01l">								
+								<p th:id="'textoH-' + ${hospital.id}"><i class="fa fa-spinner fa-pulse fa-fw"> </i> Carregando</p>
+							</div>
+						</a>
+					<div class="centered">
+						<h6>
+							<span th:id="'iconA-' + ${hospital.id}"><i class="fa li_paperplane"></i></span>
+						<br><span th:text="${hospital.nome}"></span></h6>
+					</div>
+				</div><!--/content-panel -->
+			</div><!--/col-md-4-->
+			
+			<!-- Fim Card Atividade Hospital -->   
+                      	
+                   </div>
+                   
+                   <div id="menu1" class="tab-pane fade row mt" >
+                    
+         <!-- Comeca a logica chosse when dos botoens de participacao das atividades -->
+         
+				<!-- Inicio Card Atividade Ongs -->	
+				<div th:each="acao : ${acoes}" class="col-lg-4 col-md-4 col-sm-4 mb" >
+					<div class="content-panel pn">
+						<div class="col-xs-4 col-xs-offset-8">
+							<button class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getAgendaInfo('+${acao.id}+')'">INFO</button>
+						</div>
+						<div id="profile-01" th:style="'background-image: url('+${acao.instituicao.imagem()}+'); background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
+							<br><h3 class="with-shadow" th:text="${acao.nome}"></h3>
+						</div>
+							<span hidden th:id="'acao-' + ${acao.id}" th:data-situacao="${acao.situacao}"></span>
+							<a th:onclick="'registroAcao('+${acao.id}+')'" >
+								<div th:id="'corH-' + ${acao.id}" class="centered profile-01l" >								
+									<p th:id="'textoH-' + ${acao.id}"><i class="fa fa-spinner fa-pulse fa-fw"> </i> Carregando</p>
+								</div>
+							</a>
+						<div class="centered">
+							<h6>
+								<span th:id="'iconA-' + ${acao.id}"><i class="fa li_paperplane"></i></span>
+							<br><span th:text="${acao.instituicao.nome}"></span></h6>
+						</div>
+					</div><!--/content-panel -->
+				</div><!--/col-md-4-->
+				<!-- Fim Card Atividade Ongs -->   
+                      	
+         <!-- Acaba aqui a logica chosse when dos botoens de participacao das atividades -->
+
+                   </div>
+                   </div>		
+					
+					<div class="row">
+						
+						<h1 class= "centered">Mais Laços!</h1><br>
+				
+                  		<div class="col-md-2 col-sm-2 col-md-offset-1 box0">
+                  			<div class="box1">
+					  			<span class="li_heart"></span>
+					  			<h3 th:text="${@userInfo.getMaisLacos().getVoluntarios()}"></h3>
+                  			</div>
+					  			<p>Hoje o Laços da Alegria conta com <span th:text="${@userInfo.getMaisLacos().getVoluntarios()}"></span> lindos voluntários!</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_star"></span>
+					  			<h3 th:text="${@userInfo.getMaisLacos().getNovatos()}"></h3>
+                  			</div>
+					  			<p>Nos temos <span th:text="${@userInfo.getMaisLacos().getNovatos()}"></span> novatinhos esperando para entrar para nossa família!</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_diamond"></span>
+					  			<h3 th:text="${@userInfo.getMaisLacos().getHospitais()}"></h3>
+                  			</div>
+					  			<p>Você já fez incriveis <span th:text="${@userInfo.getMaisLacos().getHospitais()}"></span> visitas aos nossos lindos hospitais! Que maravilhoso <i class="fa fa-heart" aria-hidden="true"></i></p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_fire"></span>
+					  			<h3 th:text="${@userInfo.getMaisLacos().getOngs()}"></h3>
+                  			</div>
+					  			<p>Você não para hein! Já foi em <span th:text="${@userInfo.getMaisLacos().getOngs()}"></span> ações e muitas mais virão!</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_lab"></span>
+					  			<h3 th:text="${@userInfo.getMaisLacos().getHoras()}"></h3>
+                  			</div>
+					  			<p>Só esse ano já são mais de <span th:text="${@userInfo.getMaisLacos().getHoras()}"></span> horas dos nossos voluntários dedicadas a espalhar amor por todas as nossas atividades.</p>
+                  		</div>
+                  	
+                  	</div><!-- /row mt -->	
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail do amigo que você quer indicar.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+				  
+				  <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="InfoHospital" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-t">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered"><span id="hNome"></span></h4>
+		                      </div>
+		                      <div class="modal-body">
+		                        <p><b>Descrição:</b><span id="hDescricao"></span></p>
+		                          <p><b>Endereço:</b><span id="hEndereco"></span></p> 
+		                          <p><b>Horário:</b><span id="hHorario"></span></p>		                          
+		                          <p><b>Local de Preparo:</b><span id="hPreparo"></span></p>
+		                          <p><b>Nº de Voluntários:</b><span id="hVoluntarios"></span></p>	
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->	
+		          
+		          <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="InfoAcao" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-t">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered"><span id="aNome"></span></h4>
+		                      </div>
+		                      <div class="modal-body">
+		                        <p><b>Descrição:</b><span id="aDescricao"></span></p>
+		                          <p><b>Endereço:</b><span id="aEndereco"></span></p> 
+		                          <p><b>Horário:</b><span id="aHorario"></span></p>		                          
+		                          <p><b>Duração da Ação:</b><span id="aDuracao"></span> horas</p>
+		                          <p><b>Nº de Voluntários:</b><span id="aVoluntarios"></span></p>	
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->			
+															
+		            <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="Modalfechada" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-t">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Inscrições Fechadas</h4>
+		                      </div> 
+		                      <div class="modal-body centered">
+		                          <p>Inscrições acontecem de <b>Segunda</b> à <b>Sábado</b> às 12h! </p>
+		                          <small style="color:red;">Caso esteja em périodo de escrição entre em contato com o devido Coordenador da atividade, informando-o que a chamada da atividade anterior precisa ser realizada para liberação das inscrições!</small>		                       	
+		                      </div>
+		                       <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                      </div>                  
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		          <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="Modalbloqueada" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-t">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Inscrição Bloqueada</h4>
+		                      </div> 
+		                      <div class="modal-body centered">
+		                          <p>Você já está inscrito em outra atividade que acorrerá nesse mesmo horário. Caso queira participar dessa, favor cancelar primeiramente a outra</p>		                       	
+		                      </div>
+		                       <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                      </div>                  
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+				  	
+				  <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalCancelar" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-d">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Cancelar Participação</h4>
+		                      </div>
+		                      <div class="modal-body centered">
+		                          <p>Você Realmente quer <b>Cancelar</b> sua participação nessa atividade?</p>		                       	
+		                      </div>
+		                      <div class="modal-footer">
+		                       <input  type="hidden" id="ativCancelar">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                          <button class="btn btn-danger" onclick="cancelar();">Confirmar Cancelamento</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+                  </div><!-- /col-lg-9 END SECTION MIDDLE -->
+                  
+                  <input type="hidden" id='rodadaRandomica' th:value="${rodada}">
+                  
+      <!-- **********************************************************************************************************************************************************
+      RIGHT SIDEBAR CONTENT
+      *********************************************************************************************************************************************************** -->                  
+                  
+                  <div class="col-lg-3 ds">
+                  <span sec:authorize="hasAnyRole('COORD', 'DHOSP', 'DEXEC')">
+                  	<h3>Código de Promoção de Novato</h3>               
+                      <div class="desc box2 centered">
+						<button type="button" class="btn btn-round btn-primary"><span class="fa fa-code"></span>&nbsp&nbspCódigo da Semana - <b><font size="3" th:text="${codigo}"></font></b></button>
+                      </div>
+                  </span>
+				<!-- <h3>Notificações Importantes</h3>
+
+	                      <div class="desc">
+	                      	<div class="thumb">
+	                      		<span class="badge bg-theme0${feed.tipo}"><i class="fa fa-clock-o"></i></span>
+	                      	</div>
+	                      	<div class="details">   
+	                      		<p><muted>${feed.dt_cricao}</muted><br/>                 		
+	                      		   <a target="_blank"  href="${feed.link}">${feed.tag}</a> ${feed.mensagem} <br/>
+	                      		</p>
+	                      	</div>
+	                      </div> -->
+                      
+                   
+						<h3>Calendário de Atividades</h3><br>
+                       <!-- CALENDAR-->
+                        <div id="calendar" class="mb">
+                            <div class="panel green-panel no-margin">
+                                <div class="panel-body">
+                                    <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="popover-title" style="disadding: none;"></h3>
+                                        <div id="date-popover-content" class="popover-content"></div>
+                                    </div>
+                                    <div id="my-calendar"></div>
+                                </div>
+                            </div>
+                        </div><!-- / calendar -->
+                      
+                  </div><!-- /col-lg-3 -->
+              </div><!--/row -->
+          </section>
+      </section>
+
+      <!--main content end-->
+	<footer th:replace="fragments/footer :: content"></footer>
+
+  </section>
+	
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+		
+	
+	<script>
+
+	$( document ).ready(function() {
+		$('#ModalLembreteDem').modal('show');
+	});
+
+	$(document).ready(function () {
+	    $("#date-popover").popover({html: true, trigger: "manual"});
+	    $("#date-popover").hide();
+	    $("#date-popover").click(function (e) {
+	        $(this).hide();
+	    });
+	
+	    $("#my-calendar").zabuto_calendar({
+	        action: function () {
+	            return myDateFunction(this.id, false);
+	        },
+	        action_nav: function () {
+	            return myNavFunction(this.id);
+	        },
+	        ajax: {
+	            url: "nothing",
+	            modal: true
+	        },
+	       
+	    });
+	});
+	
+	function getHospitalInfo(id){
+		
+		var request = $.ajax({
+			url: "/voluntario/info/hospital?hospital=" + id,
+			method: "GET",
+			dataType: "json"
+		});
+		
+		request.done(function(hospital){
+			
+			$('#InfoHospital').modal('show');
+			$('#hNome').html(hospital.nome);
+			$('#hDescricao').html(hospital.descricao);
+			$('#hEndereco').html(hospital.endereco);
+			$('#hHorario').html(hospital.horario);
+			$('#hPreparo').html(hospital.localPreparo);
+			$('#hVoluntarios').html(hospital.limiteVoluntario);
+			
+			console.log(hospital);
+		
+		});
+		
+		request.fail(function(jqXHR, textStatus) {
+			redirectLogin(jqXHR);
+		});
+		
+	}
+	
+	function getAgendaInfo(id){
+		
+		var request = $.ajax({
+			url: "/voluntario/info/agenda?agenda=" + id,
+			method: "GET",
+			dataType: "json"
+		});
+		
+		request.done(function(agenda){
+			console.log(agenda);
+			$('#InfoAcao').modal('show');
+			$('#aNome').html(agenda.nome);
+			$('#aDescricao').html(agenda.instituicao.descricao);
+			$('#aEndereco').html(agenda.instituicao.endereco);
+			$('#aHorario').html(getDate(new Date(agenda.horario)));
+			$('#aDuracao').html(agenda.duracao);
+			$('#aVoluntarios').html(agenda.voluntarios);
+		
+		});
+		
+		request.fail(function(jqXHR, textStatus) {
+			redirectLogin(jqXHR);
+		});
+		
+	}
+	
+	function getDate(date){
+ 		var data = '';
+ 		data = data + date.getDate()+'/';
+ 		data = data + date.getMonth()+1+'/';
+ 		data = data + date.getFullYear()+' ';
+ 		data = data + date.getHours()+':';
+ 		data = data + date.getMinutes();
+ 		
+ 		return data;
+ 	}
+
+
+    function clickAndDisable(link) {
+        // disable subsequent clicks
+        link.onclick = function(event) {
+           event.preventDefault();
+        }
+      };
+    </script>
+    
+    <script type="text/javascript">
+    
+    	var hospitais = [];
+    	var acoes = [];
+    	var registros = [];
+    
+		function registroHospital(id){
+			var h = getHospital(id);
+			
+			switch(h.situacao) {
+		    case 0:
+		    	inscrever(h);
+		        break;
+		    case 1:
+		    	cancelarModal(h);
+		        break;
+		    case 2:
+		    	bloqueada(h);
+		        break;
+		    default:
+		    	fechada(h);
+				
+			}
+		}
+		
+		function registroAcao(id){
+			var a = getAgenda(id);
+			
+			switch(a.situacao) {
+		    case 0:
+		    	inscreverAcao(a);
+		        break;
+		    case 1:
+		    	cancelarModal(a);
+		        break;
+		    case 2:
+		    	bloqueada(a);
+		        break;
+		    default:
+		    	fechada(a);
+				
+			}
+		}
+		
+		function inscrever(hospital){
+			
+			hospital.situacao = 1;
+			
+			var request = $.ajax({
+				url: "/voluntario/inscrever/hospital?hospital="+hospital.id,
+				method: "GET",
+				dataType: "json"
+			});
+			
+			request.done(function(response){
+				registros.push(response);				
+				initPage();
+				
+			});
+			
+			request.fail(function(jqXHR, textStatus) {
+				redirectLogin(jqXHR);
+			});
+			
+		}
+		
+		function inscreverAcao(agenda){
+			
+			agenda.situacao = 1;
+			
+			var request = $.ajax({
+				url: "/voluntario/inscrever/acao?agenda="+agenda.id,
+				method: "GET",
+				dataType: "json"
+			});
+			
+			request.done(function(response){
+				registros.push(response);
+				console.log(registros);
+				initPage();
+				
+			});
+			
+			request.fail(function(jqXHR, textStatus) {
+				redirectLogin(jqXHR);
+			});
+			
+		}
+		
+		function cancelarModal(hospital){
+			$('#ativCancelar').val(hospital.id);
+			$("#ModalCancelar").modal('show');
+		}
+		
+		function cancelar(){
+			
+			var r = getRegistroHospital($('#ativCancelar').val());
+			
+			var request = $.ajax({
+				url: "/voluntario/cancelar?registro="+r.id,
+				method: "GET",
+				dataType: "json"
+			});
+			
+			request.done(function(response){
+				if(response.status == 2 ){
+					removeRegistro(response);
+					atualizaHospitais();
+					initPage();
+				}
+				$("#ModalCancelar").modal('hide');
+			});
+			
+			request.fail(function(jqXHR, textStatus) {
+				redirectLogin(jqXHR);
+			});
+			
+		}
+		
+		function bloqueada(hospital){
+			$('#Modalbloqueada').modal('show');
+		}
+		
+		function fechada(hospital){
+			$('#Modalfechada').modal('show');
+		}
+		
+		function getHospital(id){
+			for(i=0;i < hospitais.length;i++){
+				if(hospitais[i].id == id)
+					return hospitais[i];
+			}
+		}
+		
+		function getAgenda(id){
+			for(i=0;i < acoes.length;i++){
+				if(acoes[i].id == id)
+					return acoes[i];
+			}
+		}
+		
+		function atualizaHospitais(){
+			if(registros.length == 0){
+				for(i=0;i < hospitais.length;i++){
+					hospitais[i].situacao = 0;
+					initCard(hospitais[i]);
+				}
+				for(i=0;i < acoes.length;i++){
+					acoes[i].situacao = 0;
+					initCard(acoes[i]);
+				}
+			}
+		}
+		
+		function getRegistroHospital(id){
+			for(i=0;i < registros.length;i++){
+				if((registros[i].hospital != null && registros[i].hospital.id == id) ||
+						( registros[i].agenda != null && registros[i].agenda.id == id))
+					return registros[i];
+			}
+		}
+		
+		function removeRegistro(registro){
+			for(i=0;i < registros.length;i++){
+				if(registros[i].id == registro.id){
+					registros.splice(i,1);;
+					break;
+				}
+					
+			}
+		}
+		
+		function initPage(){
+			console.log('Pagina sendo inicializada!');
+			$.each(hospitais, function(i, hospital){
+				initAtividade(hospital);
+			});
+			$.each(acoes, function(i, acao){
+				initAtividade(acao);
+				console.log(acao);
+			});
+		}
+		
+		function initAtividade(atividade){
+			getSituacao(atividade);
+			initCard(atividade);
+		}
+		
+		function getSituacao(atividade){
+			if(!atividade.inscricao || atividade.chamada){
+				atividade.situacao = 3;
+			} else {
+				for(i=0;i < registros.length;i++){
+					var h = registros[i].hospital;
+					var a = registros[i].agenda;
+					
+					if(h == null)
+						h = {};
+					
+					if(a == null)
+						a = {};
+					
+					if(h.id == atividade.id || a.id == atividade.id){
+						atividade.situacao = 1;
+						break;
+					} else {
+						if(h.dia == atividade.dia && h.periodo == atividade.periodo || a.dia == atividade.dia && a.periodo == atividade.periodo){
+							atividade.situacao = 2;
+							break;
+						} else {
+							atividade.situacao = 0;
+						}
+					}
+				}
+			}
+		}
+		
+		function initCard(atividade){
+			var s = atividade.situacao;
+			if(s == 0){
+				setCardColor(atividade, "profile-01");
+				setCardText(atividade, "Participar");
+				$("#iconA-"+atividade.id).html('<i class="fa li_paperplane"></i>');
+			} else {
+				if(s == 1){
+					setCardColor(atividade, "profile-01c");
+					setCardText(atividade, "Cancelar Participação");
+					initializaInfoPosicao(atividade);
+				} else {
+					if(s == 2){
+						setCardColor(atividade, "profile-01b");
+						setCardText(atividade, "Atividade Bloqueada");
+					} else {
+						setCardColor(atividade, "profile-01b");
+						setCardText(atividade, "Inscrições Fechadas");
+					}
+				}
+			}
+		}
+		
+		function setCardColor(atividade, cor){
+			$('#corH-'+atividade.id).attr('class', 'centered ' + cor);
+		}
+		
+		function setCardText(atividade, text){
+			$('#textoH-'+atividade.id).html(text)
+		}
+		
+		function initializaInfoPosicao(atividade){
+			if($('#rodadaRandomica').val()){
+				if(verificaRegistro(atividade)){
+					$("#iconA-"+atividade.id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
+				} else {
+					if(atividade.hasOwnProperty('tag'))
+						$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoHospital('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
+					else
+						$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoAcao('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
+				}
+			}
+			
+		}
+		
+		function verificaRegistro(atividade){
+			var registro = getRegistroHospital(atividade.id);
+			if(registro.tipo == 2 || registro.tipo == 3){
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		function descobrirPosicaoHospital(id){
+			doPosicaoAjax("/voluntario/posicao/hospital?hospital=", id);
+		}
+		
+		function descobrirPosicaoAcao(id){
+			doPosicaoAjax("/voluntario/posicao/acao?agenda=", id);
+		}
+		
+		function doPosicaoAjax(url, id){
+			var request = $.ajax({
+				url: url+id,
+				method: "GET",
+				dataType: "json"
+			});
+			
+			request.done(function(posicao){
+				console.log(posicao);
+				if(posicao < 0){
+					$("#iconA-"+id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
+				} else {
+					$("#iconA-"+id).html('<i class="fa fa-hand-o-right"  style="color: #5373e7;font-size: 1.2em;">&nbsp&nbsp'+posicao+1+'º na Fila de Espera</i>');
+				}
+			});
+			
+			request.fail(function(jqXHR, textStatus) {
+				redirectLogin(jqXHR);
+			});
+		}	
+		
+		
+		$.when(initHospitais()).then(function(x) {
+			$.when(initAcoes()).then(function(x) {
+				$.when(initRegistros()).then(function(x) {
+					initPage();
+				});
+			});
+		});
+		
+		function initHospitais(){
+			
+			var request = $.ajax({
+				url: "/voluntario/hospitais",
+				method: "GET",
+				dataType: "json"
+			});
+			
+			request.done(function(response){
+				hospitais = response;
+			});
+			
+			request.fail(function(jqXHR, textStatus) {
+				redirectLogin(jqXHR);
+			});
+			
+			return request;
+		
+		}
+		
+		function initAcoes(){
+			
+			var request = $.ajax({
+				url: "/voluntario/acoes",
+				method: "GET",
+				dataType: "json"
+			});
+			
+			request.done(function(response){
+				console.log(response);
+				acoes = response;
+			});
+			
+			request.fail(function(jqXHR, textStatus) {
+				redirectLogin(jqXHR);
+			});
+			
+			return request;
+		
+		}
+		
+		function initRegistros(){
+			
+			var request = $.ajax({
+				url: "/voluntario/registros",
+				method: "GET",
+				dataType: "json"
+			});
+			
+			request.done(function(response){
+				registros = response;
+			});
+			
+			request.fail(function(jqXHR, textStatus) {
+				redirectLogin(jqXHR);
+			});
+			
+			return request;
+		}
+    
+    </script>
+  
+
+  </body>
+</html>

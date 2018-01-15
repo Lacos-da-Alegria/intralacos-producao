@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+  <body>
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+
+	  <div id="login-page">
+	  
+	  	<div class="container" >
+	  	
+		      <form class="form-login" action = "/cadastro/resetar/senha" method="post">
+		        <h2 class="form-login-heading">Resetar Senha</h2>
+		        <div class="login-wrap">
+		        	<div th:if="${errorMessage != null}">
+					    <div class="alert alert-danger" th:utext="${errorMessage}"></div>
+					</div>
+					<div th:if="${successMessage != null}">
+					    <div class="alert alert-success" th:utext="${successMessage}"></div>
+					</div>
+					<div class="centered">
+						<font color="red" id="mensagemPassword"></font>
+					</div>
+					<br>
+					<label class="col-sm-12 col-sm-12 control-label"><b><i class="fa fa-user" aria-hidden="true"></i> Seu Login</b></label>
+					<input type="text" class="form-control" th:value="${login}"  disabled>
+					<br>
+					<label class="col-sm-12 col-sm-12 control-label"><b><i class="fa fa-lock" aria-hidden="true"></i> Entre com sua nova senha</b></label>
+		            <input name="senha" id="pass1" type="password" class="form-control" placeholder="Senha*" autofocus required>
+		            <br>
+		            <input name="_senha" id="pass2" type="password" class="form-control" placeholder="Repita a Senha*" required>
+		            <small class="ml"><font color="red"><b> *Senha deve conter no mínimo 6 dígitos.</b></font></small>
+		            <input name="token" type="hidden" th:value="${token}">
+		            <br>
+					
+		            <button class="btn btn-theme btn-block" type="submit" style="margin-top:15px;"><i class="fa fa-lock"></i> Alterar Senha</button>
+				</div>
+			  </form>			
+		</div>
+		
+	  	
+	  	</div>
+		
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+
+    <!--BACKSTRETCH-->
+    <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+    <script type="text/javascript" src="/assets/js/jquery.backstretch.min.js"></script>
+    <script>
+        $.backstretch("/assets/img/login-bg2.jpg", {speed: 500});
+        
+        function checkPasswordMatch() {
+    	    var password = $("#pass1").val();
+    	    var confirmPassword = $("#pass2").val();
+
+    	    if (password != confirmPassword){
+    	        $("#mensagemPassword").html("As senhas não coincidem!").css('color', 'red');
+    	        return false;
+    	    } else{
+    	    	$("#mensagemPassword").html("Senhas coincidem!").css('color', 'green');
+    	    	if(password.length>=6)
+    	    		return true;
+    	    	else {
+    	    		$("#mensagemPassword").html("Senha menor que 6 dígitos!").css('color', 'red');
+    	    		return false;
+    	    	}
+    	    		
+    	    }    
+    	}
+
+    	$(document).ready(function () {
+    	   $("#pass1, #pass2").keyup(checkPasswordMatch);
+    	});
+    	
+    	$('#cadastro').submit(function(e){ 
+    		   var bool = checkPasswordMatch();
+    		   if(!bool){
+    		    e.preventDefault(); // will stop the form from submitting
+    		    alert("Favor corrigir os erros antes de submeter o cadastro!");
+    		   } else {
+    		    return true; //continue to submit form 
+    		    }
+    		});	
+
+    </script>
+    
+    <script type="text/javascript">
+		// When ready...
+		window.addEventListener("load",function() {
+			// Set a timeout...
+			setTimeout(function(){
+				// Hide the address bar!
+				window.scrollTo(0, 1);
+			}, 0);
+		});
+	</script>
+	
+	<script>
+	function delete_cookie( name ) {
+		  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		};
+	</script>
+
+
+  </body>
+</html>

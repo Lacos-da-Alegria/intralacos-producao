@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+       <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+	
+			
+		<div class="form-panel">
+		    <h1>Criar Notificação</h1>
+		  	<hr>
+			<div class="row">
+			
+			<form class="form-horizontal style-form" action="insertNotif" method = "post">	
+			      <!-- left column -->
+			      <div class="col-md-3">
+			        <div class="text-center">
+			          <img src="/assets/img/notification.jpg" class="avatar img-circle" alt="avatar" name="pic" accept="asset/img/*">
+			          <h6>Seja claro e direto!</h6> 			          
+			        </div>
+			      </div>
+		      
+		      <!-- edit form column -->
+		      <div class="col-md-8 personal-info ">
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>Cor do cone</b></label>
+		              <div class="col-sm-10">
+		              <select class="form-control" name = "tipo"  required>
+							  <option value="1">Cinza</option>
+							  <option value="2">Roxo</option>
+							  <option value="3">Verde</option>
+							  <option value="4">Vermelho</option>
+		                </select> 
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>Link</b></label>
+		              <div class="col-sm-10">
+		               <input name="link" class="form-control" type="text" required >
+		              </div>
+		          </div>
+		              
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>Tag</b></label>
+		              <div class="col-sm-10">
+		              <input name = "tag" class="form-control" type="text" required>
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b>Notificação</b></label>
+		              <div class="col-sm-10">
+		               <textarea rows="8" class="form-control placeholder-no-fix" name="mensagem" required></textarea>
+		              </div>
+		          </div>
+		          
+		          	<div class="form-group">
+		            	<label class="col-md-2 control-label"></label>
+		         	 	<div class="modal-footer">
+		              	<input class="btn btn-primary" value="Criar Notificao" type="submit">
+		             		 <span></span>
+		              	<input class="btn btn-default" value="Cancelar" type="reset">
+		             </div>
+		            
+		          </div>
+		          </div>
+		        </form>
+		      </div>
+		      
+		      	
+		  </div><!-- /row mt -->	
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+				  
+          </section>
+      </section>
+
+    <!--main content end-->
+	<footer th:replace="fragments/footer :: content"></footer>
+
+  </section>
+	
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+  </body>
+</html>

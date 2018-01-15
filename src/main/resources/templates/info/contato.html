@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<head>
+
+	<!-- Main Style -->
+	<link href="/assets/css_contato/main.css" rel="stylesheet">
+
+	<!-- Responsive -->
+	<link href="/assets/css_contato/bootstrap-responsive.min.css" rel="stylesheet">
+	<link href="/assets/css_contato/responsive.css" rel="stylesheet">
+
+	<!-- Google Font -->
+	<link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
+
+
+</head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+            
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">                               
+					
+			 <div class="row mt" style="float:right; margin-top:16px; margin-right:20px">		
+			  <a class="btn btn-social btn-facebook" href="https://www.facebook.com/LacosDaAlegria" target="blank">
+				<span class="fa fa-facebook"></span> 
+			  </a>
+			  <a class="btn btn-social btn-instagram" href="https://www.instagram.com/lacosdaalegria/" target="blank">
+				<span class="fa fa-instagram"></span> 
+			  </a> 
+			  <a class="btn btn-social btn-youtube" href="https://www.youtube.com/channel/UC5a1XFIUXC_yetqLNOc4kMw" target="blank">
+				<span class="fa fa-youtube"></span> 
+			  </a>			  
+			  <a class="btn btn-social btn-email" href="mailto:lacosdaalegria@gmail.com">
+				<span class="fa fa-envelope"></span> 
+			  </a>
+		 </div>
+		 
+          	<h2><i class="fa fa-hand-spock-o hidden-phone" aria-hidden="true"></i> Conselho Diretor</h2>
+          	<br>
+      <div class="row mt" style="margin-right:1%;">  
+        
+  		<!-- Start Profile -->
+  		<span th:each="diretoria : ${diretorias}">
+          <div th:each="diretor : ${diretoria.diretores}" class="span4 profile" style="margin-bottom:30px;">
+        	<div class="image-wrap">
+                <div class="hover-wrap">
+                    <span class="overlay-img"></span>
+                    <span class="overlay-text-thumb" style="color:white;" th:text="${diretoria.nome}"></span>
+                </div>
+                <img th:src="${diretor.profilePic()}" th:alt="${diretor.nome}" style="height:270px;width:370px">
+            </div>
+			<h3 class="profile-name" th:text="${diretor.nome}"></h3>                  	
+            <div class="social">
+            	<ul class="social-icons">           
+				<li><i class="fa fa-phone" aria-hidden="true"></i></a> <span th:text="${diretor.whatsapp}"></span></li>				
+                  <li><a th:href="'mailto:' + ${diretor.email}" ><i class="fa fa-envelope-o" aria-hidden="true" ></i> </a><span th:text="${diretor.email}"></span></li>
+                </ul>
+            </div>
+            </div>
+          </span>
+        <!-- End Profile -->
+        
+		</div>	
+			<!-- Modal -->
+			<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+                      </div>
+                      <div class="modal-body">
+                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+
+                      </div>
+                      <div class="modal-footer">
+                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+                          <button class="btn btn-theme" type="button">Enviar</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- modal -->
+				  
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+	
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+
+  </body>
+</html>

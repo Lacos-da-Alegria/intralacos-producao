@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+            
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+
+		<div class="form-panel">
+		   <h3><a href="javascript:history.back()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a> &nbsp&nbsp <i class="fa fa-university" aria-hidden="true"></i> Cadastrar Instituição no <span th:text="${polo.nome}"></span> </h3>
+		  	<hr>
+			<div class="row">
+		      <form class="form-horizontal style-form" action="/polo/cadastrar/instituicao" method = "post">
+		      <!-- edit form column -->
+		      <div class="col-md-12 personal-info ">
+		         	<div class="form-group">
+		         		
+		         		<input type="hidden" name="polo" required th:value="${polo.id}">
+		         	
+		           	<label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-building-o" aria-hidden="true"></i> Nome da Instituição</b></label>
+		           		<div class="col-sm-10">
+                           <input type="text" class="form-control" name="nome" required>
+                        </div>		         
+		           	</div>
+		           	<div class="form-group">
+		           	<label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-phone" aria-hidden="true"></i> Telefone</b></label>
+		           		<div class="col-sm-10">
+                           <input type="text" class="form-control" name="telefone" required>
+                        </div>		         
+		           	</div>
+		          <div class="form-group">
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail</b></label>
+		              <div class="col-sm-10">
+		              <input class="form-control" type="text" name="email" >
+		              </div>
+		            </div>
+		             <div class="form-group">  
+			            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-map-marker" aria-hidden="true"></i> Endereço da Instituição</b></label>
+			              <div class="col-sm-10">
+			              	<input class="form-control" name="endereco" type="text" >
+			              </div>
+			          </div>
+		            <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Região Administrativa</b></label>
+		              <div class="col-sm-10">
+		              <select class="form-control select2" name = "regiao"  required>
+					  		<option th:each="regiao : ${regioes}" th:value="${regiao.id}" th:text="${regiao.nome}"></option>
+		              </select> 
+		              </div>
+		          </div>
+		          
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-user-circle-o" aria-hidden="true"></i> Nome do Responsável</b></label>
+		              <div class="col-sm-10">
+		              <input class="form-control" name="responsavel"  type="text" required>
+		              </div>
+		          </div>
+		          
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-phone" aria-hidden="true"></i> Contato do Resposável</b></label>
+		              <div class="col-sm-10">
+		              <input class="form-control" name="contatoResponsavel" type="text" >
+		              </div>
+		          </div>
+		           <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail do Responsánvel</b></label>
+		              <div class="col-sm-10">
+		              <input class="form-control" name = "emailResponsavel" type="email" >
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-book" aria-hidden="true"></i> Descrição da Instituição</b></label>
+		              <div class="col-sm-10">
+		              	<textarea rows="6" class="form-control placeholder-no-fix" name="descricao" required></textarea>
+		              </div>
+		          </div>
+		           <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-tags" aria-hidden="true"></i> Caracteristicas</b></label>
+		              <div class="col-sm-10">
+		              <select class="form-control select2 multiple1" multiple="multiple" name = "tags" required style="width:100%;">
+							<option th:each="tag : ${tags}" th:if="${tag.tipo == 1}" th:value="${tag.id}" th:text="${tag.nome}"></option>
+		              </select> 
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Já foi Realizada alguma atividade?</b></label>
+		              <div class="col-sm-10">
+		              <select class="form-control" id="ja_teve" name = "fomos"  required>
+								<option value="" >Escolha uma opção*</option>							
+								<option value="1" >Sim</option>
+								<option value="0" >Não</option>
+		                </select> 
+		              </div>
+		          </div>
+		          <div class="form-group ativ_relizada" hidden="true">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-bookmark" aria-hidden="true"></i> Descrição da Atividade Realizada</b></label>
+		              <div class="col-sm-10">
+		              	<textarea rows="6" class="form-control placeholder-no-fix" id="descricao_ativ" name="atividades"></textarea>
+		              </div>
+		          </div>
+		           <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-window-restore" aria-hidden="true"></i> Atividades Recomendadas</b></label>
+		              <div class="col-sm-10">
+		              <select class="form-control select2 multiple2" multiple="multiple" name = "tags"  style="width:100%;">
+		              		<option th:each="tag : ${tags}" th:if="${tag.tipo == 2}" th:value="${tag.id}" th:text="${tag.nome}"></option>
+		              </select> 
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-thermometer-full" aria-hidden="true"></i> Descrição de Pontos Críticos</b></label>
+		              <div class="col-sm-10">
+		              	<textarea rows="6" class="form-control placeholder-no-fix" name="pontosCiticos" ></textarea>
+		              </div>
+		          </div>
+		           <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-bomb" aria-hidden="true"></i> Pontos Críticos</b></label>
+		              <div class="col-sm-10">
+		              <select class="form-control select2 multiple3" multiple="multiple" name = "tags"  style="width:100%;">
+		              		<option th:each="tag : ${tags}" th:if="${tag.tipo == 3}" th:value="${tag.id}" th:text="${tag.nome}"></option>
+		              </select> 
+		              </div>
+		          </div>
+		          
+		          <div class="form-group">
+		            <label class="col-md-2 control-label"></label>
+		         	 <div class="modal-footer">
+		         		<input class="btn btn-primary" value="Cadastrar Informações" type="submit">
+		              <span></span>
+		              	<input class="btn btn-default" value="Cancelar" type="reset">
+		              </div>
+		            
+		          </div>
+		          </div>
+		        </form>
+		      
+		   </div>  	
+		  </div><!-- /row mt -->	
+	
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+
+    <div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+    
+    <script type="text/javascript">
+    
+    	$('.select2').select2();
+    	
+	</script>
+    
+	<script type="application/javascript">
+	
+	$('#ja_teve').on('change', function(){
+		console.log('batata!');
+		if(this.value == 1){
+			$('.ativ_relizada').show();
+			$('#descricao_ativ').attr('required', true);
+		} else {
+			$('.ativ_relizada').hide();
+			$('#descricao_ativ').attr('required', false);
+		}
+	});
+	  
+    </script>
+    
+  </body>
+</html>

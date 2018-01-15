@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+    
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+          
+          <div class="form-panel" style = "text-align: justify;">
+          
+          	<h1 class="centered"> Você quer ajudar o Laços mas não sabe como? 	</h1>
+          	<hr>
+          	<br>
+          		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb" >
+						<div class="project-wrapper">
+		                    <div class="project">
+		                        <div class="photo-wrapper">
+		                            <div class="photo">
+		                            	<a class="fancybox" href="/assets/img/ajuda.jpg"><img class="img-responsive" src="/assets/img/ajuda.jpg" alt="Primeira foto no HRG"></a>
+		                            </div>
+		                            <div class="overlay"></div>
+		                        </div>
+		                    </div>
+		                </div>
+					</div><!-- col-lg-4 -->
+				
+          	<div class="pull-right classe-teste">
+          	<p style="font-size:14px;"><b>Então, além de ser um voluntário lindo você também pode ajudar de outras formas…</b></p>
+          	
+          	<p style="font-size:14px;">&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp Mesmo sendo uma associação sem fins lucrativos totalmente filantrópica, precisamos sim de dinheiro para manter e expandir nosso projeto, e se você puder e tiver interesse de nós ajudar nessa missão pode nos doar qualquer quantia.</p>
+          	
+          	<p style="font-size:14px;"><b>Mas em que vamos gastar esse dinheiro?</b></p>
+          	
+          	<p style="font-size:14px;">&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp Como o grupo funciona em cinco hospitais, precisamos sempre manter e renovar nossos recursos materiais necessários para as atividades (maquiagens, coletes, pincéis, adereços, crachás e lacinhos). Além disso precisamos adquirir todos esses materiais em novas atividades, já que pretendemos expandir cada dia mais.</p>
+          	
+          	<p style="font-size:14px;">&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp E não se preocupe, a movimentação financeira será totalmente transparente e você poderá ter acesso mensalmente a todo dinheiro que entra e como foi gasto o que saiu de nossa conta.</p>
+          	
+          	<p style="font-size:14px;">As doações devem ser feitas em depósito na nossa conta bancária.</p>
+          	
+          	<p style="font-size:14px;"><b>Banco Caixa Econômica </b></p>
+          	<p style="font-size:14px;"><b>Agência 0007 0P 013</b></p>
+          	<p style="font-size:14px;"><b>Conta: 31263-0</b></p>
+          	<p style="font-size:14px;"><b>27.111.862/0001-48 </b></p>
+          	
+          	<p style="font-size:14px;"><b>E se eu não tenho dinheiro, como posso ajudar?</b></p>
+          	
+          	<p style="font-size:14px;">&nbsp&nbsp&nbsp&nbsp &nbsp&nbsp&nbsp&nbsp Não se preocupe, se você não tem dinheiro, mas tem muita motivação, é uma pessoa dedicada, tem algum talento que queria desenvolver ou que já tenha que possa nos ajudar, entre em contato com nosso diretores e venha trabalhar com a gente no administrativo, temos diversas equipes dentro das nossas diretorias e pode ser que haja  uma vaga para você</p>
+          	<p style="font-size:14px;"><b>Obs:</b> A gente jura que a nossas equipes são um amorzinho, e que você vai amar aprender com a gente !</p>
+          	</div>
+			<br>
+          	<br>
+				
+				<div class="row mt">
+					
+				</div><!-- /row -->
+
+	
+	
+			</div>	
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+				  
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+
+   <div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+    <!--script for this page-->
+  
+  <script type="text/javascript">
+      $(function() {
+        //    fancybox
+          jQuery(".fancybox").fancybox();
+      });
+
+  </script>
+
+  </body>
+</html>

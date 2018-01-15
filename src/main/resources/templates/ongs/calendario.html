@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+<head>
+	<link href="/assets/js/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
+	<link rel="stylesheet" media="all" type="text/css" href="http://code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" media="all" type="text/css" href="/assets/js/datePicker/jquery-ui-timepicker-addon.css" />
+</head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+          	<h3><i class="fa fa-calendar" aria-hidden="true"></i> Calendário de Ações do <span th:text="${polo.nome}"></span>
+          	<a data-toggle="modal" href="#modalAgendar" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Nova Ação</span></a>
+          	</h3>
+          	<input id="polo_id" th:value="${polo.id}" type="hidden">
+          	<br>
+              <!-- page start-->
+              <div class="row mt">
+                      <section class="panel">
+                          <div class="panel-body">
+                              <div id="calendar" class="has-toolbar"></div>
+                          </div>
+                      </section>
+              </div>
+              <!-- page end-->
+              
+              
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		           <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="modalAgendar" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-b">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered"><i class="fa fa-calendar" aria-hidden="true"></i> Agendar Ação</h4>
+		                      </div>
+		                      
+		              <form class="form-horizontal style-form" action="/polo/agendar/acao" method = "post" >
+		                      
+		                 <div class="modal-body">
+		                 
+		                 <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Instituição</label>
+                              <div class="col-sm-10">  
+                               	   <select class="form-control" id="instituicoes" name = "instituicao"  required  style="width:100%;">
+                                    	<option th:each="instituicao : ${instituicoes}" th:value="${instituicao.id}" th:text="${instituicao.nome}"></option>
+                                    </select> 
+                              </div>
+                          </div> 
+                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Nome da Ação</label>
+                              <div class="col-sm-10">
+                                  <input class="form-control" type="text" name="nome"  required>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Nº de Voluntários</label>
+                              <div class="col-sm-10">
+                                  <input class="form-control" type="number" name="voluntarios"  required>
+                              </div>
+                          </div>
+                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Horário de Início </label> 
+                              <div class="col-sm-10">
+                                 <input class="form-control" name="horario" id="datePicker" value="" required/>
+                              </div>
+                          </div> 
+						   <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Duração da Ação</label>
+                              <div class="col-sm-10">
+                                  <input class="form-control" type="number" name="duracao" placeholder="Duração em Horas" required>
+                              </div>
+                          </div> 
+						</div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-primary" type="submit">Agendar</button>
+		                      </div>
+		                      
+		                      </form>
+		                        	
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		          
+		           <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalDetalhe" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-b">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered"><i class="fa fa-calendar" aria-hidden="true"></i> Ação na <span id="nomeInstSpan"></span> </h4>
+		                      </div>
+		                 <div class="modal-body form-horizontal">
+							      <!-- edit form column -->
+							         	<div class="form-group">
+							           	<label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-building-o" aria-hidden="true"></i> Nome da Instituição</b></label>
+							           		<div class="col-sm-9">
+					                           <p id="nomeInst"></p>
+					                        </div>		         
+							           	</div>
+							           	<div class="form-group">  
+							            <label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-user-circle-o" aria-hidden="true"></i> Criador da Ação</b></label>
+							              <div class="col-sm-9">
+							              <p id="CriadorLacos"></p>
+							              </div>
+							         	 </div>
+							         	 <div class="form-group">  
+							            <label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-calendar-check-o" aria-hidden="true"></i> Horário de Início</b></label>
+							              <div class="col-sm-9">
+							              <p id="HararioAcao"></p>
+							              </div>
+							         	 </div>
+							         	 <div class="form-group">  
+							            <label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-clock-o" aria-hidden="true"></i> Duração</b></label>
+							              <div class="col-sm-9">
+							              <p id="Duracao"></p>
+							              </div>
+							         	 </div>
+							         	 <div class="form-group">  
+							            <label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-thermometer-quarter" aria-hidden="true"></i> Quantidade</b></label>
+							              <div class="col-sm-9">
+							              <p id="QuantVolunt"></p>
+							              </div>
+							         	 </div>
+							           	<div class="form-group">
+							           	<label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-phone" aria-hidden="true"></i> Telefone</b></label>
+							           		<div class="col-sm-9">
+					                           <p id="InstTel"></p>
+					                        </div>		         
+							           	</div>
+							           	
+							          <div class="form-group">  
+							            <label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-user-circle-o" aria-hidden="true"></i> Nome do Responsável</b></label>
+							              <div class="col-sm-9">
+							              <p id="RespNome"></p>
+							              </div>
+							          </div>
+							          
+							          <div class="form-group">  
+							            <label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-phone" aria-hidden="true"></i> Contato do Resposável</b></label>
+							              <div class="col-sm-9">
+							              <p id="RespTel"></p>
+							              </div>
+							          </div>
+							          <div class="form-group">  
+							            <label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-book" aria-hidden="true"></i> Descrição da Instituição</b></label>
+							              <div class="col-sm-9">
+							              	<p id="InstDesc"></p>
+							              </div>
+							          </div>
+							    </div>
+								
+		                      <div class="modal-footer">
+		                      	  <!-- <a id="hrefInst" type="button" class="btn btn-primary"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Detalhes Instituição</span></a>  -->
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                          <button class="btn btn-danger" onclick="cancelaAgenda()" >Cancelar Ação</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		          <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalCancelar" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-d">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Cancelar Ação</h4>
+		                      </div>
+		                      <div class="modal-body centered">
+		                          <p>Você Realmente quer <b>Cancelar</b> sua Essa Ação?</p>		                       	
+		                      </div>
+		                      <form action="/polo/cancelar/acao" method="post">
+		                      <div class="modal-footer">
+		                       <input  type="hidden" name="agenda" id="acaoCancelar">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                          <button class="btn btn-danger" type="submit">Confirmar Cancelamento</button>
+		                      </div>
+		                      </form>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		          
+		</section>
+      </section><!-- /MAIN CONTENT -->
+
+      <!--main content end-->
+      <footer th:replace="fragments/footer :: content"></footer>
+      
+  </section>
+
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+
+    <!--script for this page -->
+    <script src="/assets/js/fullcalendar/fullcalendar.min.js"></script> 
+	<script type="text/javascript" src="/assets/js/datePicker/jquery-ui-timepicker-addon.js"></script>
+	<script type="text/javascript" src="/assets/js/datePicker/lang/jquery-ui-timepicker-pt-BR.js"></script>
+	<script type="text/javascript" src="/assets/js/datePicker/jquery-ui-sliderAccess.js"></script>
+	
+    
+  
+ 
+ <script type="text/javascript">
+ 	
+ 	var agendaId;
+ 	var acoes = [];
+ 	
+ 	function cancelaAgenda(){
+ 		
+ 		console.log('legal!');
+ 		
+ 		document.getElementById("acaoCancelar").value = agendaId;
+ 		
+ 		 $('#ModalDetalhe').modal('hide');
+ 		 $('#ModalCancelar').modal('show');
+ 		
+ 	};
+ 	
+ 	function initCalendar() {
+
+	    /* initialize the calendar
+	     -----------------------------------------------------------------*/
+
+	     $('#calendar').fullCalendar({
+	        header: {
+	            left: 'prev,next today',
+	            center: 'title',
+	            right: 'month,basicWeek,basicDay'
+	        },
+	        
+	        eventClick: function(calEvent, jsEvent, view) {
+
+	            $.ajax({
+	          	    url: "/polo/pesquisa/agenda",	  	       
+	          	    data: {'agenda' : calEvent.allDay},
+	          	    success: function(agenda) {
+	          	    	
+	          	    	console.log('Pesquisando Agenda!');
+	          	    	
+	          	    	console.log(agenda);
+	          	    	
+	          	    	agendaId = agenda.id;
+	          	    	
+	          	    	$("#nomeInst").text(agenda.instituicao.nome);
+	          	    	$("#nomeInstSpan").text(agenda.instituicao.nome);
+	          	    	$("#InstTel").text(agenda.instituicao.telefone);
+	          	    	$("#RespNome").text(agenda.instituicao.responsavel);
+	          	    	$("#RespTel").text(agenda.instituicao.contatoResponsavel);
+	          	    	$("#InstDesc").text(agenda.instituicao.descricao);
+	          	    	$("#CriadorLacos").text(agenda.criador.nome);
+	          	    	$("#HararioAcao").text(getDate(new Date(agenda.horario)));
+	          	    	$("#Duracao").text(agenda.duracao + " horas");
+	          	    	$("#QuantVolunt").text(agenda.voluntarios + " voluntários");
+	          	    	$("#hrefInst").attr('href', 'DetalheInstituicao?inst_id='+agenda.instituicao.id);
+	          	    	
+	          	    	//Preenche o modal Detalhe com dados retornados pelo ajax
+	          	    	
+	                }, 
+	          	    error: function(e) {
+	          	    	console.log(e);
+	                } 
+	              }); 
+	            
+	            //Apresenta modal preenchido com os dados
+	            $('#ModalDetalhe').modal('show');
+
+	            // change the border color just for fun
+	            $(this).css('border-color', '#2d38d0');
+
+	        },  
+	        
+	        editable: true,
+	        droppable: false,
+	        defaultView: 'month',
+	        
+	        events: acoes
+	    });
+	};
+	
+ 	 $.when(getAcoes()).then(function(x) {
+	 	initCalendar();
+ 	 });
+ 	 
+ 	function initEvent(acao){
+ 	   var acao = {title: acao.instituicao.nome,
+ 			   	   start: new Date(acao.horario),
+ 			   	   allDay: acao.id};
+ 	   return acao;
+    }
+ 	
+ 	function getDate(date){
+ 		var data = '';
+ 		data = data + date.getDate()+'/';
+ 		data = data + date.getMonth()+1+'/';
+ 		data = data + date.getFullYear()+' ';
+ 		data = data + date.getHours()+':';
+ 		data = data + date.getMinutes();
+ 		
+ 		return data;
+ 	}
+   	 
+   function getAcoes(){
+	   
+	   console.log('Legal!');
+   		 
+	   var request = $.ajax({
+			url: "/polo/get/agendas?polo="+$('#polo_id').val(),
+			method: "GET",
+			dataType: "json"
+		});
+		
+		request.done(function(response){
+			$.each(response, function(i, acao){
+				acoes.push(initEvent(acao));
+			});			
+		});
+		
+		request.fail(function(jqXHR, textStatus) {
+			console.log(jqXHR);
+		});
+   		 
+		return request;
+   	 }
+   
+ </script>
+ 
+ 
+  <script>
+      //custom select box
+      
+      $('#datePicker').datetimepicker($.timepicker.regional['pt-BR']);
+      
+      $("#instituicoes").select2();
+
+  </script>
+
+  </body>
+</html>

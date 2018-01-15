@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+
+	  <div id="register-page">
+	  
+	  	<div class="container" >
+	  	
+		      <form th:action="@{/cadastro}" th:object="${voluntario}" method="post" class="form-horizontal form-regi" role="form" >
+			  
+		        <h2 class="form-regi-heading">Cadastro do Voluntário</h2><br>
+		        		        		      
+				<div class="row" style="margin: 5px">
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>Login*</b> <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}"
+									class="validation-message"></span></label>
+							<input name="login" type="text" class="form-control" th:field="*{login}" placeholder="Login*" required>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>Nome Completo*</b> <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
+									class="validation-message"></span></label>
+							<input name="nome" type="text" class="form-control" th:field="*{nome}" placeholder="Nome Completo*" required>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>Senha*</b> <span th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"
+									class="validation-message"></span> <span color="red" id="mensagemPassword"></span></label>
+							<input name="senha" id="pass1" type="password" class="form-control" placeholder="Senha* - Min. de 6 Caracteres" required>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>Confirmar Senha*</b></label>
+							<input name="dual_senha" type="password" id="pass2" class="form-control" placeholder="Confirmar Senha*" onChange="checkPasswordMatch();" required>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>CPF*</b> <span th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"
+									class="validation-message"></span></label>
+							<input name="cpf" type="text"  class="form-control" th:field="*{cpf}" placeholder="Apenas números" maxlength="11" required>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>E-mail*</b> <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+									class="validation-message"></span></label>
+							<input name="email" type="email" class="form-control" th:field="*{email}" placeholder="E-mail*" required >
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>Data de Nascimento*</b> <span th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}"
+									class="validation-message"></span></label>
+							<input id="datemask" class="form-control" th:field="*{nascimento}" placeholder="Data de Nascimento*" type="text" name="nascimento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>Cidade Satélite*</b> <span th:if="${#fields.hasErrors('regiao')}" th:errors="*{regiao}"
+									class="validation-message"></span></label>
+							<select name="regiao" class="form-control" required>
+								<option value="">Selecione...</option>	
+								<option th:each="ra : ${ras}" th:value="${ra.id}" th:text="${ra.nome}" th:selected="${ra == voluntario.regiao}"></option>							
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>DDD*</b> <span th:if="${#fields.hasErrors('ddd')}" th:errors="*{ddd}"
+									class="validation-message"></span></label>
+							<input name="ddd" type="text" class="form-control" th:field="*{ddd}" placeholder="Ex.: 061" maxlength="3" required>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>Preferência de Atividade*</b> <span th:if="${#fields.hasErrors('preferencia')}" th:errors="*{preferencia}"
+									class="validation-message"></span></label>
+							<select name="preferencia" class="form-control" required>
+								<option value="">Selecione...</option>
+								<option th:each="hospital : ${hospitais}" th:value="${hospital.id}" th:text="${hospital.nome}" th:selected="${hospital == voluntario.preferencia}"></option>	
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>WhatsApp*</b></label>
+							<input name="whatsapp" type="tel" class="form-control" th:field="*{whatsapp}" placeholder="Ex.: 999999999" maxlength="9" required>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>Endereço</b></label>
+							<input name="endereco" type="text" class="form-control" th:field="*{endereco}" placeholder="Endereço" >
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>Como Conheceu o Laços?</b></label>
+							<select name="como_conheceu" class="form-control">
+								<option value="">Selecione...</option>
+								<option value="amigo">Indicação de um Amigos</option>
+								<option value="social">Através de um Rede Social do Laços</option>
+								<option value="palestra">Através de uma Palestra</option>								  
+								<option value="televisao">Em uma Reportagem na Televisão</option>
+								<option value="outros">Outros</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-group il-form-spaccing">
+							<label class="il-form-label"><b>Deseja visitar instituições de caridade?</b></label></br>
+							<label>
+								<input type="checkbox" name="querOngs" value="true"> Sim
+							</label>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group il-form-spaccing">
+							<label style="margin-right: 8px" class="il-form-label"><b>Sexo*</b></label>
+							<label>
+								<input type="radio" name="sexo" value="masculino" required> Palhacinho
+							</label>
+							<label>
+								<input type="radio" name="sexo" value="feminino" required> Palhacinha
+							</label>
+						</div>
+					</div>
+					 <small class="ml il-fields-required"><font><b>*Informações Obrigatórias</b></font></small>					 						
+				</div>
+				<br>
+				<div class="centered">
+					<input type="submit" class="regi-btn btn btn-theme il-btn-send" value="Cadastrar"><br><br>			
+				</div>
+		      </form>	  	
+	  	
+	  	</div>
+		
+	  </div>
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/jquery-1.8.3.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <!--BACKSTRETCH-->
+    <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+    <script type="text/javascript" src="assets/js/jquery.backstretch.min.js"></script>	
+    
+    <!-- InputMask -->
+	<script src="assets/js/input-mask/jquery.inputmask.js"></script>
+	<script src="assets/js/input-mask/jquery.inputmask.date.extensions.js"></script>
+	<script src="assets/js/input-mask/jquery.inputmask.extensions.js"></script>
+	
+   <script type="application/javascript">
+
+	$.backstretch("assets/img/login-bg2.jpg",{speed:500});
+	
+   	$(function () {
+	    //Datemask dd/mm/yyyy
+	    $("#datemask").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});
+
+	  });
+   
+   	function checkPasswordMatch() {
+	    var password = $("#pass1").val();
+	    var confirmPassword = $("#pass2").val();
+
+	    if (password != confirmPassword){
+	        $("#mensagemPassword").html("As senhas não coincidem!").css('color', 'red');
+	        return false;
+	    } else{
+	    	$("#mensagemPassword").html("Senhas coincidem!").css('color', 'green');
+	    	if(password.length>=6)
+	    		return true;
+	    	else {
+	    		$("#mensagemPassword").html("Senha menor que 6 dígitos!").css('color', 'red');
+	    		return false;
+	    	}
+	    		
+	    }    
+	}
+
+	$(document).ready(function () {
+	   $("#pass1, #pass2").keyup(checkPasswordMatch);
+	});
+	
+	$('#cadastro').submit(function(e){ 
+		   var bool = checkPasswordMatch();
+		   if(!bool){
+		    e.preventDefault();
+		    alert("Favor corrigir os erros antes de submeter o cadastro!");
+		   } else {
+		    return true;
+		    }
+		});	
+
+   </script>
+   
+   <script type="text/javascript">
+		// When ready...
+		window.addEventListener("load",function() {
+			// Set a timeout...
+			setTimeout(function(){
+				// Hide the address bar!
+				window.scrollTo(0, 1);
+			}, 0);
+		});
+	</script>
+
+  </body>
+</html>

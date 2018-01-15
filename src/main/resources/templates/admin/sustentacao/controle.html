@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+          
+          	<h3>Controle da Equipe de Sustentação</h3>
+          	
+          	
+          	<div class="row mt">
+                  <div class="col-md-12">
+                      <div class="content-panel">
+                          <table class="table table-striped table-advance table-hover">
+	                  	  	  <h4 style="margin-left:10px;"> Equipe</h4>
+	                  	  	  <hr>
+                              <thead>
+                              <tr>
+                                  <th><i class="fa fa-user"></i> Nome</th>
+                                  <th><i class="fa fa-whatsapp"></i> WhatsApp</th>
+                                  <th class="hidden-phone"><i class=" fa fa-envelope-o"></i> E-mail</th>
+                                  <th class="hidden-phone"><i class="fa fa-globe"></i> Região</th>
+                                  <th><i class="fa fa-times-circle-o"></i> Remover</th>
+                                  <th></th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr th:each="a : ${analistas}">
+                                  <td th:text="${a.voluntario.nome}"></td>
+                                  <td th:text="${a.voluntario.whatsapp}"></td>
+                                  <td class="hidden-phone" th:text="${a.voluntario.email}"></td>
+                                  <td class="hidden-phone" th:text="${a.voluntario.regiao.nome}"></td>
+                                  <td>
+                                      <button data-toggle="modal" href="#ModalRetirar" th:onclick="'modalRetirar('+${a.voluntario.id}+');'" class="btn btn-danger btn-xs" style="margin-left:10px;"><i class="fa fa-times "></i></button>
+                                  </td>
+                              </tr>   
+                              </tbody>
+                          </table>
+                          
+                    <label class="col-md-2 control-label"></label>
+		         	 <div class="modal-footer">
+		              <button class="btn btn-success" data-toggle="modal" href="#myModal3"><i class="fa fa-check" ></i>Adicionar Analista</button>
+		              </div>
+		              
+                      </div><!-- /content-panel -->
+                  </div><!-- /col-md-12 -->
+              </div><!-- /row -->		
+              
+	
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+				  
+		          <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalRetirar" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-d">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Retirada de Analista</h4>
+		                      </div>
+		                      <div class="modal-body centered">
+		                          <p>Você Realmente quer <b>Retirar</b> esse Analista?</p>		                       	
+		                      </div>
+		                      <form action="/admin/remove/analista" method="post">
+		                      <div class="modal-footer">
+		                       <input hidden type="number" name="voluntario" id="retirarCord">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                          <button class="btn btn-danger" type="submit">Confirmar Retirada</button>
+		                      </div>
+		                      </form>
+		                  </div>    
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		          <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal3" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Adicionar um Analista</h4>
+		                      </div>
+		                      <form action="/admin/add/analista"  method="post">
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo do Apoio que quer adicionar</p>
+		                          <input type="text" name="email" placeholder="E-mail" class="form-control placeholder-no-fix" required>
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="submit">Adicionar</button>
+		                      </div>
+		                     </form>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+
+             
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+	
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+    
+    <script type="text/javascript">
+    
+    function modalRetirar(coordId) {
+		document.getElementById("retirarCord").value = coordId;
+	};
+      
+    </script> 
+	
+
+  </body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+
+		<div class="form-panel">
+		    <h3><a href="/polo/instituicoes"><i class="fa fa-arrow-left" aria-hidden="true"></i></a> &nbsp&nbsp <i class="fa fa-university" aria-hidden="true"></i> Detalhes  <span class="hidden-phone">da Instituição</span>
+		    <a type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-pencil fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Atualizar Instituição</span></a>
+		    <a data-toggle="modal" href="#atualizarImagem" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-camera-retro fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Atualizar Imagem</span></a>
+		    </h3>
+		    
+		  	<hr>
+			<div class="row">
+			
+		      <form class="form-horizontal style-form">
+		      <!-- edit form column -->
+		      <div class="col-md-12 personal-info ">
+		         	<div class="form-group">
+		           	<label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-building-o" aria-hidden="true"></i> Nome da Instituição</b></label>
+		           		<div class="col-sm-10">
+                           <p th:text="${instituicao.nome}"> </p>
+                        </div>		         
+		           	</div>
+		           	<div class="form-group">
+		           	<label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-phone" aria-hidden="true"></i> Telefone</b></label>
+		           		<div class="col-sm-10">
+                           <p th:text="${instituicao.telefone}"></p>
+                        </div>		         
+		           	</div>
+		          <div class="form-group">
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail</b></label>
+		              <div class="col-sm-10">
+		              <p th:text="${instituicao.email}"> </p>
+		              </div>
+		            </div>
+		            <div class="form-group">  
+		           		<label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-map-marker" aria-hidden="true"></i> Endereço da Instituição</b></label>
+			              <div class="col-sm-10">
+			              	 <p th:text="${instituicao.endereco}"> </p>
+			              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-user-circle-o" aria-hidden="true"></i> Nome do Responsável</b></label>
+		              <div class="col-sm-10">
+		              <p th:text="${instituicao.responsavel}"> </p>
+		              </div>
+		          </div>
+		          
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-phone" aria-hidden="true"></i> Contato do Resposável</b></label>
+		              <div class="col-sm-10">
+		              <p th:text="${instituicao.contatoResponsavel}"> </p>
+		              </div>
+		          </div>
+		           <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail do Responsánvel</b></label>
+		              <div class="col-sm-10">
+		              <p th:text="${instituicao.emailResponsavel}">  </p>
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-book" aria-hidden="true"></i> Descrição da Instituição</b></label>
+		              <div class="col-sm-10">
+		              	<p th:text="${instituicao.descricao}">  <p> 
+		              </div>
+		          </div>
+		           <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-tags" aria-hidden="true"></i> Caracteristicas</b></label>
+		              <div class="col-sm-10">
+							<span th:each="tag : ${instituicao.caracteristicas()}" class="label label-default" th:text="${tag.nome}"></span>&nbsp&nbsp
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Já foi Realizada alguma atividade?</b></label>
+		              <div class="col-sm-10"s>
+			              <p th:text="${instituicao.jaFomos()}"> </p>
+		              </div>
+		          </div>
+		          <div th:if="${instituicao.fomos}" class="form-group ativ_relizada">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-bookmark" aria-hidden="true"></i> Descrição da Atividade Realizada</b></label>
+		              <div class="col-sm-10">
+		              	<p th:text="${instituicao.atividades}"></p>
+		              </div>
+		          </div>
+		           <div class="form-group ativ_relizada" >  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-window-restore" aria-hidden="true"></i> Atividades Realizadas</b></label>
+		              <div class="col-sm-10"s>
+							<span th:each="tag : ${instituicao.atividades()}" class="label label-default" th:text="${tag.nome}"></span>&nbsp&nbsp
+		              </div>
+		          </div>
+		          <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-thermometer-full" aria-hidden="true"></i> Descrição de Pontos Críticos</b></label>
+		              <div class="col-sm-10">
+		              	<p th:text="${instituicao.pontosCriticos}"> </p>
+		              </div>
+		          </div>
+		           <div class="form-group">  
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-bomb" aria-hidden="true"></i> Pontos Críticos</b></label>
+		             <div class="col-sm-10"s>
+							<span th:each="tag : ${instituicao.pontosCriticos()}" class="label label-default" th:text="${tag.nome}"></span>&nbsp&nbsp
+		              </div>
+		          </div>
+		          
+		          </div>
+		        </form>
+		      
+		   </div>  	
+		  </div><!-- /row mt -->	
+	
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+				  
+				  <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="atualizarImagem" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-b">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Atualizar Imagem do Hospital</h4>
+		                      </div>
+		                      <form action="/ongs/update/imagem" method = "post" enctype="multipart/form-data">
+		                      <div class="modal-body">
+							  	<div class="text-center">
+						          <img th:src="${instituicao.imagem()}" class="avatar img-circle" alt="avatar" name="pic" height="152" width="152">
+						          <h6>Altere sua Foto da Atividade</h6> 
+						          <input type="hidden" name="instituicao" required th:value="${instituicao.id}">
+						          <input id="image-file" class="form-control" type="file" name="file" required multiple>
+							  	</div>
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-primary" type="submit">Atualizar</button>
+		                      </div>
+		                      </form> 
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+	
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+    
+    <script type="text/javascript">
+    	$(".js-example-basic-multiple").select2();
+	</script>
+	
+
+  </body>
+</html>

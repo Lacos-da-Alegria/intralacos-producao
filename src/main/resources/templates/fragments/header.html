@@ -1,0 +1,51 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="content">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Intranet do Grupo Laços da Alegria">
+  <meta name="author" content="Laços da Alegria">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+
+  <title>Laços da Alegria</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/assets/css/bootstrap.css" rel="stylesheet">
+  <!--external css-->
+  <link href="/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+      
+  <!-- Custom styles for this template -->
+  <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+  <link th:href="@{/assets/css/custom.css}" rel="stylesheet">
+  <link th:href="@{/assets/css/style-responsive.css}" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/lineicons/style.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/css/zabuto_calendar.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/js/gritter/css/jquery.gritter.css}" />
+  <link rel="stylesheet" type="text/css" th:href="@{/assets/css/to-do.css}">
+  <link href="/assets/js/select2/css/select2.min.css" rel="stylesheet" /> 
+  
+  <link th:href="@{/assets/js/fancybox/jquery.fancybox.css}" rel="stylesheet" />	
+  
+  <!-- Google Font -->
+  <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,200italic,300,300italic,400italic,600,600italic,700,700italic,900' rel='stylesheet' type='text/css'>
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="/assets/img/favicon.png">
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-111765897-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	
+	gtag('config', 'UA-111765897-1');
+  </script>
+  
+</head>
+<body>
+</body>
+</html>

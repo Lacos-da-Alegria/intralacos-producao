@@ -1,0 +1,44 @@
+package com.lacosdaalegria.intralacos.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.lacosdaalegria.intralacos.model.Voluntario;
+import com.lacosdaalegria.intralacos.model.atividade.Hospital;
+import com.lacosdaalegria.intralacos.repository.HospitalRepository;
+import com.lacosdaalegria.intralacos.repository.VoluntarioRepository;
+import com.lacosdaalegria.intralacos.repository.s3.S3;
+
+@Service
+public class HospitalService {
+	
+	@Autowired
+	HospitalRepository repository;
+	@Autowired
+	VoluntarioRepository voluntario;
+	@Autowired
+	private S3 s3;
+	
+	public Iterable<Hospital> getAllActive(){
+		return repository.findByStatus(1);
+	}
+	public Iterable<Hospital> getAll(){
+		return repository.findAll();
+	}
+	
+	public Iterable<Voluntario> top30Novatos(Hospital hospital){
+		return voluntario.findTop30ByPreferenciaAndStatusAndPromovidoFalseOrderByDtCriacao(hospital, 1);
+	}
+	
+	public void updateHospital(Hospital hospital) {
+		repository.save(hospital);
+	}
+	
+	public void updateImage(MultipartFile file, Hospital hospital) {
+		String profile = s3.carregaImagem("pic", hospital.getId().toString(), file);
+		hospital.setImagem("https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-318693850464/" + profile);
+		repository.save(hospital);
+	}
+
+}

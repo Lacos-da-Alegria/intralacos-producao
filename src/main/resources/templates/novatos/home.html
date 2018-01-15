@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+     <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+              <div class="row">
+				<div class="col-lg-9 main-chart">
+				
+		         	  <h1 class="centered">Seja Bem Vindo ao Laços da Alegria!</h1><br>
+					  
+                  	<div class="row">
+                  		<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb">
+			                <div class="project">
+		                        <div class="photo-wrapper">
+		                            <div class="photo">
+		                            	<a class="more" href="https://www.youtube.com/watch?v=SW1I5sfWnsg?autoplay=1"><img class="img-responsive" src="/assets/img/portfolio/import-info.jpg" alt=""></a>
+		                            </div>
+		                            <div class="overlay"></div>
+		                        </div>
+		                    </div>
+						</div><!-- col-lg-4 -->
+						
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb">
+						<div class="project-wrapper">
+		                    <div class="project">
+		                        <div class="photo-wrapper">
+		                            <div class="photo">
+		                            	<a href="https://drive.google.com/file/d/0BwsuXGjVO_-veGl0blhfR1RVWDQ/view" target="_blank"><img class="img-responsive" src="/assets/img/portfolio/diret-lacos.jpg" alt=""></a>
+		                            </div>
+		                            <div class="overlay"></div>
+		                        </div>
+		                    </div>
+		                </div>
+					</div><!-- col-lg-4 -->
+					
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 mb">
+						<div class="project-wrapper">
+		                    <div class="project">
+		                        <div class="photo-wrapper">
+		                            <div class="photo">
+		                            	<a class="more" href="https://www.youtube.com/watch?v=fxbDkhc4IeI?autoplay=1"><img class="img-responsive" src="/assets/img/portfolio/como-funfa.jpg" alt=""></a>
+		                            </div>
+		                            <div class="overlay"></div>
+		                        </div>
+		                    </div>
+		                </div>
+					</div><!-- col-lg-4 -->
+                      
+					</div><!-- /row -->	
+					
+					 <div class="row">
+					 
+					 <br><h1 class= "centered">Mais Laços!</h1><br>
+					 
+                  		<div class="col-md-2 col-sm-2 col-md-offset-1 box0">
+                  			<div class="box1">
+					  			<span class="li_heart"></span>
+					  			<h3 th:text="${@userInfo.getMaisLacos().getVoluntarios()}"></h3>
+                  			</div>
+				  			<p>Hoje o Laços da Alegria conta com <span th:text="${@userInfo.getMaisLacos().getVoluntarios()}"></span> lindos voluntários!</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_star"></span>
+					  			<h3 th:text="${@userInfo.getMaisLacos().getNovatos()}"></h3>
+                  			</div>
+					  			<p>Temos <span th:text="${@userInfo.getMaisLacos().getNovatos()}"></span> novatinhos esperando para entrar para família</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_fire"></span>
+					  			<h3>0</h3>
+                  			</div>
+					  			<p>Como é bom começar, pronto para a sua primeira visita?</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_diamond"></span>
+					  			<h3>0</h3>
+                  			</div>
+					  			<p>Esperando ansiosos por você em uma de nossas ações. Elas são simplesmente maravilhosas!</p>
+                  		</div>
+                  		<div class="col-md-2 col-sm-2 box0">
+                  			<div class="box1">
+					  			<span class="li_lab"></span>
+					  			<h3>0</h3>
+                  			</div>
+					  			<p>Quando você virar doutor vai poder indicar seus amigos.</p>
+                  		</div>
+                  	
+                  	</div><!-- /row mt -->	
+                  	
+                  	
+                  <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModaAtivar" class="modal fade">
+		              <div class="modal-dialog">		           
+		                  <div class="modal-content">
+		                  <form action="/novato/promover"  method="post">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Você não é mais Novato?</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                      
+		                          <p>É so colocar o código de promoção abaixo e enviar que será promovido. <br>
+		                          Você pode obter esse código com o coordenador da sua atividade</p>
+		                          
+		                          <small><font color="red">*Lembrando da importância de realmente ter ido na primeira atividade, contamos com a sua honestidade</font></small>
+		                          <input type="text" name="codigo" placeholder="Codigo da Semana" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                          <button class="btn btn-theme" type="submit">Enviar</button>
+		                      </div>
+		                   </form> 
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		          <!-- Modal -->
+					<div th:if="${@userInfo.getVoluntario().getStatus() == 2}" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalCancelar" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-d">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Conta desativada</h4>
+		                      </div>
+		                      <div class="modal-body centered">
+		                          <p>Devido a sua falta na atividade sua conta foi desativada. Entendemos que imprevistos acontecem e queremos muito você fazendo parte do do nosso projeto.</p>
+		                          <p>Mas temos uma fila muito grande e caso você não possar ir é so avisar a pessoa responsavel que entrou em contato com você, com alguma antecedência.</p>
+		                          <p>Agora para você voltar a ser chamado para uma atividade é só ir no menu ao lado caso esteja em um computador ou so descer a pagina caso esteja em um celular. Onde ficava a sua posição já fila e reativar sua conta, em pouco tempo voltaremos a entrar em contato.</p>
+		                          <p>Ou você pode falar com o responsavel que entrou em contato com você para tirar alguma dúvida ou abrir uma ouvidoria.</p>
+		                          <p>Esperamos você em uma de nossas atividades s2</p>
+		                          		                       	
+		                      </div>
+		                      <div class="modal-footer">
+		                       <input  type="hidden" id="ativCancelar">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+					
+                 </div><!-- /col-lg-9 END SECTION MIDDLE -->
+                  
+                  
+      <!-- **********************************************************************************************************************************************************
+      RIGHT SIDEBAR CONTENT
+      *********************************************************************************************************************************************************** -->                  
+                  
+                  <div class="col-lg-3 ds">                  
+                    <!--Inicio Side Bar  -->
+                   <div th:if="${@userInfo.getVoluntario().getStatus() == 1}">
+					<h3>Posição na Fila de Espera</h3>               
+                      <div class="desc box2 centered">
+						<button type="button" class="btn btn-round btn-primary"><span class="li_heart"></span>&nbsp&nbspVocê é o <b><font th:text="${@userInfo.getPosicao()}" size="3"></font>º</b> na Fila</button>
+                      </div>
+           			</div>
+           			<div th:if="${@userInfo.getVoluntario().getStatus() == 2}">
+           			<h3>Conta Desativada</h3>
+                                                              
+                      <div class="desc centered" >
+                      
+						<div class="btn-group" >
+						  <button type="button" class="btn btn-theme04 dropdown-toggle" data-toggle="dropdown">
+						    Reativar Minha Conta <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" role="menu">
+						    <li><a href="/novato/reativar/conta">Agora</a></li>
+						  </ul>
+						</div>						
+                      </div>
+                      </div> 
+                       <!-- USERS ONLINE SECTION -->
+						<h3>Preferência de Atividade</h3>
+						
+                      <!-- First Member -->
+                      <form action="/novato/atualizar/preferencia" method="post">
+                      <div class="desc">
+                      	<select name="hospital" class="form-control" required>	
+                      	  <option th:each="h : ${hospitais}" 
+                      	  		  th:value="${h.id}"
+                      	  		  th:text="${h.nome}"
+                      	  		  th:selected="${h.id == @userInfo.getVoluntario().getPreferencia().getId()}" ></option>
+						</select><br>						
+						  
+						<div class="centered">
+                      	
+                      	<div class="btn-group ">
+						<button type="submit" class="btn btn-theme" name = "Alterar"><i class="fa fa-check"></i> Alterar</button>
+						</div>
+						<div class="btn-group ">
+						<button type="reset" class="btn btn-theme04" ><i class="fa fa-adjust"></i> Resetar</button>
+						</div>
+                  		
+                      </div>
+					</div>
+					</form>       
+					                           
+                 
+					<!-- USERS ONLINE SECTION -->
+						<h3>Calendario de Atividades</h3><br>
+
+                        <!-- CALENDAR-->
+                        <div id="calendar" class="mb">
+                            <div class="panel green-panel no-margin">
+                                <div class="panel-body">
+                                    <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
+                                        <div class="arrow"></div>
+                                        <h3 class="popover-title" style="disadding: none;"></h3>
+                                        <div id="date-popover-content" class="popover-content"></div>
+                                    </div>
+                                    <div id="my-calendar"></div>
+                                </div>
+                            </div>
+                        </div><!-- / calendar -->
+                      
+                  </div><!-- /col-lg-3 -->
+              </div><!--/row -->
+          </section>
+      </section>
+      
+      <footer th:replace="fragments/footer :: content"></footer>
+
+      <!--main content end-->
+      
+  </section>
+	
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+   
+	<a th:if="${session.vindas}" class="more" id="hidden_link" href="https://www.youtube.com/watch?v=LkwAybdLPBQ?autoplay=1"></a>
+	
+    <script src="/assets/js/custom/novato-home.js"></script>
+    
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+  <body>
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+
+	  <div id="login-page">
+	  
+	  	<div class="container" >
+	  	
+		      <form class="form-login" action = "/cadastro/verify/info" method="get">
+		        <h2 class="form-login-heading">Confirmar Informações</h2>
+		        <div class="login-wrap">
+		        	<div th:if="${errorMessage != null}">
+					    <div class="alert alert-danger" th:utext="${errorMessage}"></div>
+					</div>
+		            <br>
+		            <input name="cpf" type="text" class="form-control" placeholder="CPF somente nº" autofocus required>
+		            <br><font color="red" id="mensagemPassword"></font>
+					<input type="hidden" name="email" th:value="${email}">
+		            <button class="btn btn-theme btn-block" type="submit" style="margin-top:15px;"><i class="fa fa-lock"></i> Verificar Informações</button>
+				</div>
+			  </form>			
+		</div>
+		
+	  	
+	  	</div>
+		
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/js/bootstrap.min.js"></script>
+
+    <!--BACKSTRETCH-->
+    <!-- You can use an image of whatever size. This script will stretch to fit in any screen size.-->
+    <script type="text/javascript" src="/assets/js/jquery.backstretch.min.js"></script>
+    <script>
+        $.backstretch("/assets/img/login-bg2.jpg", {speed: 500});
+    </script>
+    
+    <script type="text/javascript">
+		// When ready...
+		window.addEventListener("load",function() {
+			// Set a timeout...
+			setTimeout(function(){
+				// Hide the address bar!
+				window.scrollTo(0, 1);
+			}, 0);
+		});
+	</script>
+	
+	<script>
+	function delete_cookie( name ) {
+		  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+		};
+	</script>
+
+
+  </body>
+</html>
