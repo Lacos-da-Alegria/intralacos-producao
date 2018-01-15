@@ -7,6 +7,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.collect.Iterables;
 import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.MaisLacos;
 import com.lacosdaalegria.intralacos.model.Voluntario;
@@ -21,7 +22,9 @@ import com.lacosdaalegria.intralacos.repository.HospitalRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.ApoioRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.RegistroRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.SemanaRepository;
+import com.lacosdaalegria.intralacos.repository.ongs.AgendaRepository;
 import com.lacosdaalegria.intralacos.service.VoluntarioService;
+import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service
 public class AtividadeService {
@@ -40,6 +43,10 @@ public class AtividadeService {
 	private OngsService ongsService;
 	@Autowired
 	private RecursoService recurso;
+	@Autowired
+	private AgendaRepository agenda;
+	@Autowired
+	private UserInfo info;
 	
 	public Semana novaSemana() {
 		return semana.save(new Semana());
@@ -51,6 +58,18 @@ public class AtividadeService {
 	
 	public Iterable<Registro> meusRegistros(Voluntario voluntario){
 		return this.registro.findByVoluntarioAndStatusAndSemana(voluntario, 0, getSemana());
+	}
+	 
+	public boolean ehFaltante(Voluntario voluntario) {
+		Iterable<Registro> registros = registro.findByVoluntarioAndStatusAndCriacaoAfter(voluntario, 3, lastWeek());
+		if(registros == null)
+			return false;
+		else {
+			if(Iterables.isEmpty(registros))
+				return false;
+			else
+				return true;
+		}
 	}
 	
 	public Registro cancelar(Voluntario voluntario, Registro registro) {
@@ -211,6 +230,16 @@ public class AtividadeService {
 		}
 	}
 	
+	public boolean finalizaChamada(Agenda agenda) {
+		Fila fila = new Fila(agenda, registro.findFilaAcao(agenda, agenda.getSemana()));
+		if(fila.finalizada()) {
+			agenda.setChamada(false);
+			this.agenda.save(agenda);
+			return true;
+		}
+		return false;
+	}
+	
 	private void promoveNovatos(Set<Voluntario> novatos) {
 		for(Voluntario n : novatos) {
 			vService.promoteNovato(n);
@@ -232,7 +261,7 @@ public class AtividadeService {
 		Registro registro = new Registro();
 		registro.setVoluntario(voluntario);
 		registro.setSemana(getSemana());
-		registro.initPosicao();
+		registro.initPosicao(info.isFaltante());
 		return registro;
 	}
 	
@@ -361,6 +390,13 @@ public class AtividadeService {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		return cal.get(Calendar.YEAR);
+	}
+	
+	private Date lastWeek() {
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(new Date()); 
+		c.add(Calendar.DATE, -6);
+		return c.getTime();
 	}
 
 

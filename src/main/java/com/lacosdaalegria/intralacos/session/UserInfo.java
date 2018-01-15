@@ -29,6 +29,7 @@ public class UserInfo {
 	private Integer posicao;
 	private Integer atendimentos;
 	private MaisLacos maisLacos;
+	private boolean faltante;
 	
 	public Integer getPosicao() {
 		if(posicao == null) {
@@ -60,6 +61,11 @@ public class UserInfo {
 	
 	public void resetPosicao() {
 		posicao = null;
+	}
+	
+	public void initSession() {
+		setVoluntario();
+		initFaltante();
 	}
 
 	public Voluntario getVoluntario() {
@@ -101,6 +107,14 @@ public class UserInfo {
 	
 	public Authentication getAuthentication() {
 		return SecurityContextHolder.getContext().getAuthentication();
+	}
+
+	public boolean isFaltante() {
+		return faltante;
+	}
+
+	public void initFaltante() {
+		this.faltante = atividade.ehFaltante(getVoluntario());
 	}
 	
 	

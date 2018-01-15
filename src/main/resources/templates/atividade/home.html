@@ -33,11 +33,11 @@
                   <div class="col-lg-9">
 				  
 				  <h1 class= "centered">Resumo da Atividade <span th:text="${hospital.tag}"></span></h1>
-                  <div th:if="${successMessage != null}">
+                  	<div th:if="${successMessage != null}">
 					    <div class="alert alert-success" th:utext="${successMessage}"></div>
 					</div>
-					<div th:if="${errorMessage != null}">
-					    <div class="alert alert-danger" th:utext="${errorMessage}"></div>
+					<div th:if="${erroMessage != null}">
+					    <div class="alert alert-danger" th:utext="${erroMessage}"></div>
 					</div>
                     <div class="row mt">
                       <div class="col-lg-4 col-md-4 col-sm-4 mb">

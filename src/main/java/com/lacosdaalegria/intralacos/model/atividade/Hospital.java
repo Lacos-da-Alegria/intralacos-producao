@@ -9,10 +9,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table
@@ -89,14 +89,14 @@ public class Hospital {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getTag() {
 		return tag;
 	}

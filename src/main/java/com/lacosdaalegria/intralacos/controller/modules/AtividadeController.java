@@ -188,6 +188,22 @@ public class AtividadeController {
 			return null;
 	}
 	
+	@GetMapping("/polo/chamada/presente")
+	public @ResponseBody Registro poloPresente(Registro registro) {
+		if(registro.chamadaAberta())
+			return service.presenteChamada(registro);
+		else 
+			return null;
+	}
+	
+	@GetMapping("/polo/chamada/ausente")
+	public @ResponseBody Registro poloAusente(Registro registro) {
+		if(registro.chamadaAberta())
+			return service.ausenteChamada(registro);
+		else
+			return null;
+	}
+	
 	@GetMapping("/coordenador/finalizar/chamada")
 	public String voluntarioPresente(RedirectAttributes redirectAttrs) {
 		Coordenador coordenador = recurso.findCoordenador(info.getVoluntario());

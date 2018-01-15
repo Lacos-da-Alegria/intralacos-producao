@@ -41,6 +41,9 @@ public class Agenda {
 		return getDia().equals(dia) && getPeriodo().equals(periodo);
 	}
 			
+	public boolean essaSemana(Semana semana) {
+		return this.semana.getId().equals(semana.getId());
+	}
 	
 	/*
 	 * ======================================================================================

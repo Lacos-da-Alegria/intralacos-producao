@@ -17,4 +17,7 @@ public interface AgendaRepository extends CrudRepository<Agenda, Long>{
 	Iterable<Agenda> findByPolo(@Param("polo") Polo polo);
 	
 	Iterable<Agenda> findByHorarioBetweenAndStatus(Date inicio, Date fim, Integer status);
+	
+	@Query("SELECT v FROM Agenda v WHERE v.instituicao.polo = :polo and v.status = 1 and v.chamada = true")
+	Iterable<Agenda> chamadaPolo(@Param("polo") Polo polo);
 }

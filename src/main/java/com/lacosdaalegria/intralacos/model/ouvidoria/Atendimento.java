@@ -9,10 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.lacosdaalegria.intralacos.model.Voluntario;
 
@@ -65,7 +65,7 @@ public class Atendimento {
 		this.dt_criacao = dt_criacao;
 	}
 	@Lob
-	@NotEmpty
+	@NotBlank
 	public String getOuvidoria() {
 		return ouvidoria;
 	}

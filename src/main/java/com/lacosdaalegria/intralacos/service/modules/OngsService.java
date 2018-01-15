@@ -112,8 +112,16 @@ public class OngsService {
 		return agenda.findByPolo(polo);
 	}
 	
-	public Iterable<Agenda> getAcoes(){
+	public Iterable<Agenda> getChamadas(Polo polo){
+		return agenda.chamadaPolo(polo);
+	} 
+	
+	public Iterable<Agenda> calendarioAcoes(){
 		return agenda.findByHorarioBetweenAndStatus(new Date(), sevenDays(), 1);
+	}
+	
+	public Iterable<Agenda> getAcoes(){
+		return agenda.findByHorarioBetweenAndStatus(addMonth(-1), addMonth(2), 1);
 	}
 	
 	public void saveAllAgendas(Iterable<Agenda> agendas) {
@@ -133,7 +141,15 @@ public class OngsService {
 	private Date sevenDays() {
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(new Date()); 
-		c.add(Calendar.DATE, 8);
+		c.add(Calendar.DATE, 7);
 		return c.getTime();
 	}
+	
+	private Date addMonth(Integer month) {
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(new Date()); 
+		c.add(Calendar.MONTH, month);
+		return c.getTime();
+	}
+	
 }

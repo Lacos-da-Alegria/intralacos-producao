@@ -15,7 +15,7 @@ public class AuthenticationSuccessListener implements ApplicationListener<Intera
 	
     @Override
     public void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
-    	info.setVoluntario();
+    	info.initSession();
     }
 
 }
