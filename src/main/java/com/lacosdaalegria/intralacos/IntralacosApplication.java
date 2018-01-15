@@ -13,7 +13,6 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import com.lacosdaalegria.intralacos.dev.InitData;
-import com.lacosdaalegria.intralacos.dev.migracao.VoluntarioDao;
 
 @EnableScheduling
 @SpringBootApplication
@@ -26,7 +25,6 @@ public class IntralacosApplication {
 		SpringApplication.run(IntralacosApplication.class, args);
 	}
 	
-	//Popula tabelas caso estejam vazias
 	@EventListener(ApplicationReadyEvent.class)
 	public void startup() {
 		data.start();
@@ -38,4 +36,5 @@ public class IntralacosApplication {
 	    slr.setDefaultLocale(Locale.US);
 	    return slr;
 	}
+	
 }

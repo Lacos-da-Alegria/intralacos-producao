@@ -250,8 +250,12 @@ public class AtividadeService {
 	
 	public void addApoio(Hospital hospital, String email) {
 		Voluntario voluntario = vService.findByEmail(email);
-		vService.addRole(voluntario, "ROLE_APOIO");
-		this.apoio.save(initApoio(hospital, voluntario));
+		if(voluntario != null) {
+			if(this.apoio.findByVoluntario(voluntario) == null) {
+				vService.addRole(voluntario, "ROLE_APOIO");
+				this.apoio.save(initApoio(hospital, voluntario));
+			}
+		}
 	}
 	
 	public void removeApoio(Apoio apoio) {

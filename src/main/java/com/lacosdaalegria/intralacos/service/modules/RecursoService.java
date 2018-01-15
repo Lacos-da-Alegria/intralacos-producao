@@ -92,15 +92,18 @@ public class RecursoService {
 	public void createCoordenador(Hospital hospital, String email) {
 		Voluntario voluntario = vService.findByEmail(email);
 		if(voluntario != null) {
-			vService.addRole(voluntario, "ROLE_COORD");
-			this.coordenador.save(initCoordenacao(hospital, voluntario));
+			if(findCoordenador(voluntario) == null) {
+				vService.addRole(voluntario, "ROLE_COORD");
+				this.coordenador.save(initCoordenacao(hospital, voluntario));
+			}
 		}
 	}
 	
 	public void removeCoordenador(Voluntario voluntario) {
 		Coordenador coordenador =  this.coordenador.findByVoluntario(voluntario);
-		this.coordenador.delete(coordenador);
-		vService.removeRole(voluntario, "ROLE_COORD");
+			this.coordenador.delete(coordenador);
+			vService.removeRole(voluntario, "ROLE_COORD");
+		
 	}
 	
 	public Iterable<Coordenador> activeCoordenadores(){
@@ -110,8 +113,10 @@ public class RecursoService {
 	public void createControlador(Hospital hospital, String email) {
 		Voluntario voluntario = vService.findByEmail(email);
 		if(voluntario != null) {
-			vService.addRole(voluntario, "ROLE_CONTROL");
-			this.controleNovato.save(initControlador(hospital, voluntario));
+			if(findControlador(voluntario) == null) {
+				vService.addRole(voluntario, "ROLE_CONTROL");
+				this.controleNovato.save(initControlador(hospital, voluntario));
+			}
 		}
 	}
 	
@@ -121,7 +126,7 @@ public class RecursoService {
 		vService.removeRole(voluntario, "ROLE_CONTROL");
 	}
 	
-	public ControleNovato findByVoluntario(Voluntario voluntario) {
+	public ControleNovato findControlador(Voluntario voluntario) {
 		return this.controleNovato.findByVoluntario(voluntario);
 	}
 	
