@@ -67,6 +67,13 @@ public class VoluntarioService {
 		voluntario.setPromovido(true);
 		addRole(voluntario, "ROLE_VOLUNTARIO");
 		removeRole(voluntario, "ROLE_NOVATO");
+		voluntario.setObservacao("Voluntário promovido - " + new Date());
+		repository.save(voluntario);
+	}
+	
+	public void desativaNovato(Voluntario voluntario){
+		voluntario.setStatus(2);
+		voluntario.setObservacao("Novato não foi na atividade confirmada!");
 		repository.save(voluntario);
 	}
 	

@@ -2,12 +2,13 @@ package com.lacosdaalegria.intralacos.service.modules;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.lacosdaalegria.intralacos.model.Fila;
+import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.MaisLacos;
 import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.atividade.Apoio;
@@ -91,13 +92,19 @@ public class AtividadeService {
 	}
 	
 	public Integer getPosicao(Hospital hospital, Voluntario voluntario) {
-		Fila fila = new Fila(hospital, registro.findFilaHospital(hospital, hospital.getSemana()));
-		return fila.getPosicao(voluntario);
+		if(Global.rodadaRandomica()) {
+			Fila fila = new Fila(hospital, registro.findFilaHospital(hospital, hospital.getSemana()));
+			return fila.getPosicao(voluntario);
+		} else 
+			return null;
 	}
 	
 	public Integer getPosicao(Agenda agenda, Voluntario voluntario) {
-		Fila fila = new Fila(agenda, registro.findFilaAcao(agenda, agenda.getSemana()));
-		return fila.getPosicao(voluntario);
+		if(Global.rodadaRandomica()) {
+			Fila fila = new Fila(agenda, registro.findFilaAcao(agenda, agenda.getSemana()));
+			return fila.getPosicao(voluntario);	
+		} else 
+			return null;
 	}
 	
 	private void initTipoHospital(Registro registro){
@@ -191,17 +198,28 @@ public class AtividadeService {
 		Fila fila = new Fila(hospital, registro.findFilaHospital(hospital, hospital.getSemana()));
 		if(fila.finalizada()) {
 			hospital.setChamada(false);
+			if(!hospital.essaSemana(getSemana())) {
+				hospital.setInscricao(true);
+				hospital.setSemana(null);
+			}
 			this.hospital.save(hospital);
 			promoveNovatos(fila.novatosQueForam());
+			desativaNovatos(fila.novatosNaoForam());
 			return true;
 		} else {
 			return false;
 		}
 	}
 	
-	private void promoveNovatos(List<Voluntario> novatos) {
+	private void promoveNovatos(Set<Voluntario> novatos) {
 		for(Voluntario n : novatos) {
 			vService.promoteNovato(n);
+		}
+	}
+	
+	private void desativaNovatos(Set<Voluntario> novatos) {
+		for(Voluntario n : novatos) {
+			vService.desativaNovato(n);
 		}
 	}
 	
