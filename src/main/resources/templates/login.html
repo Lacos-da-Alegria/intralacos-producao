@@ -14,7 +14,7 @@
 	  	<div class="container" >
 	  	
 		      <div class="form-login">
-		        <h2 class="form-login-heading" style="background: #ce3030">Somente Para Testes</h2><!-- Área do Voluntário -->
+		        <h2 class="form-login-heading">Área do Voluntário</h2>
 		        <div class="login-wrap ">
 		        	<div th:if="${successMessage != null}">
 					    <div class="alert alert-success" th:utext="${successMessage}"></div>
@@ -81,30 +81,6 @@
              </div>
          </div>
          <!-- modal -->
-         
-         		<!-- Modal -->
-					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalCancelar" class="modal fade">
-		              <div class="modal-dialog">
-		                  <div class="modal-content">
-		                      <div class="modal-header-d">
-		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		                          <h4 class="modal-title centered">Esse IntraLaços não é válido para participação de Atividades</h4>
-		                      </div>
-		                      <div class="modal-body centered">
-		                          <p>Esse aqui é o novo intralaços, que esta passando por  <b>testes</b> antes de entrar em ação.</p>
-		                          <p>Você pode ajudar a testar. É so entrar com o seu login e a senha é o seu CPF, caso queira, é só ir em <b>esqueci minha senha ou login</b> para alterar a senha ou lembrar o login</p>
-		                          <p>Caso encontre algum erro favor abrir uma ouvidoria de preferência, ou pode falar comigo, Ricardo, no whatsapp (61) 98250-4895</p>
-		                          <p>Caso queria se inscrever em uma atividade para essa semana favor clicar aqui no link <a href="http://intralacos.com">http://intralacos.com<a></p>		                       	
-		                      </div>
-		                      <div class="modal-footer">
-		                       <input  type="hidden" id="ativCancelar">
-		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
-		                      </div>
-		                  </div>
-		              </div>
-		          </div>
-		          <!-- modal -->
-		
 	  	
 		
 	 
@@ -118,12 +94,6 @@
     <script type="text/javascript" src="assets/js/jquery.backstretch.min.js"></script>
     <script>
         $.backstretch("assets/img/login-bg2.jpg", {speed: 500});
-        
-        $( document ).ready(function() {
-    		$('#ModalCancelar').modal('show');
-    	});
-
-        
     </script>
 
   </body>

@@ -115,7 +115,7 @@ public class RecursoController {
 	@GetMapping("/controlador/page")
 	public String controladorPage(Model model) {
 		
-		ControleNovato controle = service.findByVoluntario(info.getVoluntario());
+		ControleNovato controle = service.findControlador(info.getVoluntario());
 		
 		model.addAttribute("controle", controle);
 		model.addAttribute("novatos", hospital.top30Novatos(controle.getHospital()));
@@ -125,14 +125,14 @@ public class RecursoController {
 	
 	@GetMapping("/controlador/inscrever/novato")
 	public String inscreverNovato(Voluntario voluntario) {
-		ControleNovato controle = service.findByVoluntario(info.getVoluntario());
+		ControleNovato controle = service.findControlador(info.getVoluntario());
 		atividade.inscreverNovato(voluntario, controle.getHospital());
 		return "redirect:/controlador/page";
 	}
 	
 	@GetMapping("/controlador/retirar/novato")
 	public String retirarNovato(Voluntario voluntario) {
-		ControleNovato controle = service.findByVoluntario(info.getVoluntario());
+		ControleNovato controle = service.findControlador(info.getVoluntario());
 		atividade.retirarNovato(voluntario, controle.getHospital());
 		return "redirect:/controlador/page";
 	}

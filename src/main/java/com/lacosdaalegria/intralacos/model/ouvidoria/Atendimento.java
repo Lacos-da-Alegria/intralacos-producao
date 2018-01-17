@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -63,6 +64,7 @@ public class Atendimento {
 	public void setDt_criacao(Date dt_criacao) {
 		this.dt_criacao = dt_criacao;
 	}
+	@Lob
 	@NotEmpty
 	public String getOuvidoria() {
 		return ouvidoria;
@@ -70,6 +72,7 @@ public class Atendimento {
 	public void setOuvidoria(String ouvidoria) {
 		this.ouvidoria = ouvidoria;
 	}
+	@Lob
 	public String getResposta() {
 		return resposta;
 	}

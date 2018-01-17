@@ -682,7 +682,7 @@
 		}
 		
 		function initializaInfoPosicao(atividade){
-			if($('#rodadaRandomica').val()){
+			if(!$('#rodadaRandomica').val()){
 				if(verificaRegistro(atividade)){
 					$("#iconA-"+atividade.id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
 				} else {

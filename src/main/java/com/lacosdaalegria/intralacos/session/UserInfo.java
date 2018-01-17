@@ -63,17 +63,15 @@ public class UserInfo {
 	}
 
 	public Voluntario getVoluntario() {
-		
-		if(voluntario == null) {
-			voluntario = vService.getByLogin(getAuthentication().getName());
-		}
-		
 		return voluntario;
 	}
 
 	public void setVoluntario(Voluntario voluntario) {
 		this.voluntario = voluntario;
-		
+	}
+	
+	public void setVoluntario() {
+		voluntario = vService.getByLogin(getAuthentication().getName());
 	}
 	
 	public boolean hasRole(String role) {

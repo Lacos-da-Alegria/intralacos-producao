@@ -1,7 +1,9 @@
 package com.lacosdaalegria.intralacos.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.atividade.Registro;
@@ -42,10 +44,19 @@ public class Fila {
 		return !getChamada().stream().filter(r -> r.getStatus().equals(0)).findFirst().isPresent();
 	}
 	
-	public List<Voluntario> novatosQueForam(){
-		novatos = new ArrayList<>();
+	public Set<Voluntario> novatosQueForam(){
+		Set<Voluntario> novatos = new HashSet<>();
 		for(Registro r : chamada) {
 			if(r.isNovato() && r.getStatus().equals(1))
+				novatos.add(r.getVoluntario());
+		}
+		return novatos;
+	}
+	
+	public Set<Voluntario> novatosNaoForam(){
+		Set<Voluntario> novatos = new HashSet<>();
+		for(Registro r : chamada) {
+			if(r.isNovato() && r.getStatus().equals(3))
 				novatos.add(r.getVoluntario());
 		}
 		return novatos;

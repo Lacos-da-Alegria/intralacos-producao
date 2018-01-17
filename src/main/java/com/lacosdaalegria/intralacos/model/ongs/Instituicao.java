@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -134,14 +135,14 @@ public class Instituicao {
 	public void setEmailResponsavel(String emailResponsavel) {
 		this.emailResponsavel = emailResponsavel;
 	}
-	@Type(type="text")
+	@Lob
 	public String getDescricao() {
 		return descricao;
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	@Type(type="text")
+	@Lob
 	public String getAtividades() {
 		return atividades;
 	}
@@ -161,7 +162,7 @@ public class Instituicao {
 	public void setFomos(boolean fomos) {
 		this.fomos = fomos;
 	}
-	@Type(type="text")
+	@Lob
 	public String getPontosCriticos() {
 		return pontosCriticos;
 	}
