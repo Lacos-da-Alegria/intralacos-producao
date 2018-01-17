@@ -19,7 +19,7 @@ public class S3 {
 	private final String bucketName = "bucket-name";
 	private BasicAWSCredentials creds = new BasicAWSCredentials("key", "token");
 	private AmazonS3 s3client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-west-2").build();
-	
+
 	public String carregaImagem(String tag, int id, MultipartFile imagem){
 		
 		String nome_imagem = tag + "_" + id + "_" + System.currentTimeMillis();
