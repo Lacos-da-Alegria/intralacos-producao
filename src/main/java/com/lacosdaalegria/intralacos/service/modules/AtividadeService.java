@@ -96,7 +96,7 @@ public class AtividadeService {
 			Fila fila = new Fila(hospital, registro.findFilaHospital(hospital, hospital.getSemana()));
 			return fila.getPosicao(voluntario);
 		} else 
-			return 0;
+			return null;
 	}
 	
 	public Integer getPosicao(Agenda agenda, Voluntario voluntario) {

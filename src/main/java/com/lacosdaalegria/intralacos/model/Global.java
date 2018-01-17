@@ -20,7 +20,7 @@ public class Global {
 	}
 	
 	public static boolean rodadaRandomica(){
-		return dia() >=2 && dia() <= 3;
+		return dia() == 2 || dia() == 3;
 	}
 	
 	private static int dia(){

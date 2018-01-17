@@ -151,7 +151,11 @@ public class Fila {
 	}
 	
 	public Integer getPosicao(Voluntario voluntario) {
-		return getEspera().indexOf(voluntario);
+		for(int i = 0; i < getEspera().size() ; i++){
+			if(getEspera().get(i).getId().equals(voluntario.getId()))
+				return i+1;
+		}
+		return -1;
 	}
 	
 	public Agenda getAgenda() {
