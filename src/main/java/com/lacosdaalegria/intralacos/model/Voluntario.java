@@ -111,15 +111,19 @@ public class Voluntario {
 	}
 	
 	@Transient
-	public boolean isAniversariante() throws ParseException{
-		
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-		Date date = formatter.parse(nascimento);
-		
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(date);
-		
-		return cal.get(Calendar.WEEK_OF_YEAR) == numeroSemana() || cal.get(Calendar.WEEK_OF_YEAR) == numeroSemana()+1;
+	public boolean isAniversariante(){
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			Date date = formatter.parse(nascimento);
+			
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(date);
+			
+			return cal.get(Calendar.WEEK_OF_YEAR) == numeroSemana() || 
+						cal.get(Calendar.WEEK_OF_YEAR) == numeroSemana()+1;
+		} catch(ParseException e) {
+			return false;
+		}
 	}
 
 	private int numeroSemana(){	

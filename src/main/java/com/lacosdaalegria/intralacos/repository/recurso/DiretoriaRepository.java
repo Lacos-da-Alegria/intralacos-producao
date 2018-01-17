@@ -13,7 +13,7 @@ import com.lacosdaalegria.intralacos.model.recurso.Diretoria;
 @Repository
 public interface DiretoriaRepository extends CrudRepository<Diretoria, Long> {
 	
-	@Query("SELECT d.diretores FROM Diretoria d WHERE d = :diretoria")
+	@Query("SELECT d.diretores FROM Diretoria d WHERE d = :diretoria order by d.ordem asc")
 	Set<Voluntario> findDiretores(@Param("diretoria") Diretoria diretoria);
 	
 	Diretoria findByDiretores(Voluntario diretor);
