@@ -5,11 +5,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.transaction.Transactional;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -97,44 +92,6 @@ public class VoluntarioService {
 		voluntario.setStatus(1);
 		repository.save(voluntario);
 	}
-	
-	/*
-	 * ======================================================================================
-	 * =================================== MIGRAÇÃO =========================================
-	 * ======================================================================================
-	 */
-	
-	@Transactional
-	public void registerVoluntarioMigracao(Voluntario voluntario) {	
-		
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		Validator validator = factory.getValidator();
-	
-		if(validator.validate(voluntario).size() == 0) {
-			
-			voluntario.setSenha(bCryptPasswordEncoder.encode(voluntario.getSenha()));
-			
-			if(voluntario.isPromovido())
-				voluntario.addRole(roleService.getRole("ROLE_VOLUNTARIO"));
-			else
-				voluntario.addRole(roleService.getRole("ROLE_NOVATO"));
-			
-			repository.save(voluntario);
-		
-		}
-		
-	}
-	
-	
-	public boolean estaVazia() {
-		return (repository.count() == 0l);
-	}
-	
-	/*
-	 * ======================================================================================
-	 * ================================ FIM MIGRAÇÃO ========================================
-	 * ======================================================================================
-	 */
 	
 	public void admin(Voluntario voluntario) {
 		

@@ -1,7 +1,5 @@
 package com.lacosdaalegria.intralacos.model;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -154,77 +152,6 @@ public class Voluntario {
 		email = voluntario.getEmail();
 		cpf = voluntario.getCpf();
 	}
-	
-	/*
-	 * ======================================================================================
-	 * =================================== MIGRAÇÃO =========================================
-	 * ======================================================================================
-	 */
-	
-	public Voluntario initVoluntario(ResultSet rs, Iterable<Hospital> hospitais, Iterable<Regiao> regioes, Iterable<Role> roles) throws SQLException {
-		
-		login = rs.getString("login");
-		senha = rs.getString("cpf");
-		email = rs.getString("email");
-		cpf = rs.getString("cpf");
-		nome = rs.getString("nome");
-		nomeDoutor = rs.getString("nome_doutor");
-		nascimento = rs.getString("dt_de_nascimento");
-		ddd = rs.getString("ddd");
-		whatsapp = rs.getString("contato");
-		endereco = rs.getString("endereco");
-		sexo = rs.getString("sexo");
-		como_conheceu = rs.getString("como_conheceu");
-		status = rs.getInt("status");
-		String temp = rs.getString("profile");
-		if(temp != null && !temp.isEmpty())
-			profile = "https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-318693850464/" + temp;
-		String tempNovato = rs.getString("novato");
-		if(Objects.equal(tempNovato, "F"))
-			promovido = true;
-		else
-			promovido = false;
-		regiao = findByName(regioes, rs.getString("regiao_nome"));
-		preferencia = findByTag(hospitais, rs.getString("tag"));
-		dtCriacao = rs.getTimestamp("dt_criacao");
-		observacao  = rs.getString("observacao");
-		aceitaTermo = true;
-
-		return this;
-	}
-
-	
-	public Role findRole(Iterable<Role> roles, String nome) {
-		for(Role role : roles) {
-			if(role.getRole().equals(nome))
-				return role;
-		}
-		return null;
-	}
-	
-	public Hospital findByTag(Iterable<Hospital> hospitais, String tag) {
-		
-		for(Hospital hospital : hospitais) {
-			if(hospital.getTag().equals(tag))
-				return hospital;
-		}
-		
-		return null;
-	}
-	
-	public Regiao findByName(Iterable<Regiao> regioes, String nome) {
-		for(Regiao regiao : regioes) {
-			if(regiao.getNome().equals(nome))
-				return regiao;
-		}
-		return null;
-	}
-	
-	/*
-	 * ======================================================================================
-	 * ===================================== Roles ==========================================
-	 * ======================================================================================
-	 */
 	
 	public void addRole(Role role) {
 		if(roles == null)
