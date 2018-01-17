@@ -63,6 +63,8 @@ public class UserInfo {
 	}
 
 	public Voluntario getVoluntario() {
+		if(voluntario == null)
+			setVoluntario();
 		return voluntario;
 	}
 

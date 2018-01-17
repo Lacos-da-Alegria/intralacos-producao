@@ -1,12 +1,11 @@
-package com.lacosdaalegria.intralacos.model;
+package com.lacosdaalegria.intralacos.model.atividade;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.lacosdaalegria.intralacos.model.atividade.Hospital;
-import com.lacosdaalegria.intralacos.model.atividade.Registro;
+import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 
 public class Fila {
@@ -140,15 +139,15 @@ public class Fila {
 	}
 	
 	private boolean hospitalLotado() {
-		return hospital.getLimiteVoluntario().intValue() < getLista().size();
+		return hospital.getLimiteVoluntario().intValue() <= getLista().size();
 	}
 	
 	private boolean acaoLotada() {
-		return agenda.getVoluntarios().intValue() < getLista().size();
+		return agenda.getVoluntarios().intValue() <= getLista().size();
 	}
 	
 	private boolean equipeLotada() {
-		return hospital.getLimiteApoio().intValue() < getEquipe().size();
+		return hospital.getLimiteApoio().intValue() <= getEquipe().size();
 	}
 	
 	public Integer getPosicao(Voluntario voluntario) {

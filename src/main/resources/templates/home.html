@@ -61,7 +61,7 @@
 						</a>
 					<div class="centered">
 						<h6>
-							<span th:id="'iconA-' + ${hospital.id}"><i class="fa li_paperplane"></i></span>
+							<span th:id="${rodada ? '' : 'iconA-' + hospital.id}"><i class="fa li_paperplane"></i></span>
 						<br><span th:text="${hospital.nome}"></span></h6>
 					</div>
 				</div><!--/content-panel -->
@@ -92,7 +92,7 @@
 							</a>
 						<div class="centered">
 							<h6>
-								<span th:id="'iconA-' + ${acao.id}"><i class="fa li_paperplane"></i></span>
+								<span th:id="${rodada ? '' : 'iconA-' + acao.id}"><i class="fa li_paperplane"></i></span>
 							<br><span th:text="${acao.instituicao.nome}"></span></h6>
 						</div>
 					</div><!--/content-panel -->
@@ -276,14 +276,12 @@
 		          
                   </div><!-- /col-lg-9 END SECTION MIDDLE -->
                   
-                  <input type="hidden" id='rodadaRandomica' th:value="${rodada}">
-                  
       <!-- **********************************************************************************************************************************************************
       RIGHT SIDEBAR CONTENT
       *********************************************************************************************************************************************************** -->                  
                   
                   <div class="col-lg-3 ds">
-                  <span sec:authorize="hasAnyRole('COORD', 'DHOSP', 'DEXEC')">
+                  <span sec:authorize="hasAnyRole('COORD', 'DHOSP', 'SUSTENTA')">
                   	<h3>Código de Promoção de Novato</h3>               
                       <div class="desc box2 centered">
 						<button type="button" class="btn btn-round btn-primary"><span class="fa fa-code"></span>&nbsp&nbspCódigo da Semana - <b><font size="3" th:text="${codigo}"></font></b></button>
@@ -682,17 +680,14 @@
 		}
 		
 		function initializaInfoPosicao(atividade){
-			if(!$('#rodadaRandomica').val()){
-				if(verificaRegistro(atividade)){
-					$("#iconA-"+atividade.id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
-				} else {
-					if(atividade.hasOwnProperty('tag'))
-						$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoHospital('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
-					else
-						$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoAcao('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
-				}
+			if(verificaRegistro(atividade)){
+				$("#iconA-"+atividade.id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
+			} else {
+				if(atividade.hasOwnProperty('tag'))
+					$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoHospital('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
+				else
+					$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoAcao('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
 			}
-			
 		}
 		
 		function verificaRegistro(atividade){
@@ -720,11 +715,12 @@
 			});
 			
 			request.done(function(posicao){
-				console.log(posicao);
-				if(posicao < 0){
-					$("#iconA-"+id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
-				} else {
-					$("#iconA-"+id).html('<i class="fa fa-hand-o-right"  style="color: #5373e7;font-size: 1.2em;">&nbsp&nbsp'+posicao+1+'º na Fila de Espera</i>');
+				if(posicao !=  null){
+					if(posicao < 0){
+						$("#iconA-"+id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
+					} else {
+						$("#iconA-"+id).html('<i class="fa fa-hand-o-right"  style="color: #5373e7;font-size: 1.2em;">&nbsp&nbsp'+posicao+1+'º na Fila de Espera</i>');
+					}
 				}
 			});
 			

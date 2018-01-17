@@ -7,11 +7,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lacosdaalegria.intralacos.model.Fila;
 import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.MaisLacos;
 import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.atividade.Apoio;
+import com.lacosdaalegria.intralacos.model.atividade.Fila;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.atividade.Registro;
 import com.lacosdaalegria.intralacos.model.atividade.Semana;
@@ -92,15 +92,15 @@ public class AtividadeService {
 	}
 	
 	public Integer getPosicao(Hospital hospital, Voluntario voluntario) {
-		if(Global.rodadaRandomica()) {
+		if(!Global.rodadaRandomica()) {
 			Fila fila = new Fila(hospital, registro.findFilaHospital(hospital, hospital.getSemana()));
 			return fila.getPosicao(voluntario);
 		} else 
-			return null;
+			return 0;
 	}
 	
 	public Integer getPosicao(Agenda agenda, Voluntario voluntario) {
-		if(Global.rodadaRandomica()) {
+		if(!Global.rodadaRandomica()) {
 			Fila fila = new Fila(agenda, registro.findFilaAcao(agenda, agenda.getSemana()));
 			return fila.getPosicao(voluntario);	
 		} else 

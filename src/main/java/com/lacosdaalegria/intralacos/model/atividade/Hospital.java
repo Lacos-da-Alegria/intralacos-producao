@@ -54,6 +54,27 @@ public class Hospital {
 		return this.semana.getId().equals(semana.getId());
 	}
 	
+	public void updateCoordenador(Hospital hospital) {
+		updateDefault(hospital);
+	}
+	
+	public void updateDiretor(Hospital hospital) {
+		nome = hospital.getNome();
+		dia = hospital.getDia();
+		periodo = hospital.getPeriodo();
+		updateDefault(hospital);
+	}
+	
+	private void updateDefault(Hospital hospital) {
+		endereco = hospital.getEndereco();
+		localPreparo = hospital.getLocalPreparo();
+		horario = hospital.getHorario();
+		limiteVoluntario = hospital.getLimiteVoluntario();
+		limiteNovato = hospital.getLimiteNovato();
+		limiteApoio = hospital.getLimiteApoio();
+		descricao = hospital.getDescricao();
+	}
+	
 	/*
 	 * ======================================================================================
 	 * ============================== Getters and Setters ===================================

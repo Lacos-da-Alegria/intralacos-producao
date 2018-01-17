@@ -202,6 +202,9 @@
 
     <div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
     
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=3xxlvr4x4mfh2h5wsc9vh3bdq5b2st3sxgv8iowhcxy83kbv"></script>
+ 	<script>tinymce.init({ selector:'textarea', menubar: false, height: 250 });</script>
+    
    <script>
   		$(document).ready(function() {
   			$("#dia").val($('#temp_dia').val());

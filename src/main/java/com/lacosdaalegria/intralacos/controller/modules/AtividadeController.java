@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.lacosdaalegria.intralacos.model.Fila;
 import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.atividade.Apoio;
+import com.lacosdaalegria.intralacos.model.atividade.Fila;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.atividade.Registro;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
@@ -202,7 +202,7 @@ public class AtividadeController {
 	@PostMapping("/coordenador/atualizar/hospital")
 	public String updateHospitalPost(Hospital hospital, RedirectAttributes redirectAttrs) {
 		redirectAttrs.addFlashAttribute("successMessage", "Informações do Hospital foram atualizadas com sucesso!");
-		this.hospital.updateHospital(hospital);
+		this.hospital.updateHospitalCoordenador(hospital);
 		return "redirect:/coordenador/home";
 	}
 	

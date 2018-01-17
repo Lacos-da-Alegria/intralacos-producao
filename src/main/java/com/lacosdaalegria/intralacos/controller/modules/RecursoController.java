@@ -175,7 +175,7 @@ public class RecursoController {
 	@PostMapping("/hospitais/atualizar/hospital")
 	public String updateHospitalPost(Hospital hospital, Model model) {
 		model.addAttribute("successMessage", "Informações do Hospital atualizadas com sucesso!");
-		this.hospital.updateHospital(hospital);
+		this.hospital.updateHospitalDiretoria(hospital);
 		return "admin/updateHospital";
 	}
 	
