@@ -16,6 +16,7 @@ import com.lacosdaalegria.intralacos.service.HospitalService;
 import com.lacosdaalegria.intralacos.service.VoluntarioService;
 import com.lacosdaalegria.intralacos.service.modules.AtividadeService;
 import com.lacosdaalegria.intralacos.service.modules.RecursoService;
+import com.lacosdaalegria.intralacos.session.InfoDiretoria;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
@@ -31,6 +32,8 @@ public class RecursoController {
 	private VoluntarioService vService;
 	@Autowired 
 	private AtividadeService atividade;
+	@Autowired
+	private InfoDiretoria infoDiretoria;
 	
 	@GetMapping("/admin/diretoria")
 	public String diretoriaPage(Model model) {
@@ -76,8 +79,13 @@ public class RecursoController {
 	
 	@PostMapping("/lider/atualizar/equipe")
 	public String updateEquipe(Equipe equipe, String email) {
-		service.updateEquipe(equipe, email);
+		updateEquipeDiretor(service.updateEquipe(equipe, email));
 		return "redirect:/demanda/page";
+	}
+	
+	private void updateEquipeDiretor(Equipe equipe) {
+		if(info.getVoluntario().hasRole("DIRETOR"))
+			infoDiretoria.setEquipe(equipe);
 	}
 	
 	@GetMapping("/hospitais/recurso/humano")

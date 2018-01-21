@@ -32,16 +32,16 @@ public class DemandaService {
 		return equipe.findByMembrosOrLider(voluntario, voluntario);
 	}
 	
-	public void addMembro(Equipe equipe, String email) {
+	public Equipe addMembro(Equipe equipe, String email) {
 		Voluntario membro = vService.addRole(email, "ROLE_DEMANDA");
 		equipe.addMembro(membro);
-		this.equipe.save(equipe);
+		return this.equipe.save(equipe);
 	}
 	
-	public void removeMembro(Equipe equipe, Voluntario membro) {
+	public Equipe removeMembro(Equipe equipe, Voluntario membro) {
 		vService.removeRole(membro, "ROLE_DEMANDA");
 		equipe.removeMembro(membro);
-		this.equipe.save(equipe);
+		return this.equipe.save(equipe);
 	}
 	
 	public void createDemanda(Demanda demanda, Voluntario criador) {

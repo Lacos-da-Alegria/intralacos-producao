@@ -1,5 +1,6 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -67,26 +68,41 @@ public class RecursoService {
 			if(lider != null) {
 				vService.addRole(lider, "ROLE_LIDER");
 				equipe.setLider(lider);
+				equipe.addMembro(lider);
 			}
 		}
 		this.equipe.save(equipe);
 	}
 	
-	public void updateEquipe(Equipe equipe, String email) {
+	public Equipe updateEquipe(Equipe equipe, String email) {
 		Voluntario lider = null;
 		Equipe equipe_ = this.equipe.findById(equipe.getId()).get();
-		
+
 		if(email != null) {
 			lider = vService.findByEmail(email);
-			if(lider != null && !lider.getId().equals(equipe_.getLider().getId())) {
-				vService.removeRole(equipe.getLider(), "ROLE_LIDER");
+			
+			if(updateLider(lider, equipe_)) {
+				if(equipe.getLider()!=null) {
+					vService.removeRole(equipe.getLider(), "ROLE_LIDER");
+					equipe_.removeMembro(equipe.getLider());
+				}
 				vService.addRole(lider, "ROLE_LIDER");
-				equipe.setLider(lider);
+				equipe_.setLider(lider);
+				equipe_.addMembro(lider);
 			}
 		}
 		
 		equipe_.updateEquipe(equipe);
 		this.equipe.save(equipe_);
+		Hibernate.initialize(equipe_.getMembros());
+		
+		return equipe_;
+	}
+	
+	private boolean updateLider(Voluntario lider, Equipe equipe) {
+		return lider != null && 
+					(equipe.getLider() == null || 
+						!lider.getId().equals(equipe.getLider().getId()));
 	}
 	
 	public void createCoordenador(Hospital hospital, String email) {

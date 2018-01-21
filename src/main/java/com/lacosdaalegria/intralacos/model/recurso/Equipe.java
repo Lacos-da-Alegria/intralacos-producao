@@ -33,8 +33,6 @@ public class Equipe {
 	private String descricao;
 	
 	public void updateEquipe(Equipe equipe) {
-		if(equipe.lider != null)
-			lider = equipe.lider;
 		numeroMembros = equipe.numeroMembros;
 		objetivo = equipe.objetivo;
 		descricao = equipe.descricao;

@@ -32,22 +32,24 @@
 				<button sec:authorize="hasRole('LIDER')" type="button" class="btn-round btn-info" data-toggle="modal" href="#ModalInfoLider"><i class="fa fa-info-circle" style="font-size:20px;" aria-hidden="true"></i></button>
           		<button sec:authorize="hasRole('DEMANDA')" type="button" class="btn-round btn-info" data-toggle="modal" href="#ModalInfo"><i class="fa fa-info-circle" style="font-size:20px;" aria-hidden="true"></i></button>
 			</h3>
-			<div class="col-sm-12" sec:authorize="hasRole('DIRETOR')">	
              	<div class="col-sm-6 col-sm-6">
 	             	Legenda:
-				 	<a style="font-size:13px;" class="btn btn-info btn-xs" data-placement="right" data-toggle="tooltip" title="Capturar Demanda"><i class="fa fa-lock"></i></a>
-				 	<a style="font-size:13px;" class="btn btn-primary btn-xs" data-placement="right" data-toggle="tooltip" title="Adicionar Nota"><i class="fa fa-plus"></i></a>
-				 	<a style="font-size:13px;" class="btn btn-success btn-xs" data-placement="right" data-toggle="tooltip" title="Concluir Demanda"><i class="fa fa-check"></i></a>
-				 	<a style="font-size:13px;" class="btn btn-info btn-xs" data-placement="right" data-toggle="tooltip" title="Adicionar Pendência"><i class="fa fa-flag"></i></a>
-				 	<a style="font-size:13px;" class="btn btn-info btn-xs" data-placement="right" data-toggle="tooltip" title="Resolve Pendência"><i class="fa fa-thumbs-o-up"></i></a>
-				 	<a style="font-size:13px;" class="btn btn-warning btn-xs" data-placement="right" data-toggle="tooltip" title="Descapturar Demanda"><i class="fa fa-unlock-alt"></i></a>
+				 	<a style="font-size:13px;" class="btn btn-info btn-xs" onclick="legandaButton('Capturar Demanda')"><i class="fa fa-lock"></i></a>
+				 	<a style="font-size:13px;" class="btn btn-primary btn-xs" onclick="legandaButton('Adicionar Nota')"><i class="fa fa-plus"></i></a>
+				 	<a style="font-size:13px;" class="btn btn-success btn-xs" onclick="legandaButton('Concluir Demanda')"><i class="fa fa-check"></i></a>
+				 	<a style="font-size:13px;" class="btn btn-info btn-xs" onclick="legandaButton('Adicionar Pendência')"><i class="fa fa-flag"></i></a>
+				 	<a style="font-size:13px;" class="btn btn-info btn-xs" onclick="legandaButton('Resolve Pendência')"><i class="fa fa-thumbs-o-up"></i></a>
+				 	<a style="font-size:13px;" class="btn btn-warning btn-xs" onclick="legandaButton('Descapturar Demanda')"><i class="fa fa-unlock-alt"></i></a>
 				 	<div sec:authorize="hasRole('LIDER')" th:remove="tag">
-				 	<a style="font-size:13px;" class="btn btn-info btn-xs" data-placement="right" data-toggle="tooltip" title="Reabre Demanda"><i class="fa fa-undo"></i></a>
-				 	<a style="font-size:13px;" class="btn btn-danger btn-xs" data-placement="right" data-toggle="tooltip" title="Arquivar Demanda"><i class="fa fa-archive"></i></a>
-				 	<a style="font-size:13px;" class="btn btn-primary btn-xs" data-placement="right" data-toggle="tooltip" title="Designar Demanda"><i class="fa fa-share-square"></i></a>
-				 	</div>
+				 	<a style="font-size:13px;" class="btn btn-info btn-xs" onclick="legandaButton('Reabre Demanda')"><i class="fa fa-undo"></i></a>
+				 	<a style="font-size:13px;" class="btn btn-danger btn-xs" onclick="legandaButton('Arquivar Demanda')"><i class="fa fa-archive"></i></a>
+				 	<a style="font-size:13px;" class="btn btn-primary btn-xs" onclick="legandaButton('Designar Demanda')"><i class="fa fa-share-square"></i></a>
+				 	</div>	
+				 	<br>
+             		<span id="legenda-btn" style="margin-left:60px; color:blue"></span>				
              	</div>
-             	<div class="col-sm-6 col-sm-6 demanda-margem">
+ 			<div class="col-sm-6" sec:authorize="hasRole('DIRETOR')">	
+             	<div class="col-sm-12 col-sm-12 demanda-margem">
 					<label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Equipes	</b></label>
              	 	<select class="form-control select2" id="equipes" name="equipe"  style="width:100%;">
              	 		<option value="">Selecione um Equipe</option>
@@ -55,6 +57,7 @@
                 	</select>
              	</div>
 		    </div>
+
 			<br>
 			 	
               <div class="row mt mb">
@@ -222,7 +225,7 @@
 		        <!-- modal -->
 		        
 		        <!-- Modals Para lider -->
-		        <div sec:authorize="hasRole('LIDER')" th:remove="tag">
+		        <div sec:authorize="hasAnyRole('LIDER', 'DIRETOR')" th:remove="tag">
 		        	
 		        	<!-- Modal -->
 					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="modalAddMembro" class="modal fade">
@@ -284,13 +287,12 @@
 		                          <div style="height:465px;line-height:3em;overflow:auto;padding:5px;">
 								
 							<div class="custom-check goleft">
-				             <table id="" class="table table-hover custom-check">
+				             <table class="table table-hover custom-check">
 				              <tbody>
-				              
-				              <!-- Fazer for each para a lista de s os apoios da atividade-->
-								<tr th:each="membro : ${equipe.membros}">	
+								 <tr th:each="membro : ${equipe.membros}">	
 									<td th:text="${membro.nome}"></td>
 			      					<td th:text="${membro.whatsapp}"></td>
+			      					<td th:text="${membro.email}" class="hidden-phone"></td>
 			      					<td>				                      
 			                     	   <button data-toggle="modal" href="#ModalRetirar" th:onclick="'modalRetirar(' + ${membro.id} +');'" class="btn btn-danger btn-xs" style="margin-left:10px;"><i class="fa fa-times "></i></button>
 			      					</td>				      					
@@ -340,7 +342,7 @@
 	                          <div class="form-group">
 	                              <label class="col-sm-2 col-sm-2 control-label">Lider</label>
 	                              <div class="col-sm-10">
-	                                  <input type="text" class="form-control" name="email" th:value="${equipe.lider.email}" required>
+	                                  <input type="text" class="form-control" name="email" th:value="${equipe.lider == null ? '' : equipe.lider.email}" required>
 	                              </div>
 	                          </div>
 	                          
@@ -466,13 +468,13 @@
 		                  <div class="modal-content">
 		                      <div class="modal-header">
 		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		                          <h4 class="modal-title centered">${equipe.nome}</h4>
+		                          <h4 class="modal-title centered" th:text="${equipe.nome}"></h4>
 		                      </div>
 		                      <div class="modal-body">
 		                        <p><b style="font-size:15px;">Objetivo:</b><span th:text="${equipe.objetivo}"></span></p>
 		                          <p><b style="font-size:15px;">Nº de Membros:</b><span th:text="${equipe.numeroMembros}"></span></p>
-		                          <p><b style="font-size:15px;">Responsável:</b><span th:text="${equipe.lider.nome}"></span></p>
-		                          <p><b style="font-size:15px;">Contato:</b><span th:text="${equipe.lider.whatsapp}"></span></p>
+		                          <p><b style="font-size:15px;">Responsável:</b><span th:if="${equipe.lider != null}" th:text="${equipe.lider.nome}"></span></p>
+		                          <p><b style="font-size:15px;">Contato:</b><span th:if="${equipe.lider != null}" th:text="${equipe.lider.whatsapp}"></span></p>
 		                          <p><b style="font-size:15px;">Equipe da:</b> <span th:text="${equipe.diretoria.nome}"></span></p>
 		                          <p><b style="font-size:15px;">Descrição:</b><span th:utext="${equipe.descricao}"></span></p> 		                          
 		                      </div>
@@ -767,9 +769,10 @@
 		  window.location.href = "/diretor/change/equipe?equipe="+this.value;
 	});
     
-      $(function () {
-    	  $('[data-toggle="tooltip"]').tooltip()
-    	})
+	function legandaButton(legenda){
+		$('#legenda-btn').html('<i class="fa fa-hand-o-right" aria-hidden="true"></i> ' + legenda);   		
+     }
+    	
 
 	</script>
 
