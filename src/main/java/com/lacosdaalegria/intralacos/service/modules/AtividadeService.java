@@ -337,19 +337,19 @@ public class AtividadeService {
 	public void atividadesMatutinas() {
 		Semana semana = getSemana();
 		hospitaisAgora(this.hospital.findByDiaAndPeriodo(getDia(), 1), semana);
-		acoesAgora(ongsService.getAcoes(), semana, 1);
+		acoesAgora(ongsService.getAcoesAtivas(), semana, 1);
 	}
 	
 	public void atividadesVespertinas() {	
 		Semana semana = getSemana();
 		hospitaisAgora(this.hospital.findByDiaAndPeriodo(getDia(), 2), semana);
-		acoesAgora(ongsService.getAcoes(), semana, 2);
+		acoesAgora(ongsService.getAcoesAtivas(), semana, 2);
 	}
 	
 	public void atividadesNoturnas() {
 		Semana semana = getSemana();
 		hospitaisAgora(this.hospital.findByDiaAndPeriodo(getDia(), 3), semana);
-		acoesAgora(ongsService.getAcoes(), semana, 3);
+		acoesAgora(ongsService.getAcoesAtivas(), semana, 3);
 	}
 	
 	public void initMaisLacos(MaisLacos maisLacos, Voluntario voluntario) {

@@ -41,7 +41,6 @@ public class InfoController {
 	
 	@GetMapping("/voluntario/calendario/acoes")
 	public String infoCalendarioAcoes() {
-		System.out.println("Batata");
 		return "info/calendario";
 	}
 	

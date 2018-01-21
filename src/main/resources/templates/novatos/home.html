@@ -80,16 +80,16 @@
                   		<div class="col-md-2 col-sm-2 col-md-offset-1 box0">
                   			<div class="box1">
 					  			<span class="li_heart"></span>
-					  			<h3 th:text="${@userInfo.getMaisLacos().getVoluntarios()}"></h3>
+					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getVoluntarios(),0,'POINT')}"></h3>
                   			</div>
-				  			<p>Hoje o Laços da Alegria conta com <span th:text="${@userInfo.getMaisLacos().getVoluntarios()}"></span> lindos voluntários!</p>
+					  			<p>Hoje o Laços da Alegria conta com <span th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getVoluntarios(),0,'POINT')}"></span> lindos voluntários!</p>
                   		</div>
                   		<div class="col-md-2 col-sm-2 box0">
                   			<div class="box1">
 					  			<span class="li_star"></span>
-					  			<h3 th:text="${@userInfo.getMaisLacos().getNovatos()}"></h3>
+					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getNovatos(),0,'POINT')}"></h3>
                   			</div>
-					  			<p>Temos <span th:text="${@userInfo.getMaisLacos().getNovatos()}"></span> novatinhos esperando para entrar para família</p>
+					  			<p>Nos temos <span th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getNovatos(),0,'POINT')}"></span> novatinhos esperando para entrar para nossa família!</p>
                   		</div>
                   		<div class="col-md-2 col-sm-2 box0">
                   			<div class="box1">
@@ -108,12 +108,13 @@
                   		<div class="col-md-2 col-sm-2 box0">
                   			<div class="box1">
 					  			<span class="li_lab"></span>
-					  			<h3>0</h3>
+					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getHoras(),0,'POINT')}"></h3>
                   			</div>
-					  			<p>Quando você virar doutor vai poder indicar seus amigos.</p>
+					  			<p>Só esse ano já são mais de <span th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getHoras(),0,'POINT')}"></span> horas dos nossos voluntários dedicadas a espalhar amor por todas as nossas atividades.</p>
                   		</div>
                   	
-                  	</div><!-- /row mt -->	
+                  	</div>
+                  <!-- /row mt -->	
                   	
                   	
                   <!-- Modal -->

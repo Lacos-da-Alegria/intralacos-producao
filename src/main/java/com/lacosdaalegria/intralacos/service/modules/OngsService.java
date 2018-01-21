@@ -99,8 +99,10 @@ public class OngsService {
 	}
 	
 	public void cancelarAcao(Agenda agenda) {
-		agenda.setStatus(2);
-		this.agenda.save(agenda);		
+		if(agenda.isInscricao()) {
+			agenda.setStatus(2);
+			this.agenda.save(agenda);
+		}
 	}
 	
 	public void agendaAcao(Agenda agenda, Voluntario criador) {
@@ -109,7 +111,7 @@ public class OngsService {
 	}
 	
 	public Iterable<Agenda> getAgenda(Polo polo){
-		return agenda.findByPolo(polo);
+		return agenda.findByPolo(polo, addMonth(-1));
 	}
 	
 	public Iterable<Agenda> getChamadas(Polo polo){
@@ -117,11 +119,11 @@ public class OngsService {
 	} 
 	
 	public Iterable<Agenda> calendarioAcoes(){
-		return agenda.findByHorarioBetweenAndStatus(new Date(), sevenDays(), 1);
+		return agenda.findByHorarioBetweenAndStatus(addMonth(-1), addMonth(3), 1);
 	}
 	
-	public Iterable<Agenda> getAcoes(){
-		return agenda.findByHorarioBetweenAndStatus(addMonth(-1), addMonth(2), 1);
+	public Iterable<Agenda> getAcoesAtivas(){
+		return agenda.findByHorarioBetweenAndStatus(addDays(-1), addDays(7), 1);
 	}
 	
 	public void saveAllAgendas(Iterable<Agenda> agendas) {
@@ -138,10 +140,10 @@ public class OngsService {
 		this.instituicao.save(instituicao);
 	}
 	
-	private Date sevenDays() {
+	private Date addDays(Integer day) {
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(new Date()); 
-		c.add(Calendar.DATE, 7);
+		c.add(Calendar.DATE, day);
 		return c.getTime();
 	}
 	

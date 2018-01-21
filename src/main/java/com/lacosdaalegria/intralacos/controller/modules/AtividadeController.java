@@ -44,7 +44,7 @@ public class AtividadeController {
 	@GetMapping("/voluntario/lista/atividade")
 	public String listaAtividade(Model model) {
 		model.addAttribute("hospitais", hospital.getAllActive());
-		model.addAttribute("acoes", ongs.getAcoes());
+		model.addAttribute("acoes", ongs.getAcoesAtivas());
 		model.addAttribute("rodada", Global.rodadaRandomica());
 		model.addAttribute("fila", new Fila());
 		return "atividade/lista";
@@ -58,7 +58,7 @@ public class AtividadeController {
 		
 		model.addAttribute("rodada", Global.rodadaRandomica());
 		model.addAttribute("hospitais", this.hospital.getAllActive());
-		model.addAttribute("acoes", ongs.getAcoes());
+		model.addAttribute("acoes", ongs.getAcoesAtivas());
 		model.addAttribute("fila", service.getFilaAtividade(hospital));
 		model.addAttribute("hospital_", hospital);		
 
@@ -73,7 +73,7 @@ public class AtividadeController {
 		
 		model.addAttribute("rodada", Global.rodadaRandomica());
 		model.addAttribute("hospitais", hospital.getAllActive());
-		model.addAttribute("acoes", ongs.getAcoes());
+		model.addAttribute("acoes", ongs.getAcoesAtivas());
 		model.addAttribute("fila", service.getFilaAtividade(agenda));
 		model.addAttribute("agenda", agenda);
 		
@@ -124,7 +124,7 @@ public class AtividadeController {
 	
 	@GetMapping("/voluntario/acoes")
 	public @ResponseBody Iterable<Agenda> acoes() {
-		return ongs.getAcoes();
+		return ongs.getAcoesAtivas();
 	}
 	
 	@GetMapping("/voluntario/registros")

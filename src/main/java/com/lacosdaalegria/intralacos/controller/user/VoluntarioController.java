@@ -92,7 +92,7 @@ public class VoluntarioController {
 	public String voluntarioPage(Model model) {
 		model.addAttribute("codigo", Global.getCodigo());
 		model.addAttribute("hospitais", hospital.getAllActive());
-		model.addAttribute("acoes", ongs.getAcoes());
+		model.addAttribute("acoes", ongs.getAcoesAtivas());
 		model.addAttribute("rodada", Global.rodadaRandomica());
 		return "home";
 	}
