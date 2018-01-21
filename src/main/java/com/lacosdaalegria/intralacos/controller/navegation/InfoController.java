@@ -39,4 +39,9 @@ public class InfoController {
 		return "info/aniversariantes";
 	}
 	
+	@GetMapping("/voluntario/calendario/acoes")
+	public String infoCalendarioAcoes() {
+		return "info/calendario";
+	}
+	
 }

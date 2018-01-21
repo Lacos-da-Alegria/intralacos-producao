@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+          <div class="form-panel">
+          	<div class="col-sm-12">
+          	<h3 class="col-sm-8 col-sm-9"><i class="fa fa-calendar" aria-hidden="true"></i> Chamadas do <span th:text="${polo.nome}"></span>
+          	</h3>
+          	<div class="pull-right col-sm-4 col-sm-3" style="margin:5px; margin-top:16px;">
+           	 	<select class="form-control select2" id="agenda" name="agenda"  style="width:100%;">
+           	 		<option value="">Selecione uma ação</option>
+				<option th:each="acao : ${agendas}" th:value="${acao.id}" th:text="${acao.nome}" th:selected="${agenda != null && agenda.id == acao.id}"></option>
+              	</select>
+           	</div>
+          	<input id="polo_id" th:value="${polo.id}" type="hidden">
+          	</div>
+			<div class="row" style=" min-height: 440px;margin-top:80px;">
+				<div class="col-sm-12 ">
+					<div th:if="${successMessage != null}">
+					    <div class="alert alert-success" th:utext="${successMessage}"></div>
+					</div>
+					<div th:if="${erroMessage != null}">
+					    <div class="alert alert-danger" th:utext="${erroMessage}"></div>
+					</div>
+				<table  class="table table-hover custom-check">
+	              <tbody th:if="${fila != null}">
+	                <tr th:each="registro : ${fila.getChamada()}">
+	           			<td>
+						    <div class="buttom-chamada" th:id="'registro-'+${registro.id}" th:style="${registro.corChamada()}">
+						    	<i th:class="'fa '+${registro.iconeChamada()}"></i>
+						    <div>
+	           			</td>
+	                    <td> <a class="buttom-chamada" th:text="${registro.voluntario.nome}"></a></td>
+						<td><a class="buttom-chamada" th:text="${registro.voluntario.whatsapp}"></a></td>
+	           			<td>
+	           			<label><div class="btn btn-success btn-xs" th:onclick="'voluntarioFoi('+${registro.id}+');'"><i class="fa fa-check"></i></div></label>
+	                     </td> 
+						<td>				 
+						<label><div class="btn btn-danger btn-xs" th:onclick="'voluntarioNaoFoi('+${registro.id}+');'"><i class="fa fa-times"></i></div></label>
+						</td>
+	                </tr>
+	              </tbody>
+	        	</table> 
+	        	</div>
+	        	 
+          	</div>
+          	<div class="form-group" th:if="${agenda.id!=null}">
+	            <label class="col-md-2 control-label"></label>
+	         	 <div class="modal-footer">
+	             	<a class="btn btn-theme" th:href="${'/polo/finalizar/chamada?agenda='+agenda.id}">Finalizar Chamada</a>
+	             </div>
+	          </div>
+           </div>
+              
+              
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		          
+		          
+		          
+		</section>
+      </section><!-- /MAIN CONTENT -->
+
+      <!--main content end-->
+      <footer th:replace="fragments/footer :: content"></footer>
+      
+  </section>
+
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+	
+	<script>
+		function voluntarioFoi(id){
+	    	console.log('Foi ' + id );
+	    	var registro = $('#registro-'+id);
+	   		registro.attr('style','color: #14c10e');
+	   		registro.html('<i class="fa fa-thumbs-o-up"></i>');
+	   		requestPresente(id);
+	    }
+	    
+			function voluntarioNaoFoi(id){
+				console.log('Não Foi ' + id );
+				var registro = $('#registro-'+id);
+	   		registro.attr('style','color: #f22e2e');
+	   		registro.html('<i class="fa fa-thumbs-o-down"></i>');
+	   		requestAusente(id);
+	    }
+		function requestPresente(id){
+				
+			var request = $.ajax({
+				url: "/polo/chamada/presente?registro="+id,
+				method: "GET",
+				dataType: "json"
+			});
+			
+			request.done(function(response){
+				console.log(response);
+			});
+			
+			request.fail(function(jqXHR, textStatus) {
+				redirectLogin(jqXHR);
+			});
+				
+			}
+			
+		function requestAusente(id){
+			
+			var request = $.ajax({
+				url: "/polo/chamada/ausente?registro="+id,
+				method: "GET",
+				dataType: "json"
+			});
+			
+			request.done(function(response){
+				console.log(response);
+			});
+			
+			request.fail(function(jqXHR, textStatus) {
+				redirectLogin(jqXHR);
+			});
+				
+			}
+		
+		$('#agenda').on('change', function() {
+			 console.log( this.value );
+			 window.location.href = "/polo/chamadas?agenda="+this.value;
+		});
+	</script>
+
+  </body>
+</html>

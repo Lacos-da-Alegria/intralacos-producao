@@ -6,9 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table
@@ -28,7 +28,7 @@ public class Categoria {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getNome() {
 		return nome;
 	}

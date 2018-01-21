@@ -123,8 +123,8 @@ public class Registro {
 			tipo = 1;
 	}
 	
-	public void initPosicao() {
-		if(rodadaRandomica())
+	public void initPosicao(boolean faltante) {
+		if(rodadaRandomica() && !faltante)
 			posicao = new Random().nextInt((10000 - 1) + 1) + 1;
 		else 
 			posicao = 10001;

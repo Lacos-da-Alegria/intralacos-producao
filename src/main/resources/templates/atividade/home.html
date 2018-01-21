@@ -33,11 +33,11 @@
                   <div class="col-lg-9">
 				  
 				  <h1 class= "centered">Resumo da Atividade <span th:text="${hospital.tag}"></span></h1>
-                  <div th:if="${successMessage != null}">
+                  	<div th:if="${successMessage != null}">
 					    <div class="alert alert-success" th:utext="${successMessage}"></div>
 					</div>
-					<div th:if="${errorMessage != null}">
-					    <div class="alert alert-danger" th:utext="${errorMessage}"></div>
+					<div th:if="${erroMessage != null}">
+					    <div class="alert alert-danger" th:utext="${erroMessage}"></div>
 					</div>
                     <div class="row mt">
                       <div class="col-lg-4 col-md-4 col-sm-4 mb">
@@ -525,15 +525,11 @@
 		                 <div class="modal-body">
 		                 
 		                <input type="hidden" name="id" required th:field="*{id}">
-			         	<input type="hidden" name="inscricao" required th:field="*{inscricao}">
-			         	<input type="hidden" name="chamada" required th:field="*{chamada}">
-			         	<input type="hidden" name="tag" required th:field="*{tag}">
-			         	<input type="hidden" name="status" required th:field="*{status}">
 		                 
 		                 <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Nome da Atividade</label>
                               <div class="col-sm-10">
-                                  <input type="text" class="form-control" name="nome" th:field="*{nome}" required>
+                                  <input type="text" class="form-control" name="nome" th:field="*{nome}" disabled>
                               </div>
                           </div>
                            <div class="form-group">
@@ -573,29 +569,6 @@
                                   <input class="form-control" type="number" name="limite_novato" min="0" max="8" th:field="*{limiteNovato}" required>
                               </div>
                           </div>  
-                           <div class="form-group">
-                              <label class="col-sm-2 col-sm-2 control-label">Período da Atividade</label>
-                              <div class="col-sm-10">  
-                               	   <select class="form-control" id="dia" name = "dia"  required>
-                                    	<option value="1">Domingo</option>
-                                    	<option value="2">Segunda</option>
-                                    	<option value="3">Terça</option>
-                                    	<option value="4">Quarta</option>
-                                    	<option value="5">Quinta</option>
-                                    	<option value="6">Sexta</option>
-                                    	<option value="7">Sábado</option>
-                                    </select> 
-                            			<br>
-                                    <select class="form-control" id="periodo" name = "periodo"  required>
-                                    	<option value="1">Manhã</option>
-                                    	<option value="2">Tarde</option>
-                                    	<option value="3">Noturno</option>
-                                    </select>
-                              </div>
-                          </div> 
-                          
-                          <input type="hidden" id="temp_dia" name="temp_dia" th:field="*{dia}">
-		                <input type="hidden" id="temp_periodo" name="temp_periodo" th:field="*{periodo}">
                           
 						    <div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Descrição</label>
@@ -853,12 +826,10 @@
  			
  		}
 		
-		$(document).ready(function() {
-  			$("#dia").val($('#temp_dia').val());
-  			$("#periodo").val($('#temp_periodo').val());
-		});
-        
     </script>
+    
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=3xxlvr4x4mfh2h5wsc9vh3bdq5b2st3sxgv8iowhcxy83kbv"></script>
+ 	<script>tinymce.init({ selector:'textarea', menubar: false, height: 250 });</script>
     
     <script type="text/javascript">
     

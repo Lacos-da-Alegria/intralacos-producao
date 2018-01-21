@@ -9,9 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.lacosdaalegria.intralacos.model.Voluntario;
 
@@ -49,7 +49,7 @@ public class Grupo {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getNome() {
 		return nome;
 	}

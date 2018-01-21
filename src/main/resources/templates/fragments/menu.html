@@ -2,6 +2,7 @@
 <head></head>
 <body>
 		<div id="sidebar"  class="nav-collapse " th:fragment="side">
+		
               <!-- sidebar menu start-->
 			<ul class="sidebar-menu" id="nav-accordion">
               
@@ -14,7 +15,7 @@
                           <span th:text="${@userInfo.roleText()}"></span>
                       </a>
                   </li>
-				  
+				  <li hidden><span id="current-page" th:text="${#httpServletRequest.getRequestURI()}"></span></li>
 				  <li class="sub-menu">
                       <a href="/info/usuario">
                           <i class="fa li_user"></i>
@@ -38,7 +39,8 @@
                        <ul class="sub">      
                           <!--  <li><a  href="construcao">Voluntário Nota 10</a></li> -->
                           <li><a class="typeform-share" href="https://ricardo249.typeform.com/to/CHaHvE" data-mode="1" target="_blank">Quiz Laços</a></li>
-	                      <li><a  href="/info/aniversariantes">Aniversariantes de Hoje</a></li>
+	                      <li><a  href="/info/aniversariantes">Aniversariantes do Dia</a></li>
+	                      <li sec:authorize="hasRole('VOLUNTARIO')"><a  href="/voluntario/calendario/acoes" target="blank">Calendário de Ações</a></li>
 	                      <li sec:authorize="hasRole('NOVATO')"><a data-toggle="modal" href="#myModaAtivar">Não Sou Novato</a></li>      
                       </ul>
                   	</li>
@@ -49,7 +51,6 @@
                           <span>Informações Importantes</span>
                       </a>
                        <ul class="sub">
-                       
                        	  <li><a  href="https://drive.google.com/file/d/0BwsuXGjVO_-veGl0blhfR1RVWDQ/view" target="_blank">Diretrizes</a></li>          
                           <li><a  href="/assets/docs/estatuto.pdf" target="blank">Estatuto</a></li>
                           <li><a  href="/info/faq">Perguntas Frequentes</a></li>
@@ -97,6 +98,7 @@
                       <ul class="sub">
                           <li><a  href="/polo/instituicoes">Instituições</a></li>
                           <li><a  href="/polo/calendario">Calendário de Ações</a></li>
+                          <li><a  href="/polo/chamadas">Chamandas</a></li>
                           <span sec:authorize="hasAnyRole('DONGS', 'DEXEC')">
 						  <li><a  href="/ongs/equipes">Equipe Ong's</a></li>
                           <li><a  href="/ongs/tags">Controle de Tags</a></li>

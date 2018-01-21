@@ -31,8 +31,16 @@ public class HospitalService {
 		return voluntario.findTop30ByPreferenciaAndStatusAndPromovidoFalseOrderByDtCriacao(hospital, 1);
 	}
 	
-	public void updateHospital(Hospital hospital) {
-		repository.save(hospital);
+	public void updateHospitalCoordenador(Hospital hospital) {
+		Hospital hospital_ = repository.findById(hospital.getId()).get();
+		hospital_.updateCoordenador(hospital);
+		repository.save(hospital_);
+	}
+	
+	public void updateHospitalDiretoria(Hospital hospital) {
+		Hospital hospital_ = repository.findById(hospital.getId()).get();
+		hospital_.updateDiretor(hospital);
+		repository.save(hospital_);
 	}
 	
 	public void updateImage(MultipartFile file, Hospital hospital) {

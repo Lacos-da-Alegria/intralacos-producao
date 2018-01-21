@@ -9,10 +9,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table
@@ -54,6 +54,27 @@ public class Hospital {
 		return this.semana.getId().equals(semana.getId());
 	}
 	
+	public void updateCoordenador(Hospital hospital) {
+		updateDefault(hospital);
+	}
+	
+	public void updateDiretor(Hospital hospital) {
+		nome = hospital.getNome();
+		dia = hospital.getDia();
+		periodo = hospital.getPeriodo();
+		updateDefault(hospital);
+	}
+	
+	private void updateDefault(Hospital hospital) {
+		endereco = hospital.getEndereco();
+		localPreparo = hospital.getLocalPreparo();
+		horario = hospital.getHorario();
+		limiteVoluntario = hospital.getLimiteVoluntario();
+		limiteNovato = hospital.getLimiteNovato();
+		limiteApoio = hospital.getLimiteApoio();
+		descricao = hospital.getDescricao();
+	}
+	
 	/*
 	 * ======================================================================================
 	 * ============================== Getters and Setters ===================================
@@ -68,14 +89,14 @@ public class Hospital {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getTag() {
 		return tag;
 	}

@@ -8,9 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table
@@ -31,7 +31,7 @@ public class Feedback {
 		this.id = id;
 	}
 	@Lob
-	@NotEmpty
+	@NotBlank
 	public String getTexto() {
 		return texto;
 	}

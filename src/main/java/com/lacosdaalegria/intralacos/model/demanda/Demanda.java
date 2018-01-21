@@ -12,10 +12,10 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.recurso.Equipe;
@@ -109,14 +109,14 @@ public class Demanda {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getTitulo() {
 		return titulo;
 	}
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
-	@NotEmpty
+	@NotBlank
 	@Lob
 	public String getDescricao() {
 		return descricao;

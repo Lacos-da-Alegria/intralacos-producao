@@ -11,10 +11,10 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.lacosdaalegria.intralacos.model.Regiao;
 
@@ -81,7 +81,7 @@ public class Instituicao {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getNome() {
 		return nome;
 	}
@@ -94,7 +94,7 @@ public class Instituicao {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getTelefone() {
 		return telefone;
 	}
@@ -102,21 +102,21 @@ public class Instituicao {
 		this.telefone = telefone;
 	}
 	
-	@NotEmpty
+	@NotBlank
 	public String getEndereco() {
 		return endereco;
 	}
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getResponsavel() {
 		return responsavel;
 	}

@@ -80,16 +80,16 @@
                   		<div class="col-md-2 col-sm-2 col-md-offset-1 box0">
                   			<div class="box1">
 					  			<span class="li_heart"></span>
-					  			<h3 th:text="${@userInfo.getMaisLacos().getVoluntarios()}"></h3>
+					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getVoluntarios(),0,'POINT')}"></h3>
                   			</div>
-				  			<p>Hoje o Laços da Alegria conta com <span th:text="${@userInfo.getMaisLacos().getVoluntarios()}"></span> lindos voluntários!</p>
+					  			<p>Hoje o Laços da Alegria conta com <span th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getVoluntarios(),0,'POINT')}"></span> lindos voluntários!</p>
                   		</div>
                   		<div class="col-md-2 col-sm-2 box0">
                   			<div class="box1">
 					  			<span class="li_star"></span>
-					  			<h3 th:text="${@userInfo.getMaisLacos().getNovatos()}"></h3>
+					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getNovatos(),0,'POINT')}"></h3>
                   			</div>
-					  			<p>Temos <span th:text="${@userInfo.getMaisLacos().getNovatos()}"></span> novatinhos esperando para entrar para família</p>
+					  			<p>Nos temos <span th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getNovatos(),0,'POINT')}"></span> novatinhos esperando para entrar para nossa família!</p>
                   		</div>
                   		<div class="col-md-2 col-sm-2 box0">
                   			<div class="box1">
@@ -108,12 +108,13 @@
                   		<div class="col-md-2 col-sm-2 box0">
                   			<div class="box1">
 					  			<span class="li_lab"></span>
-					  			<h3>0</h3>
+					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getHoras(),0,'POINT')}"></h3>
                   			</div>
-					  			<p>Quando você virar doutor vai poder indicar seus amigos.</p>
+					  			<p>Só esse ano já são mais de <span th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getHoras(),0,'POINT')}"></span> horas dos nossos voluntários dedicadas a espalhar amor por todas as nossas atividades.</p>
                   		</div>
                   	
-                  	</div><!-- /row mt -->	
+                  	</div>
+                  <!-- /row mt -->	
                   	
                   	
                   <!-- Modal -->
@@ -259,6 +260,26 @@
 	<a th:if="${session.vindas}" class="more" id="hidden_link" href="https://www.youtube.com/watch?v=LkwAybdLPBQ?autoplay=1"></a>
 	
     <script src="/assets/js/custom/novato-home.js"></script>
+    
+     <script th:if="${@userInfo.isFaltante()}">
+        $(document).ready(function () {
+        var unique_id = $.gritter.add({
+            // (string | mandatory) the heading of the notification
+            title: '<a style="color:#ffd777">O Laços Conta Com Você!</a>',
+            // (string | mandatory) the text inside the notification
+            text: 'Quando assumimos o compromisso de participar de uma atividade do Laços, estamos assumindo o compromisso de levar alegria a quem precisa, a quem está a nossa espera. O Laços depende de cada um de nós para funcionar, e precisamos de seriedade na hora de confirmar a participação. Caso algo aconteça simplesmente cancele a participação com um clique, que outro voluntário irá assumir esse compromisso.<a style="color:#ffd777"> <br><br> Att, <br> Laços da Alegria </a>',
+            // (string | optional) the image to display on the left
+            image: '/assets/img/sad.png',
+            // (bool | optional) if you want it to fade out on its own or just sit there
+            sticky: true,
+            // (int | optional) the time you want it to be alive for before fading out
+            time: '',
+            // (string | optional) the class name you want to apply to that specific message
+            class_name: 'my-sticky-class'
+        });
+        return false;
+        });
+	</script>
     
   </body>
 </html>

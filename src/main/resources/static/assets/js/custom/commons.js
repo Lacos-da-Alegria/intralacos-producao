@@ -6,3 +6,14 @@ function redirectLogin(jqXHR) {
 		window.location.href = '/logout';
 		
 }
+
+$(window).load(function() {
+	
+	var cp = $('#current-page').html();
+	
+	$("a[href='" + cp +"']").closest("a").addClass("active");
+	$("a[href='" + cp +"']").closest("li").addClass("active");
+	$("a[href='" + cp +"']").closest("ul").closest("li").children("a").click();	
+	$("a[href='" + cp +"']").closest("ul").closest("li").children("a").addClass("active");
+    
+});

@@ -13,8 +13,11 @@ import com.lacosdaalegria.intralacos.model.ongs.Polo;
 @Repository
 public interface AgendaRepository extends CrudRepository<Agenda, Long>{
 
-	@Query("SELECT v FROM Agenda v WHERE v.instituicao.polo = :polo and v.status = 1")
-	Iterable<Agenda> findByPolo(@Param("polo") Polo polo);
+	@Query("SELECT v FROM Agenda v WHERE v.instituicao.polo = :polo and v.status = 1 and v.criacao >= :data")
+	Iterable<Agenda> findByPolo(@Param("polo") Polo polo, @Param("data") Date inicio);
 	
 	Iterable<Agenda> findByHorarioBetweenAndStatus(Date inicio, Date fim, Integer status);
+	
+	@Query("SELECT v FROM Agenda v WHERE v.instituicao.polo = :polo and v.status = 1 and v.chamada = true")
+	Iterable<Agenda> chamadaPolo(@Param("polo") Polo polo);
 }

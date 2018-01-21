@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
@@ -20,9 +19,6 @@ public class GeneralController {
 	
 	@GetMapping("/")
 	public String initial() {
-		
-		System.out.println(Global.getCodigo());
-		
 		if(info.hasRole("ROLE_ACEITE")) {
 			return "redirect:/termo/aceite";
 		} else {
@@ -32,7 +28,6 @@ public class GeneralController {
 				return "redirect:/voluntario/home";
 			}
 		}
-		
 	}
 
 }

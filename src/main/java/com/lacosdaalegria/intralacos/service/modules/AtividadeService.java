@@ -7,11 +7,12 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lacosdaalegria.intralacos.model.Fila;
+import com.google.common.collect.Iterables;
 import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.MaisLacos;
 import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.atividade.Apoio;
+import com.lacosdaalegria.intralacos.model.atividade.Fila;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.atividade.Registro;
 import com.lacosdaalegria.intralacos.model.atividade.Semana;
@@ -21,7 +22,9 @@ import com.lacosdaalegria.intralacos.repository.HospitalRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.ApoioRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.RegistroRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.SemanaRepository;
+import com.lacosdaalegria.intralacos.repository.ongs.AgendaRepository;
 import com.lacosdaalegria.intralacos.service.VoluntarioService;
+import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service
 public class AtividadeService {
@@ -40,6 +43,10 @@ public class AtividadeService {
 	private OngsService ongsService;
 	@Autowired
 	private RecursoService recurso;
+	@Autowired
+	private AgendaRepository agenda;
+	@Autowired
+	private UserInfo info;
 	
 	public Semana novaSemana() {
 		return semana.save(new Semana());
@@ -51,6 +58,18 @@ public class AtividadeService {
 	
 	public Iterable<Registro> meusRegistros(Voluntario voluntario){
 		return this.registro.findByVoluntarioAndStatusAndSemana(voluntario, 0, getSemana());
+	}
+	 
+	public boolean ehFaltante(Voluntario voluntario) {
+		Iterable<Registro> registros = registro.findByVoluntarioAndStatusAndCriacaoAfter(voluntario, 3, lastWeek());
+		if(registros == null)
+			return false;
+		else {
+			if(Iterables.isEmpty(registros))
+				return false;
+			else
+				return true;
+		}
 	}
 	
 	public Registro cancelar(Voluntario voluntario, Registro registro) {
@@ -92,7 +111,7 @@ public class AtividadeService {
 	}
 	
 	public Integer getPosicao(Hospital hospital, Voluntario voluntario) {
-		if(Global.rodadaRandomica()) {
+		if(!Global.rodadaRandomica()) {
 			Fila fila = new Fila(hospital, registro.findFilaHospital(hospital, hospital.getSemana()));
 			return fila.getPosicao(voluntario);
 		} else 
@@ -100,7 +119,7 @@ public class AtividadeService {
 	}
 	
 	public Integer getPosicao(Agenda agenda, Voluntario voluntario) {
-		if(Global.rodadaRandomica()) {
+		if(!Global.rodadaRandomica()) {
 			Fila fila = new Fila(agenda, registro.findFilaAcao(agenda, agenda.getSemana()));
 			return fila.getPosicao(voluntario);	
 		} else 
@@ -211,6 +230,16 @@ public class AtividadeService {
 		}
 	}
 	
+	public boolean finalizaChamada(Agenda agenda) {
+		Fila fila = new Fila(agenda, registro.findFilaAcao(agenda, agenda.getSemana()));
+		if(fila.finalizada()) {
+			agenda.setChamada(false);
+			this.agenda.save(agenda);
+			return true;
+		}
+		return false;
+	}
+	
 	private void promoveNovatos(Set<Voluntario> novatos) {
 		for(Voluntario n : novatos) {
 			vService.promoteNovato(n);
@@ -232,7 +261,7 @@ public class AtividadeService {
 		Registro registro = new Registro();
 		registro.setVoluntario(voluntario);
 		registro.setSemana(getSemana());
-		registro.initPosicao();
+		registro.initPosicao(info.isFaltante());
 		return registro;
 	}
 	
@@ -308,19 +337,19 @@ public class AtividadeService {
 	public void atividadesMatutinas() {
 		Semana semana = getSemana();
 		hospitaisAgora(this.hospital.findByDiaAndPeriodo(getDia(), 1), semana);
-		acoesAgora(ongsService.getAcoes(), semana, 1);
+		acoesAgora(ongsService.getAcoesAtivas(), semana, 1);
 	}
 	
 	public void atividadesVespertinas() {	
 		Semana semana = getSemana();
 		hospitaisAgora(this.hospital.findByDiaAndPeriodo(getDia(), 2), semana);
-		acoesAgora(ongsService.getAcoes(), semana, 2);
+		acoesAgora(ongsService.getAcoesAtivas(), semana, 2);
 	}
 	
 	public void atividadesNoturnas() {
 		Semana semana = getSemana();
 		hospitaisAgora(this.hospital.findByDiaAndPeriodo(getDia(), 3), semana);
-		acoesAgora(ongsService.getAcoes(), semana, 3);
+		acoesAgora(ongsService.getAcoesAtivas(), semana, 3);
 	}
 	
 	public void initMaisLacos(MaisLacos maisLacos, Voluntario voluntario) {
@@ -361,6 +390,13 @@ public class AtividadeService {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
 		return cal.get(Calendar.YEAR);
+	}
+	
+	private Date lastWeek() {
+		Calendar c = Calendar.getInstance(); 
+		c.setTime(new Date()); 
+		c.add(Calendar.DATE, -6);
+		return c.getTime();
 	}
 
 

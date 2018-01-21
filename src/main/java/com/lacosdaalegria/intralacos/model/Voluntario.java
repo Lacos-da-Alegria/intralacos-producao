@@ -22,12 +22,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.BindingResult;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -93,6 +93,8 @@ public class Voluntario {
 	
 	@Transient
 	public String getPrimerioNome() {
+		if(nome.indexOf(" ") == -1)
+			return nome;
 		return nome.substring(0, nome.indexOf(" "));
 	}
 	
@@ -188,7 +190,7 @@ public class Voluntario {
 	}
 	
 	@Column(unique=true)
-	@NotEmpty(message = "Forneça um login")
+	@NotBlank(message = "Forneça um login")
 	public String getLogin() {
 		return login;
 	}
@@ -197,7 +199,7 @@ public class Voluntario {
 	}
 	@JsonIgnore
 	@Length(min = 6, message = "Sua senha deve conter no mínimo 6 caracteres")
-	@NotEmpty(message = "Forneça uma senha")
+	@NotBlank(message = "Forneça uma senha")
 	public String getSenha() {
 		return senha;
 	}
@@ -213,7 +215,7 @@ public class Voluntario {
 	}
 	@Column(unique=true)
 	@Email(message = "Forneça um e-mail válido")
-	@NotEmpty(message = "Por favor forneça um e-mail")
+	@NotBlank(message = "Por favor forneça um e-mail")
 	public String getEmail() {
 		return email;
 	}
@@ -222,14 +224,14 @@ public class Voluntario {
 	}
 	@CPF(message="Forneça um cpf valido")
 	@Column(unique=true)
-	@NotEmpty(message = "Forneça um cpf valido")
+	@NotBlank(message = "Forneça um cpf valido")
 	public String getCpf() {
 		return cpf;
 	}
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	@NotEmpty(message = "Forneça o seu nome")
+	@NotBlank(message = "Forneça o seu nome")
 	public String getNome() {
 		return nome;
 	}
@@ -244,14 +246,14 @@ public class Voluntario {
 		this.nomeDoutor = nomeDoutor;
 	}
 
-	@NotEmpty(message = "Informe a sua data de aniversário")
+	@NotBlank(message = "Informe a sua data de aniversário")
 	public String getNascimento() {
 		return nascimento;
 	}
 	public void setNascimento(String nascimento) {
 		this.nascimento = nascimento;
 	}
-	@NotEmpty(message = "Forneça um DDD")
+	@NotBlank(message = "Forneça um DDD")
 	public String getDdd() {
 		return ddd;
 	}
@@ -259,7 +261,7 @@ public class Voluntario {
 		this.ddd = ddd;
 	}
 	@Column(unique=true)
-	@NotEmpty(message = "Forneça o seu whatsapp")
+	@NotBlank(message = "Forneça o seu whatsapp")
 	@Length(min = 9, max=9, message = "O seu whatsapp deve conter 9 digitos")
 	public String getWhatsapp() {
 		return whatsapp;

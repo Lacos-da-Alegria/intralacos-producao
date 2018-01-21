@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lacosdaalegria.intralacos.model.Regiao;
 import com.lacosdaalegria.intralacos.model.Voluntario;
@@ -22,6 +23,7 @@ import com.lacosdaalegria.intralacos.model.ongs.Polo;
 import com.lacosdaalegria.intralacos.model.ongs.Tag;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
 import com.lacosdaalegria.intralacos.service.VoluntarioService;
+import com.lacosdaalegria.intralacos.service.modules.AtividadeService;
 import com.lacosdaalegria.intralacos.service.modules.OngsService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
@@ -36,6 +38,8 @@ public class OngsController {
 	private RegiaoService regiao;
 	@Autowired
 	private VoluntarioService vService;
+	@Autowired
+	private AtividadeService atividade;
 	
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
@@ -64,6 +68,32 @@ public class OngsController {
 		model.addAttribute("polo", polo);
 		model.addAttribute("instituicoes", service.findInstituicoes(polo));
 		return "ongs/calendario";
+	}
+	
+	@GetMapping("/polo/chamadas")
+	public String chamadas(Agenda agenda, Model model){
+		Polo polo = service.myPolo(info.getVoluntario());
+		model.addAttribute("polo", polo);
+		model.addAttribute("agendas", service.getChamadas(polo));
+		if(agenda.getId() != null) {
+			//Verifica se instituição é do mesmo polo
+			if(agenda.getInstituicao().getPolo().getId().equals(polo.getId())) {
+				model.addAttribute("fila", atividade.getFilaAtividade(agenda));
+				model.addAttribute("agenda", agenda);
+			}
+		}
+		return "ongs/chamada";
+	}
+	
+	@GetMapping("/polo/finalizar/chamada")
+	public String voluntarioPresente(Agenda agenda, RedirectAttributes redirectAttrs) {
+		if(atividade.finalizaChamada(agenda)) {
+			redirectAttrs.addFlashAttribute("successMessage", "Chamada finalizada com sucesso");
+			return "redirect:/polo/chamadas";
+		} else {
+			redirectAttrs.addFlashAttribute("erroMessage", "Ainda há voluntários na chamada");
+			return "redirect:/polo/chamadas?agenda="+agenda.getId();
+		}
 	}
 	
 	@GetMapping("/polo/detalhe/instituicao")
@@ -156,10 +186,21 @@ public class OngsController {
 		return service.getAgenda(polo);
 	}
 	
+	@GetMapping("/voluntario/get/acoes")
+	public @ResponseBody Iterable<Agenda> calendarioAcoes(){
+		return service.calendarioAcoes();
+	}
+	
 	@GetMapping("/polo/pesquisa/agenda")
 	public @ResponseBody Agenda agendaPolo(Agenda agenda){
 		return agenda;
 	}
+	
+	@GetMapping("/voluntario/pesquisa/agenda")
+	public @ResponseBody Agenda agendaVoluntario(Agenda agenda){
+		return agenda;
+	}
+	
 	
 	@PostMapping("/polo/update/imagem")
     public String updateProfile(MultipartFile file, Instituicao instituicao) {

@@ -1,5 +1,6 @@
 package com.lacosdaalegria.intralacos.repository.atividade;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
@@ -39,4 +40,6 @@ public interface RegistroRepository extends CrudRepository<Registro, Long>{
 	
 	@Query("SELECT count(r) FROM Registro r WHERE r.status = 1 and r.voluntario = :voluntario and r.agenda IS NOT NULL")
 	Integer visitaAcoes(@Param("voluntario") Voluntario voluntario);
+	
+	Iterable<Registro> findByVoluntarioAndStatusAndCriacaoAfter(Voluntario voluntario, Integer status, Date date);
 }

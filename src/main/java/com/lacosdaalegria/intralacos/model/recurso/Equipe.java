@@ -12,9 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.lacosdaalegria.intralacos.model.Voluntario;
 
@@ -70,7 +70,7 @@ public class Equipe {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getNome() {
 		return nome;
 	}
@@ -104,7 +104,7 @@ public class Equipe {
 	public void setMembros(Set<Voluntario> membros) {
 		this.membros = membros;
 	}
-	@NotEmpty
+	@NotBlank
 	public String getObjetivo() {
 		return objetivo;
 	}

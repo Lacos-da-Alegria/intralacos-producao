@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.lacosdaalegria.intralacos.model.Fila;
 import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.atividade.Apoio;
+import com.lacosdaalegria.intralacos.model.atividade.Fila;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.atividade.Registro;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
@@ -44,7 +44,7 @@ public class AtividadeController {
 	@GetMapping("/voluntario/lista/atividade")
 	public String listaAtividade(Model model) {
 		model.addAttribute("hospitais", hospital.getAllActive());
-		model.addAttribute("acoes", ongs.getAcoes());
+		model.addAttribute("acoes", ongs.getAcoesAtivas());
 		model.addAttribute("rodada", Global.rodadaRandomica());
 		model.addAttribute("fila", new Fila());
 		return "atividade/lista";
@@ -58,7 +58,7 @@ public class AtividadeController {
 		
 		model.addAttribute("rodada", Global.rodadaRandomica());
 		model.addAttribute("hospitais", this.hospital.getAllActive());
-		model.addAttribute("acoes", ongs.getAcoes());
+		model.addAttribute("acoes", ongs.getAcoesAtivas());
 		model.addAttribute("fila", service.getFilaAtividade(hospital));
 		model.addAttribute("hospital_", hospital);		
 
@@ -73,7 +73,7 @@ public class AtividadeController {
 		
 		model.addAttribute("rodada", Global.rodadaRandomica());
 		model.addAttribute("hospitais", hospital.getAllActive());
-		model.addAttribute("acoes", ongs.getAcoes());
+		model.addAttribute("acoes", ongs.getAcoesAtivas());
 		model.addAttribute("fila", service.getFilaAtividade(agenda));
 		model.addAttribute("agenda", agenda);
 		
@@ -124,7 +124,7 @@ public class AtividadeController {
 	
 	@GetMapping("/voluntario/acoes")
 	public @ResponseBody Iterable<Agenda> acoes() {
-		return ongs.getAcoes();
+		return ongs.getAcoesAtivas();
 	}
 	
 	@GetMapping("/voluntario/registros")
@@ -188,6 +188,22 @@ public class AtividadeController {
 			return null;
 	}
 	
+	@GetMapping("/polo/chamada/presente")
+	public @ResponseBody Registro poloPresente(Registro registro) {
+		if(registro.chamadaAberta())
+			return service.presenteChamada(registro);
+		else 
+			return null;
+	}
+	
+	@GetMapping("/polo/chamada/ausente")
+	public @ResponseBody Registro poloAusente(Registro registro) {
+		if(registro.chamadaAberta())
+			return service.ausenteChamada(registro);
+		else
+			return null;
+	}
+	
 	@GetMapping("/coordenador/finalizar/chamada")
 	public String voluntarioPresente(RedirectAttributes redirectAttrs) {
 		Coordenador coordenador = recurso.findCoordenador(info.getVoluntario());
@@ -202,7 +218,7 @@ public class AtividadeController {
 	@PostMapping("/coordenador/atualizar/hospital")
 	public String updateHospitalPost(Hospital hospital, RedirectAttributes redirectAttrs) {
 		redirectAttrs.addFlashAttribute("successMessage", "Informações do Hospital foram atualizadas com sucesso!");
-		this.hospital.updateHospital(hospital);
+		this.hospital.updateHospitalCoordenador(hospital);
 		return "redirect:/coordenador/home";
 	}
 	
