@@ -22,7 +22,7 @@ Informações do Projeto:
 2 - Como faço para participar das atividades?
 ---------------------------------------------
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Basta acessar esse [Link](http://www.intralacos.com/cadastroVoluntario), realizar seu cadastro e escolher a primeira atividade que deseja ir. Você será incluído na fila de espera da atividade e na semana que chegar a sua vez, iremos te contactar.
+Basta acessar esse [Link](http://intra.lacosdaalegria.com/cadastro), realizar seu cadastro e escolher a primeira atividade que deseja ir. Você será incluído na fila de espera da atividade e na semana que chegar a sua vez, iremos te contactar.
 
 3 - Como posso contribuir para o projeto?
 -----------------------------------------
