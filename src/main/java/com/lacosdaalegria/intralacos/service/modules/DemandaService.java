@@ -55,6 +55,11 @@ public class DemandaService {
 		return this.demanda.findByEquipeAndStatusNot(equipe, 4);
 	}
 	
+	public Iterable<Demanda> minhasDemandas(Voluntario voluntario){
+		Integer[] status = {3,4};
+		return this.demanda.findByResponsavelAndStatusNotIn(voluntario, status);
+	}
+	
 	public Iterable<Equipe> getEquipesDiretoria(Voluntario diretor){
 		return equipe.findByDiretoria(this.diretoria.findByDiretores(diretor));
 	}

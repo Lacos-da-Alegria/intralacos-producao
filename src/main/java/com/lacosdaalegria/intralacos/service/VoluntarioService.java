@@ -3,7 +3,9 @@ package com.lacosdaalegria.intralacos.service;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.common.base.Objects;
 import com.lacosdaalegria.intralacos.model.MaisLacos;
 import com.lacosdaalegria.intralacos.model.ResetToken;
+import com.lacosdaalegria.intralacos.model.Role;
 import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.repository.ResetTokenRepository;
@@ -59,9 +62,11 @@ public class VoluntarioService {
 	}
 	
 	public void promoteNovato(Voluntario voluntario){
+		Set<Role> papel = new HashSet<>();
+		papel.add(roleService.getRole("ROLE_VOLUNTARIO"));
+		
 		voluntario.setPromovido(true);
-		addRole(voluntario, "ROLE_VOLUNTARIO");
-		removeRole(voluntario, "ROLE_NOVATO");
+		voluntario.setRoles(papel);
 		voluntario.setObservacao("Voluntário promovido - " + new Date());
 		repository.save(voluntario);
 	}
@@ -111,14 +116,11 @@ public class VoluntarioService {
 	
 	public void aceitaTermo(Voluntario voluntario) {
 		
-		voluntario.removeRole("ROLE_ACEITE");
-		
-		voluntario.addRole(roleService.getRole("ROLE_NOVATO"));
-		
+		Set<Role> papel = new HashSet<>();
+		papel.add(roleService.getRole("ROLE_NOVATO"));
+		voluntario.setRoles(papel);
 		voluntario.setAceitaTermo(true);
-		
 		updateRole("ROLE_NOVATO");
-		
 		repository.save(voluntario);
 		
 	}

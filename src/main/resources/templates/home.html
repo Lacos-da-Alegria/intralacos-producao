@@ -274,6 +274,8 @@
 		          </div>
 		          <!-- modal -->
 		          
+		          <div  th:if="${#lists.size(@userInfo.getDemandas()) > 0}" th:include="demandas/modal :: content" aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalLembreteDem" class="modal fade"></div>
+		          
                   </div><!-- /col-lg-9 END SECTION MIDDLE -->
                   
       <!-- **********************************************************************************************************************************************************
@@ -816,11 +818,11 @@
             time: '',
             // (string | optional) the class name you want to apply to that specific message
             class_name: 'my-sticky-class'
+            
         });
         return false;
         });
 	</script>
-  
 
   </body>
 </html>

@@ -26,7 +26,7 @@ public class EmailService {
     	String corpo = "Oie " + token.getVoluntario().getNome() + " , ai esta um link para você realizar "
          		+ "seu reset de senha.\n  Esse link tem validade de 2 horas, certo?.\n" 
          		+ "Estamos esperando você em uma das atividades do Laços da Alegria:\n\n"
-         		+ "link: http://intra.lacosdaalegria.com/cadastro/reset/senha?token=" + token.getToken();
+         		+ "link: http://intra.lacosdaalegria.com/cadastro/reset/senha?token=" + token.getToken() + "&login=" + token.getVoluntario().getLogin();
     	
     	sendMail(para, assunto, corpo);
     	

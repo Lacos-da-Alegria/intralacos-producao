@@ -113,6 +113,7 @@ public class DemandaController {
 	@PostMapping("/demanda/add/conclusao")
 	public String addConclusao(Nota nota) {
 		service.addConclusao(nota, info.getVoluntario());
+		info.initDemandas();
 		return "redirect:/demanda/page";
 	}
 	
