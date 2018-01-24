@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+<head>
+	<style>
+		*,
+		*:before,
+		*:after {
+			box-sizing: border-box;
+		}
+
+		.row-depoimento {
+			/* column width */
+			-moz-column-width: 27em;
+			-webkit-column-width: 27em;
+			
+			/* space between columns */
+			-moz-column-gap: 1em;
+			-webkit-column-gap: 1em;
+		}
+
+		.item-depoimento {
+			display: inline-block;
+			margin-top: 3px;
+			background-color: #FFF;
+			width: 100%;
+			box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+		}
+		.item-depoimento:hover {
+		  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+		  margin-top: 3px;
+		  -webkit-transition: all 0.3s ease-in-out;
+		  -moz-transition: all 0.3s ease-in-out;
+		  -o-transition: all 0.3s ease-in-out;
+		  transition: all 0.3s ease-in-out;
+		}
+		.item-header{
+			float: left;
+			margin-right: 15px;
+			margin-bottom: 3px;
+		}
+		.item-content{
+			text-align: justify;
+			text-justify: inter-word;
+		}
+		.item-verde{
+			background-color: rgba(102,194,165, 0.2);
+		}
+		.item-vermelho{
+			background-color: rgba(210,35,42, 0.2);
+		}
+		.item-laranja{
+			background-color: rgba(251,103,51, 0.2);
+		}
+		.item-roxo{
+			background-color: rgba(112,59,216, 0.2);
+		}
+		.item-amarelo{
+			background-color: rgba(233,249,101,0.2);
+		}
+		.item-azul{
+			background-color: rgba(141,160,203, 0.2);
+		}
+		.item-rosa{
+			background-color: rgba(255,111,105, 0.2);
+		}
+	</style>
+</head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+           <section class="wrapper site-min-height">          
+			<div>
+				<div class="row" style="margin: 10px">
+					<h3>Nossos Depoimentos <i style="color:  rgba(210,35,42, 0.8)" class="fa fa-heart" aria-hidden="true"></i>
+					<button sec:authorize="hasRole('VOLUNTARIO')" type="button" data-toggle="modal" href="#novoDepoimento" class="btn btn-primary" style="float: right"><i class="fa fa-plus" aria-hidden="true"></i> <span class="hidden-phone">Novo Depoimento</span></button></h3>
+					
+				</div>
+				
+				<div id="depoimentos" class="row-depoimento">
+				</div>
+				
+			</div>
+			<br>
+			<div class="col-md-12 text-center">
+				<button id="carrega-mais" onclick="maisDepoimentos()" type="button" class="btn btn-primary">Carregar Mais</button>
+			</div>
+			<input id="diretor-validador" type="hidden" th:if="${diretor != null}" th:value="${diretor}">
+		</section><!--/wrapper -->
+      </section><!-- /MAIN CONTENT -->
+
+      <!--main content end-->
+      <footer th:replace="fragments/footer :: content"></footer>
+	  <!-- Modal -->
+		<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="novoDepoimento" class="modal fade">
+	    	<div class="modal-dialog">
+	        	<div class="modal-content">
+                   <div class="modal-header-x">
+                       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                       <h4 class=" centered modal-title">Deixar o seu depoimento <i style="color:  rgba(210,35,42, 0.8)" class="fa fa-heart" aria-hidden="true"></i></h4>
+                   </div>
+                   <form class="form-horizontal style-form" id="form-depoimento"> 
+	               		<div class="modal-body">
+	                         <div class="form-group">
+	                            <label class="col-sm-1 col-sm-1 control-label">Cor</label>
+	                            <div class="col-sm-11">  
+	                             	   <select id="cor-depoimento" class="form-control" name="cor">
+	                                  	<option value="">Branco</option>
+	                                  	<option value="item-verde">Verde</option>
+	                                  	<option value="item-vermelho">Vermelho</option>
+	                                  	<option value="item-laranja">Laranja</option>
+	                                  	<option value="item-roxo">Roxo</option>
+	                                  	<option value="item-amarelo">Amarelo</option>
+	                                  	<option value="item-azul">Azul</option>
+	                                  	<option value="item-rosa">Rosa</option>
+	                                  </select> 
+	                            </div>
+	                        </div> 
+	                        
+						    <div class="form-group">
+						    	<label class="col-sm-6 col-sm-6 control-label">Deixe aqui o seu depoimento</label>
+	                            <div class="col-sm-12">
+	                               <textarea rows="8" class="form-control placeholder-no-fix" id="conteudo-depoimento" name="conteudo"></textarea>
+	                            </div>
+	                        </div>                               
+	
+					    </div>
+	                    <div class="modal-footer">
+	                        <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+	                        <button class="btn btn-primary" onclick="novoDepoimento()" type="button">Enviar</button>
+	                    </div>
+	                   </form>
+	                    
+	                </div>
+	            </div>
+	        </div>
+	        <!-- modal -->
+	        
+	        <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="deletarDepoimento" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-d">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Deletar Depoimento</h4>
+		                      </div>
+		                      <div class="modal-body centered">
+		                          <p>Você Realmente quer <b>Deletar</b> esse Depoimento?</p>		                       	
+		                      </div>
+		                      <div class="modal-footer">
+		                       <input hidden type="number" id="idDepoimentoDelete">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                          <button class="btn btn-danger" onclick='deleteDepoimento()' type="submit">Confirmar Retirada</button>
+		                      </div>
+		                  </div>    
+		              </div>
+		          </div>
+		          <!-- modal -->
+      
+  </section>
+
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>
+	
+	<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=3xxlvr4x4mfh2h5wsc9vh3bdq5b2st3sxgv8iowhcxy83kbv"></script>
+ 	<script>tinymce.init({ selector:'textarea', menubar: false, height: 250 });</script>
+  
+	<script src="/assets/js/custom/depoimentos.js"></script>
+
+  </body>
+</html>

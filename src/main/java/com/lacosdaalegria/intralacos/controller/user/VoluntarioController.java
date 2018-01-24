@@ -111,29 +111,6 @@ public class VoluntarioController {
 		return "redirect:/login";
 	}
 	
-	@GetMapping("/cadastro/reset/info")
-	public String getInfo(String email, Model model) {
-		model.addAttribute("email", email);
-		return "resetInfo";
-	}
-	@GetMapping("/cadastro/verify/info")
-	public String verifyInfo(Voluntario voluntario, RedirectAttributes redirectAttrs) {
-		Voluntario v = service.findByEmail(voluntario.getEmail());
-		if(v == null) {
-			redirectAttrs.addFlashAttribute("errorMessage", "Esse email não esta cadastrado no IntraLaços");
-			return "redirect:/login";
-		}
-		if(Objects.equals(v.getCpf(), voluntario.getCpf())){
-			redirectAttrs.addFlashAttribute("successMessage", "Informações verificadas com sucesso, registre nova senha!");
-			ResetToken token = service.createToken(v);
-			return "redirect:/cadastro/reset/senha?token="+token.getToken()+"&login="+token.getVoluntario().getLogin();
-		} else {
-			redirectAttrs.addFlashAttribute("errorMessage", "As informações não concidem com o cadastro");
-			return "redirect:/login";
-		}
-		
-	}
-	
 	@GetMapping("/cadastro/reset/senha")
 	public String resetSenha(String token, String login, Model model) {
 		model.addAttribute("login", login);
@@ -146,12 +123,10 @@ public class VoluntarioController {
 		String mensagem = service.resetSenha(token, senha, _senha);
 		if(mensagem.contains("@")) {
 			redirectAttrs.addFlashAttribute("errorMessage", mensagem.replace("@", ""));
-			return "redirect:/cadastro/reset/senha";
 		} else {
 			redirectAttrs.addFlashAttribute("successMessage", mensagem);
-			return "redirect:/login";
 		}
-			
+		return "redirect:/login";
 	}
 	
 	

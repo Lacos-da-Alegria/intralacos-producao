@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.session;
 
+import java.util.HashSet;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -10,8 +12,10 @@ import org.springframework.stereotype.Component;
 
 import com.lacosdaalegria.intralacos.model.MaisLacos;
 import com.lacosdaalegria.intralacos.model.Voluntario;
+import com.lacosdaalegria.intralacos.model.demanda.Demanda;
 import com.lacosdaalegria.intralacos.service.VoluntarioService;
 import com.lacosdaalegria.intralacos.service.modules.AtividadeService;
+import com.lacosdaalegria.intralacos.service.modules.DemandaService;
 import com.lacosdaalegria.intralacos.service.modules.OuvidoriaService;
 
 @Component
@@ -24,12 +28,15 @@ public class UserInfo {
 	private OuvidoriaService ouvidoria;
 	@Autowired
 	private AtividadeService atividade;
+	@Autowired
+	private DemandaService demanda;
 	
 	private Voluntario voluntario;
 	private Integer posicao;
 	private Integer atendimentos;
 	private MaisLacos maisLacos;
 	private boolean faltante;
+	private Iterable<Demanda> demandas = new HashSet<>();
 	
 	public Integer getPosicao() {
 		if(posicao == null) {
@@ -66,6 +73,7 @@ public class UserInfo {
 	public void initSession() {
 		setVoluntario();
 		initFaltante();
+		initDemandas();
 	}
 
 	public Voluntario getVoluntario() {
@@ -117,5 +125,18 @@ public class UserInfo {
 		this.faltante = atividade.ehFaltante(getVoluntario());
 	}
 	
+	public void initDemandas() {
+		if(getVoluntario().hasRole("DEMANDA") || getVoluntario().hasRole("LIDER")) {
+			demandas = demanda.minhasDemandas(getVoluntario());
+		}
+	}
+	
+	public Iterable<Demanda> getDemandas(){
+		return demandas;
+	}
+	
+	public void setDemandas(Iterable<Demanda> demandas) {
+		this.demandas = demandas;
+	}
 	
 }

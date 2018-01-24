@@ -26,36 +26,45 @@ public class DemandaController {
 	
 	@GetMapping("/demanda/page")
 	public String demandaPage(Model model) {
-		Equipe equipe;
+		
+		Equipe equipe = treatEquipe(model);
+		model.addAttribute("equipe", equipe);
+		model.addAttribute("demandas", service.allDemandas(equipe));
+
+		return "demandas/home";
+	}
+	
+	private Equipe treatEquipe(Model model) {
 		if(info.getVoluntario().hasRole("DIRETOR")) {
 			Iterable<Equipe> equipes = service.getEquipesDiretoria(info.getVoluntario()); 
 			model.addAttribute("equipes", equipes);
-			equipe = infoDiretoria.getEquipe(equipes);
+			infoDiretoria.initEquipe(equipes.iterator().next());
+			return infoDiretoria.getEquipe();
 		} else {
-			equipe = service.getEquipe(info.getVoluntario());
+			return service.getEquipe(info.getVoluntario());
 		}
-		if(equipe!=null) {
-			equipe.addMembro(equipe.getLider());
-			model.addAttribute("equipe", equipe);
-			model.addAttribute("demandas", service.allDemandas(equipe));
-		}
-		return "demandas/home";
 	}
+	
+	private void updateEquipe(Equipe equipe) {
+		if(info.getVoluntario().hasRole("DIRETOR"))
+			infoDiretoria.setEquipe(equipe);
+	}
+	
 	@GetMapping("/diretor/change/equipe")
 	public String changeEquipe(Equipe equipe) {
-		infoDiretoria.setEquipe(service.getEquipeById(equipe));
+		updateEquipe(service.getEquipeById(equipe));
 		return "redirect:/demanda/page";
 	}
 	
 	@PostMapping("/lider/add/membro")
 	public String addMembro(String email, Equipe equipe) {
-		service.addMembro(equipe, email);
+		updateEquipe(service.addMembro(equipe, email));
 		return "redirect:/demanda/page";
 	}
 	
 	@PostMapping("/lider/remove/membro")
 	public String removeMembro(Voluntario voluntario, Equipe equipe) {
-		service.removeMembro(equipe, voluntario);
+		updateEquipe(service.removeMembro(equipe, voluntario));
 		return "redirect:/demanda/page";
 	}
 	
@@ -104,6 +113,7 @@ public class DemandaController {
 	@PostMapping("/demanda/add/conclusao")
 	public String addConclusao(Nota nota) {
 		service.addConclusao(nota, info.getVoluntario());
+		info.initDemandas();
 		return "redirect:/demanda/page";
 	}
 	
@@ -131,7 +141,4 @@ public class DemandaController {
 		model.addAttribute("notas", service.allNotas(demanda));
 		return "demandas/notas";
 	}
-	
-	
-
 }

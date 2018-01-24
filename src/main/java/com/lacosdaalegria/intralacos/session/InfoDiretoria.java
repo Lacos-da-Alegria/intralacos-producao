@@ -12,8 +12,9 @@ public class InfoDiretoria {
 
 	private Equipe equipe;
 	
-	public Equipe getEquipe(Iterable<Equipe> equipes) {
-		initEquipe(equipes);
+	public Equipe getEquipe() {
+		if(equipe == null)
+			return new Equipe();
 		return equipe;
 	}
 	
@@ -21,12 +22,8 @@ public class InfoDiretoria {
 		this.equipe = equipe;
 	}
 	
-	private void initEquipe(Iterable<Equipe> equipes) {
-		if(equipe == null) {
-			if(equipes != null) 
-				equipe = equipes.iterator().next();
-			else
-				equipe = new Equipe();
-		}
-	}
+	public void initEquipe(Equipe equipe) {
+		if(this.equipe == null)
+			this.equipe= equipe;
+	}	
 }
