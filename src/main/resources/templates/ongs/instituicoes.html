@@ -42,10 +42,10 @@
                               <tr>
                                   <th><i class="fa fa-star-half-o " aria-hidden="true"></i> <span class="hidden-phone">Instituição</span></th>
                                   <th><i class="fa fa-phone " aria-hidden="true"></i> <span class="hidden-phone">Telefone</span></th>
-                                  <th><i class="fa user-circle-o "></i> <span class="hidden-phone">Responsavel</span></th>
-                                  <th><i class="fa fa-caret-square-o-down "></i> <span class="hidden-phone">Tipo</span></th>
-                                  <th><i class="fa fa-bicycle "></i> <span class="hidden-phone">Atividades</span></th>
-                                  <th><i class="fa fa-question-circle "></i> <span class="hidden-phone">Região</span></th>
+                                  <th><i class="fa user-circle-o"></i> <span class="hidden-phone">Responsavel</span></th>
+                                  <th class="hidden-phone"><i class="fa fa-caret-square-o-down "></i> <span >Tipo</span></th>
+                                  <th class="hidden-phone"><i class="fa fa-bicycle "></i> <span>Atividades</span></th>
+                                  <th class="hidden-phone"><i class="fa fa-question-circle "></i> <span >Região</span></th>
                                   <th><i class="fa fa-arrow-circle-down "> <span class="hidden-phone">Detalhes</span></i>
                               </tr>
                               </thead>
@@ -54,19 +54,19 @@
 	                              <td th:text="${instituicao.nome}"></td>
 	                              <td th:text="${instituicao.telefone}"></td>
 	                              <td th:text="${instituicao.responsavel}"></td>
-	                              <td><div class="dropdown">
+	                              <td class="hidden-phone"><div class="dropdown">
 	                              <a style="font-size:13px;"  class="btn btn-primary btn-xs fa fa-arrow-circle-down"></a>
 								  <div class="dropdown-content">
 								  	<a th:each="tag : ${instituicao.caracteristicas()}"><span class="label label-default" th:text="${tag.nome}"></span></a>
 								  </div>
 								</div></td>
-								<td><div class="dropdown">
+								<td class="hidden-phone"><div class="dropdown">
 	                              <a style="font-size:13px;"  class="btn btn-primary btn-xs fa fa-arrow-circle-down"></a>
 								  <div class="dropdown-content">
 								  	<a th:each="tag : ${instituicao.atividades()}"><span class="label label-default" th:text="${tag.nome}"></span></a>
 								  </div>
 								</div></td>
-	                              <td th:text="${instituicao.regiao.nome}"></td>
+	                              <td class="hidden-phone" th:text="${instituicao.regiao.nome}"></td>
 	                              <td><a onclick="clickAndDisable(this);" th:href="'/polo/detalhe/instituicao?instituicao='+${instituicao.id}"style="font-size:13px;"  class="btn btn-primary btn-xs fa fa-info-circle"></a></td>
                               </tr>   
                               </tbody>

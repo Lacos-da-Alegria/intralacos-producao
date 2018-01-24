@@ -74,7 +74,7 @@
 			                     	   <a><i th:if="${voluntario.isAniversariante()}" class="fa fa-birthday-cake" aria-hidden="true"> - </i><span th:text="${voluntario.nome}"></span></a>
 			      					</td>
 			      					<td>				                      
-			                     	   <a th:text="${voluntario.nomeDoutor}"></a>
+			                     	   <a th:utext="${voluntario.nomeDoutor}"></a>
 			      					</td>
 			      				</tr>
 				              </tbody>
@@ -111,7 +111,7 @@
 			                     	   <a><i th:if="${voluntario.isAniversariante()}" class="fa fa-birthday-cake" aria-hidden="true"> - </i><span th:text="${voluntario.nome}"></span></a>
 			      					</td>
 			      					<td>				                      
-			                     	   <a th:text="${voluntario.nomeDoutor}"></a>
+			                     	   <a th:utext="${voluntario.nomeDoutor}"></a>
 			      					</td>
 			      				</tr>				                
 				              </tbody>
@@ -146,7 +146,7 @@
 			                     	   <a><i th:if="${voluntario.isAniversariante()}" class="fa fa-birthday-cake" aria-hidden="true"> - </i><span th:text="${voluntario.nome}"></span></a>
 			      					</td>
 			      					<td>				                      
-			                     	   <a th:text="${voluntario.nomeDoutor}"></a>
+			                     	   <a th:utext="${voluntario.nomeDoutor}"></a>
 			      					</td>
 			      				</tr>
 				              </tbody>
