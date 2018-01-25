@@ -1,6 +1,8 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.lacosdaalegria.intralacos.model.Voluntario;
@@ -73,6 +75,10 @@ public class OuvidoriaService {
 	
 	public void saveFeedback(Feedback feedback) {
 		this.feedback.save(feedback);
+	}
+	
+	public Page<Feedback> allFeedbacks(Integer page){
+		return feedback.findByStatusOrderByCriacaoDesc(1,PageRequest.of(page, 12));
 	}
 	
 	public Grupo findGrupo(Voluntario voluntario) {

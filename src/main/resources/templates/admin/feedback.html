@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+<head>
+	<style>
+		*,
+		*:before,
+		*:after {
+			box-sizing: border-box;
+		}
+
+		.row-depoimento {
+			/* column width */
+			-moz-column-width: 27em;
+			-webkit-column-width: 27em;
+			
+			/* space between columns */
+			-moz-column-gap: 1em;
+			-webkit-column-gap: 1em;
+		}
+
+		.item-depoimento {
+			display: inline-block;
+			margin-top: 3px;
+			background-color: #FFF;
+			width: 100%;
+			box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.3);
+		}
+		.item-depoimento:hover {
+		  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+		  margin-top: 3px;
+		  -webkit-transition: all 0.3s ease-in-out;
+		  -moz-transition: all 0.3s ease-in-out;
+		  -o-transition: all 0.3s ease-in-out;
+		  transition: all 0.3s ease-in-out;
+		}
+		.item-header{
+			float: left;
+			margin-right: 15px;
+			margin-bottom: 3px;
+		}
+		.item-content{
+			text-align: justify;
+			text-justify: inter-word;
+		}
+		.item-verde{
+			background-color: rgba(102,194,165, 0.2);
+		}
+		.item-vermelho{
+			background-color: rgba(210,35,42, 0.2);
+		}
+		.item-laranja{
+			background-color: rgba(251,103,51, 0.2);
+		}
+		.item-roxo{
+			background-color: rgba(112,59,216, 0.2);
+		}
+		.item-amarelo{
+			background-color: rgba(233,249,101,0.2);
+		}
+		.item-azul{
+			background-color: rgba(141,160,203, 0.2);
+		}
+		.item-rosa{
+			background-color: rgba(255,111,105, 0.2);
+		}
+	</style>
+</head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+           <section class="wrapper site-min-height">          
+			<div>
+				<div class="row" style="margin: 10px">
+					<h3>Nossos Feedback <i style="color:  rgba(255,130,00, 0.8)" class="fa fa-rss" aria-hidden="true"></i>
+				</div>
+				
+				<div id="depoimentos" class="row-depoimento">
+				</div>
+				
+			</div>
+			<br>
+			<div class="col-md-12 text-center">
+				<button id="carrega-mais" onclick="maisDepoimentos()" type="button" class="btn btn-primary">Carregar Mais</button>
+			</div>
+		</section><!--/wrapper -->
+      </section><!-- /MAIN CONTENT -->
+
+      <!--main content end-->
+      <footer th:replace="fragments/footer :: content"></footer>
+      
+  </section>
+
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+
+	<script src="/assets/js/custom/feedback.js"></script>
+
+  </body>
+</html>

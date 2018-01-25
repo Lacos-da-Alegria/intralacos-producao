@@ -33,30 +33,6 @@ var pagina = 0;
 	
  }
  
- var options = {
-		  success: function(depoimento) {
-			 prependDepoimento(constroiDepoimento(depoimento));
-			 $('#cor-depoimento').val('');
-			 tinymce.activeEditor.setContent('');
-		  },
-		  beforeSubmit: function(depoimento) {
-			 tinymce.triggerSave();
-			 $('#novoDepoimento').modal('hide');
-		  }
-		};
- 
- $(function() {
-   $('#form-depoimento').ajaxForm(options);
- });
- 
- function replaceNbsps(str) {
-	  return str.replace(/&nbsp;/g, "");
-	}
- 
- function isEmpty(str) {
-	    return (!str || 0 === str.length);
-	}
- 
  function modalDelete(id){
 	$('#idDepoimentoDelete').val(id);
 	$('#deletarDepoimento').modal('show');

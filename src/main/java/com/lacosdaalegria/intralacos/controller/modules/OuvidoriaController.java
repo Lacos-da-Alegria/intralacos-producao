@@ -1,10 +1,12 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Atendimento;
@@ -150,4 +152,22 @@ public class OuvidoriaController {
 		service.respondeAtendimento(atendimento, info.getVoluntario());	
 		return "redirect:/atendimento/page";
 	}
+	
+	/*
+	 * ======================================================================================
+	 * ============================= Leitura de Feedbacks ===================================
+	 * ======================================================================================
+	 */
+	
+	@GetMapping("/diretor/feedbacks")
+	public String leituraFeedbacks() {
+		return "/admin/feedback";
+	}
+	
+	@GetMapping("/diretor/get/feedbacks")
+	public @ResponseBody Page<Feedback> getFeedbacks(Integer page) {
+		return service.allFeedbacks(page);
+	}
+	
+	
 }
