@@ -5,11 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Atendimento;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Categoria;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Feedback;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Grupo;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.ouvidoria.AtendimentoRepository;
 import com.lacosdaalegria.intralacos.repository.ouvidoria.CategoriaRepository;
 import com.lacosdaalegria.intralacos.repository.ouvidoria.FeedbackRepository;

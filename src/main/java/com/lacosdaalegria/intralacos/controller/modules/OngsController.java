@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.lacosdaalegria.intralacos.model.Regiao;
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.ongs.Instituicao;
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
 import com.lacosdaalegria.intralacos.model.ongs.Tag;
+import com.lacosdaalegria.intralacos.model.usuario.Regiao;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
-import com.lacosdaalegria.intralacos.service.VoluntarioService;
 import com.lacosdaalegria.intralacos.service.modules.AtividadeService;
 import com.lacosdaalegria.intralacos.service.modules.OngsService;
+import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
@@ -41,6 +41,9 @@ public class OngsController {
 	@Autowired
 	private AtividadeService atividade;
 	
+	/**
+	* Metodo que inicializa bind de formato de datas para o objeto Date
+	*/
 	@InitBinder
 	public void initBinder(WebDataBinder binder) {
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
@@ -48,28 +51,82 @@ public class OngsController {
 	    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
 	}
 	
-	@GetMapping("/polo/instituicoes")
-	public String instituicoes(Model model){
-		Polo polo = service.myPolo(info.getVoluntario());
-		model.addAttribute("polo", polo);
-		model.addAttribute("instituicoes", service.findInstituicoes(polo));
-		return "ongs/instituicoes";
+	/*
+	 * ======================================================================================
+	 * ============================ Controle de Equipe Polos ================================
+	 * ======================================================================================
+	 */ 
+	 
+	@GetMapping("/ongs/equipes")
+	public String ongsControle(Model model) {
+		model.addAttribute("regioes", regiao.semPolo());
+		model.addAttribute("polos", service.allPolos());
+		return "ongs/equipeOngs";
 	}
 	
+	@PostMapping("/ongs/cadastrar/polo")
+	public String cadastraPolo(Polo polo) {
+		service.addPolo(polo);
+		return "redirect:/ongs/equipes";
+	}
+	
+	@PostMapping("/ongs/add/regiao")
+	public String addRegiao(Polo polo) {
+		service.addRegioes(polo);
+		return "redirect:/ongs/equipes";
+	}
+	
+	@PostMapping("/ongs/adicionar/membro")
+	public String addMembro(Polo polo, String email) {
+		Voluntario voluntario = vService.addRole(email, "ROLE_ONGS");
+		service.addMembro(polo, voluntario);
+		return "redirect:/ongs/equipes";
+	}
+	
+	@PostMapping("/ongs/remove/membro")
+	public String removeMembro(Voluntario voluntario) {
+		vService.removeRole(voluntario, "ROLE_ONGS");
+		service.removeMembro(voluntario);
+		return "redirect:/ongs/equipes";
+	}
+	
+	@PostMapping("/ongs/remove/regiao")
+	public String removeRegiao(Regiao regiao) {
+		service.removeRegiao(regiao);
+		return "redirect:/ongs/equipes";
+	}
+	
+	/*
+	 * ======================================================================================
+	 * ============================ Controle de Tags ================================
+	 * ======================================================================================
+	 */ 
+	 
 	@GetMapping("/ongs/tags")
 	public String controleTags(Model model) {
 		model.addAttribute("tags", service.allTags());
 		return "ongs/tags";
+	} 
+	
+	@PostMapping("/ongs/add/tag")
+	public String addRegiao(Tag tag) {
+		service.addTag(tag);
+		return "redirect:/ongs/tags";
 	}
 	
-	@GetMapping("/polo/calendario")
-	public String calendario(Model model){
-		Polo polo = service.myPolo(info.getVoluntario());
-		model.addAttribute("polo", polo);
-		model.addAttribute("instituicoes", service.findInstituicoes(polo));
-		return "ongs/calendario";
+	@GetMapping("/ongs/update/tag")
+	public String alteraStatusTag(Tag tag) {
+		service.updateTag(tag);
+		return "redirect:/ongs/tags";
 	}
 	
+	/*
+	 * ======================================================================================
+	 * ============================ Controle de Chamadas ================================
+	 * ======================================================================================
+	 */ 
+	 
+	 
 	@GetMapping("/polo/chamadas")
 	public String chamadas(Agenda agenda, Model model){
 		Polo polo = service.myPolo(info.getVoluntario());
@@ -95,78 +152,20 @@ public class OngsController {
 			return "redirect:/polo/chamadas?agenda="+agenda.getId();
 		}
 	}
-	
-	@GetMapping("/polo/detalhe/instituicao")
-	public String detalheInstituicao(Instituicao instituicao, Model model) {
-		model.addAttribute("instituicao", instituicao);
-		return "ongs/detalheInstituicao";
-	}
-	
-	@GetMapping("/ongs/equipes")
-	public String ongsControle(Model model) {
-		model.addAttribute("regioes", regiao.semPolo());
-		model.addAttribute("polos", service.allPolos());
-		return "ongs/equipeOngs";
-	}
-	
-	@GetMapping("/polo/cadatro/instituicao")
-	public String cadastroInstituicao(Model model) {
+
+	/*
+	 * ======================================================================================
+	 * ========================= Calendario de Ações / Agendas ==============================
+	 * ======================================================================================
+	 */
+	 
+	 
+	@GetMapping("/polo/calendario")
+	public String calendario(Model model){
 		Polo polo = service.myPolo(info.getVoluntario());
 		model.addAttribute("polo", polo);
-		model.addAttribute("regioes", regiao.poloRegioes(polo));
-		model.addAttribute("tags", service.activeTags());
-		return "ongs/cadastroInstituicoes";
-	}
-	
-	@PostMapping("/ongs/cadastrar/polo")
-	public String cadastraPolo(Polo polo) {
-		service.addPolo(polo);
-		return "redirect:/ongs/equipes";
-	}
-	
-	@PostMapping("/polo/cadastrar/instituicao")
-	public String cadastraInstituicao(Instituicao instituicao) {
-		service.saveInstituicao(instituicao);
-		return "redirect:/polo/instituicoes";
-	}
-	
-	@PostMapping("/ongs/adicionar/membro")
-	public String addMembro(Polo polo, String email) {
-		Voluntario voluntario = vService.addRole(email, "ROLE_ONGS");
-		service.addMembro(polo, voluntario);
-		return "redirect:/ongs/equipes";
-	}
-	
-	@PostMapping("/ongs/remove/membro")
-	public String removeMembro(Voluntario voluntario) {
-		vService.removeRole(voluntario, "ROLE_ONGS");
-		service.removeMembro(voluntario);
-		return "redirect:/ongs/equipes";
-	}
-	
-	@PostMapping("/ongs/remove/regiao")
-	public String removeRegiao(Regiao regiao) {
-		service.removeRegiao(regiao);
-		return "redirect:/ongs/equipes";
-	}
-	
-	
-	@PostMapping("/ongs/add/regiao")
-	public String addRegiao(Polo polo) {
-		service.addRegioes(polo);
-		return "redirect:/ongs/equipes";
-	}
-	
-	@PostMapping("/ongs/add/tag")
-	public String addRegiao(Tag tag) {
-		service.addTag(tag);
-		return "redirect:/ongs/tags";
-	}
-	
-	@GetMapping("/ongs/update/tag")
-	public String alteraStatusTag(Tag tag) {
-		service.updateTag(tag);
-		return "redirect:/ongs/tags";
+		model.addAttribute("instituicoes", service.findInstituicoes(polo));
+		return "ongs/calendario";
 	}
 	
 	@PostMapping("/polo/agendar/acao")
@@ -186,25 +185,65 @@ public class OngsController {
 		return service.getAgenda(polo);
 	}
 	
-	@GetMapping("/voluntario/get/acoes")
-	public @ResponseBody Iterable<Agenda> calendarioAcoes(){
-		return service.calendarioAcoes();
-	}
-	
 	@GetMapping("/polo/pesquisa/agenda")
 	public @ResponseBody Agenda agendaPolo(Agenda agenda){
 		return agenda;
 	}
+	 
+	/*
+	 * ======================================================================================
+	 * ============================ Controle de Instituições ================================
+	 * ======================================================================================
+	 */
 	
-	@GetMapping("/voluntario/pesquisa/agenda")
-	public @ResponseBody Agenda agendaVoluntario(Agenda agenda){
-		return agenda;
+	@GetMapping("/polo/instituicoes")
+	public String instituicoes(Model model){
+		Polo polo = service.myPolo(info.getVoluntario());
+		model.addAttribute("polo", polo);
+		model.addAttribute("instituicoes", service.findInstituicoes(polo));
+		return "ongs/instituicoes";
 	}
 	
+	@GetMapping("/polo/detalhe/instituicao")
+	public String detalheInstituicao(Instituicao instituicao, Model model) {
+		model.addAttribute("instituicao", instituicao);
+		return "ongs/detalheInstituicao";
+	}
+	
+	@GetMapping("/polo/cadatro/instituicao")
+	public String cadastroInstituicao(Model model) {
+		Polo polo = service.myPolo(info.getVoluntario());
+		model.addAttribute("polo", polo);
+		model.addAttribute("regioes", regiao.poloRegioes(polo));
+		model.addAttribute("tags", service.activeTags());
+		return "ongs/cadastroInstituicoes";
+	}
+	
+	@PostMapping("/polo/cadastrar/instituicao")
+	public String cadastraInstituicao(Instituicao instituicao) {
+		service.saveInstituicao(instituicao);
+		return "redirect:/polo/instituicoes";
+	}
 	
 	@PostMapping("/polo/update/imagem")
     public String updateProfile(MultipartFile file, Instituicao instituicao) {
 		service.updateImage(file, instituicao);
 		return "redirect:/polo/detalhe/instituicao?instituicao="+instituicao.getId();	
+	}
+	
+	/*
+	 * ======================================================================================
+	 * =========================== Calendario Aberto de Ações ===============================
+	 * ======================================================================================
+	 */ 
+	
+	@GetMapping("/voluntario/get/acoes")
+	public @ResponseBody Iterable<Agenda> calendarioAcoes(){
+		return service.calendarioAcoes();
+	}
+	
+	@GetMapping("/voluntario/pesquisa/agenda")
+	public @ResponseBody Agenda agendaVoluntario(Agenda agenda){
+		return agenda;
 	}
 }

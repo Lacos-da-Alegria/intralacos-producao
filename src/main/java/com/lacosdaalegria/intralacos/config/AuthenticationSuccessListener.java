@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
+/**
+ * Listener responsável por iniciar objeto de sessão no login do usuário. 
+ */
 @Component
 public class AuthenticationSuccessListener implements ApplicationListener<InteractiveAuthenticationSuccessEvent> {
 

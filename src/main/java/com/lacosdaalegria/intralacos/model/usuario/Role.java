@@ -1,4 +1,4 @@
-package com.lacosdaalegria.intralacos.model;
+package com.lacosdaalegria.intralacos.model.usuario;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +15,12 @@ public class Role {
 	
 	private Long id;
 	private String role;
+	
+	/*
+	 * ======================================================================================
+	 * ============================== Getters and Setters ===================================
+	 * ======================================================================================
+	 */
 
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)

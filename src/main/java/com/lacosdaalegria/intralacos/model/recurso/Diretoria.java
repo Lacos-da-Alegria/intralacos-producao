@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 
 @Entity
 @Table

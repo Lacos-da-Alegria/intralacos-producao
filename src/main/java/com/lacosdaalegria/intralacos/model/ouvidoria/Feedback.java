@@ -22,6 +22,12 @@ public class Feedback {
 	private Integer status = 1;
 	private Date criacao = new Date();
 	
+	/*
+	 * ======================================================================================
+	 * ============================== Getters and Setters ===================================
+	 * ======================================================================================
+	 */
+	
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
 	public Long getId() {

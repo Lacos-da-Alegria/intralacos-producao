@@ -5,9 +5,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lacosdaalegria.intralacos.model.Regiao;
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
-import com.lacosdaalegria.intralacos.repository.RegiaoRepository;
+import com.lacosdaalegria.intralacos.model.usuario.Regiao;
+import com.lacosdaalegria.intralacos.repository.usuario.RegiaoRepository;
 
 @Service
 public class RegiaoService {

@@ -65,5 +65,5 @@
  }
  
  $.when(maisDepoimentos()).then(function(x) {
-	 console.log('Depoimentos carregados!');
+	 console.log('Feedbakcs carregados!');
  });

@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 
 @Entity
 @Table
@@ -27,6 +27,12 @@ public class Depoimento {
 	private Integer status = 1;
 	private Voluntario voluntario;
 	private String cor;
+	
+	/*
+	 * ======================================================================================
+	 * ============================== Getters and Setters ===================================
+	 * ======================================================================================
+	 */
 	
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)

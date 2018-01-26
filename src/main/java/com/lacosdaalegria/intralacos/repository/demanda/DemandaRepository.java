@@ -3,9 +3,9 @@ package com.lacosdaalegria.intralacos.repository.demanda;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.demanda.Demanda;
 import com.lacosdaalegria.intralacos.model.recurso.Equipe;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 
 @Repository
 public interface DemandaRepository extends CrudRepository<Demanda, Long>{

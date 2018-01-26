@@ -16,8 +16,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 
 @Entity
 @Table

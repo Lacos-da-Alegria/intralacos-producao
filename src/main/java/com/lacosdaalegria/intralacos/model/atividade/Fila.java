@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 
 public class Fila {
 	
@@ -157,6 +157,12 @@ public class Fila {
 		}
 		return -1;
 	}
+	
+	/*
+	 * ======================================================================================
+	 * ============================== Getters and Setters ===================================
+	 * ======================================================================================
+	 */
 	
 	public Agenda getAgenda() {
 		return agenda;

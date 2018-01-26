@@ -10,8 +10,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 
 @Entity
 @Table

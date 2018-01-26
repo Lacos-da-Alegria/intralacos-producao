@@ -1,4 +1,4 @@
-package com.lacosdaalegria.intralacos.model;
+package com.lacosdaalegria.intralacos.model.usuario;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -335,7 +335,10 @@ public class Voluntario {
 		this.status = status;
 	}
 	public String getProfile() {
-		return profile;
+		if(profile == null)
+			return "/assets/img/ui-sam.jpg";
+		else 
+			return profile;
 	}
 	public void setProfile(String profile) {
 		this.profile = profile;

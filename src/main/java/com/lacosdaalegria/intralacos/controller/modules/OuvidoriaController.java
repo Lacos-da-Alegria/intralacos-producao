@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Atendimento;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Categoria;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Feedback;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Grupo;
-import com.lacosdaalegria.intralacos.service.VoluntarioService;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.modules.OuvidoriaService;
+import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
@@ -161,7 +161,7 @@ public class OuvidoriaController {
 	
 	@GetMapping("/diretor/feedbacks")
 	public String leituraFeedbacks() {
-		return "/admin/feedback";
+		return "admin/feedback";
 	}
 	
 	@GetMapping("/diretor/get/feedbacks")

@@ -7,14 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Iterables;
-import com.lacosdaalegria.intralacos.model.Regiao;
-import com.lacosdaalegria.intralacos.model.Role;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.atividade.Semana;
-import com.lacosdaalegria.intralacos.repository.HospitalRepository;
-import com.lacosdaalegria.intralacos.repository.RegiaoRepository;
-import com.lacosdaalegria.intralacos.repository.RoleRepository;
+import com.lacosdaalegria.intralacos.model.usuario.Regiao;
+import com.lacosdaalegria.intralacos.model.usuario.Role;
+import com.lacosdaalegria.intralacos.repository.atividade.HospitalRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.SemanaRepository;
+import com.lacosdaalegria.intralacos.repository.usuario.RegiaoRepository;
+import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
 
 @Component
 public class InitData {

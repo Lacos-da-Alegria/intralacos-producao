@@ -4,15 +4,14 @@ import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.demanda.Demanda;
 import com.lacosdaalegria.intralacos.model.demanda.Nota;
 import com.lacosdaalegria.intralacos.model.recurso.Equipe;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.demanda.DemandaRepository;
 import com.lacosdaalegria.intralacos.repository.demanda.NotaRepository;
 import com.lacosdaalegria.intralacos.repository.recurso.DiretoriaRepository;
 import com.lacosdaalegria.intralacos.repository.recurso.EquipeRepository;
-import com.lacosdaalegria.intralacos.service.VoluntarioService;
 
 @Service
 public class DemandaService {

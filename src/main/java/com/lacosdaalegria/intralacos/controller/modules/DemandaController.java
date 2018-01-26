@@ -6,10 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.demanda.Demanda;
 import com.lacosdaalegria.intralacos.model.demanda.Nota;
 import com.lacosdaalegria.intralacos.model.recurso.Equipe;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.modules.DemandaService;
 import com.lacosdaalegria.intralacos.session.InfoDiretoria;
 import com.lacosdaalegria.intralacos.session.UserInfo;
@@ -24,6 +24,13 @@ public class DemandaController {
 	@Autowired
 	private InfoDiretoria infoDiretoria;
 	
+	
+	/*
+	 * ======================================================================================
+	 * ================================ Pagina de Demandas ==================================
+	 * ======================================================================================
+	 */
+	
 	@GetMapping("/demanda/page")
 	public String demandaPage(Model model) {
 		
@@ -34,6 +41,9 @@ public class DemandaController {
 		return "demandas/home";
 	}
 	
+	//Metodo utilizado para definir a equipe que deve ser apresentada.
+	//Devido ao fato que diretor pode visualir todas as equipes da sua diretoria.
+	//Transferir metodo para a camada de serviço
 	private Equipe treatEquipe(Model model) {
 		if(info.getVoluntario().hasRole("DIRETOR")) {
 			Iterable<Equipe> equipes = service.getEquipesDiretoria(info.getVoluntario()); 
@@ -45,6 +55,7 @@ public class DemandaController {
 		}
 	}
 	
+	//Transferir metodo para a camada de serviço
 	private void updateEquipe(Equipe equipe) {
 		if(info.getVoluntario().hasRole("DIRETOR"))
 			infoDiretoria.setEquipe(equipe);
@@ -55,6 +66,13 @@ public class DemandaController {
 		updateEquipe(service.getEquipeById(equipe));
 		return "redirect:/demanda/page";
 	}
+	
+	/*
+	 * ======================================================================================
+	 * ================================ Controle de Membros =================================
+	 * ======================================================================================
+	 */
+	
 	
 	@PostMapping("/lider/add/membro")
 	public String addMembro(String email, Equipe equipe) {
@@ -67,6 +85,13 @@ public class DemandaController {
 		updateEquipe(service.removeMembro(equipe, voluntario));
 		return "redirect:/demanda/page";
 	}
+	
+	
+	/*
+	 * ======================================================================================
+	 * ============================= Interação com Demandas =================================
+	 * ======================================================================================
+	 */
 	
 	@PostMapping("/demanda/criar")
 	public String createDemanda(Demanda demanda) {
@@ -123,6 +148,12 @@ public class DemandaController {
 		return "redirect:/demanda/page";
 	}
 	
+	/*
+	 * ======================================================================================
+	 * ========================== Interação com Demandas Lider ==============================
+	 * ======================================================================================
+	 */
+	
 	@PostMapping("/lider/add/reabertura")
 	public String addReabertura(Nota nota) {
 		service.addReabertura(nota, info.getVoluntario());
@@ -134,6 +165,12 @@ public class DemandaController {
 		service.addArquivamento(nota, info.getVoluntario());
 		return "redirect:/demanda/page";
 	}
+	
+	/*
+	 * ======================================================================================
+	 * =============================== Interação com Notas ==================================
+	 * ======================================================================================
+	 */
 	
 	@GetMapping("/demanda/notas")
 	public String allNotas(Demanda demanda, Model model) {

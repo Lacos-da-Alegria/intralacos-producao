@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
-import com.lacosdaalegria.intralacos.service.VoluntarioService;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.modules.SustentacaoService;
+import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 
 @Controller
 public class SustentacaoController {
@@ -23,6 +23,12 @@ public class SustentacaoController {
 	@Autowired
 	private VoluntarioService vService;
 	
+	/*
+	 * ======================================================================================
+	 * ======================== Controle de Equipe Sustentação ==============================
+	 * ======================================================================================
+	 */
+	 
 	@GetMapping("/admin/controle/analistas")
 	public String controleAnalistas(Model model) {
 		model.addAttribute("analistas", service.allAnalistas());
@@ -40,6 +46,13 @@ public class SustentacaoController {
 		service.removeAnalista(voluntario);
 		return "redirect:/admin/controle/analistas";
 	}
+	 
+	 
+	 /*
+	 * ======================================================================================
+	 * ============================== Equipe Sustentação ====================================
+	 * ======================================================================================
+	 */
 	
 	@GetMapping("/sustentacao/page")
 	public String sustentacao(Model model) {
@@ -64,33 +77,26 @@ public class SustentacaoController {
 	public ModelAndView updateInfo(@Valid Voluntario voluntario, BindingResult result) {
 		
 		ModelAndView modelAndView = new ModelAndView();
-		
 		modelAndView.setViewName("admin/sustentacao/page");
-		
 		vService.duplicidadeInfo(voluntario, result);
 
     	if(hasNoErroUpdate(result)) {
-    		
     		vService.updateUserSustentacao(voluntario);
     		modelAndView.addObject("voluntario", voluntario);
             modelAndView.addObject("successMessage", "Informações atualizadas com sucesso!");
-            
     	}
-    	
     	return modelAndView;
 	}
 	
-	private boolean hasNoErroUpdate(BindingResult result) {
-		
+	//Metodo que valida result para atualização, deve ser transferido para camada de serviço
+	private boolean hasNoErroUpdate(BindingResult result) {		
 		for(ObjectError e : result.getAllErrors()) {
 			if(!e.getCodes()[0].contains("senha") && !e.getCodes()[0].contains("preferencia")
 					&&!e.getCodes()[0].contains("whatsapp")&&!e.getCodes()[0].contains("regiao")
 					&&!e.getCodes()[0].contains("ddd")&&!e.getCodes()[0].contains("nascimento"))
 				return false;
 		}
-	
 		return true;
-		
 	}
 
 }

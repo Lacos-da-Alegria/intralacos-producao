@@ -1,4 +1,4 @@
-package com.lacosdaalegria.intralacos.model;
+package com.lacosdaalegria.intralacos.model.usuario;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,6 +23,12 @@ public class Regiao{
 	private String nome;
 	private Integer status = 1;
 	private Polo polo;
+	
+	/*
+	 * ======================================================================================
+	 * ============================== Getters and Setters ===================================
+	 * ======================================================================================
+	 */
 	
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
