@@ -16,17 +16,7 @@ public class GeneralController {
 	public String logginPage() {
 		return "login";
 	}
-	//Implementar pagina de erro
-	@GetMapping("/erro")
-	public String erroPage() {
-		return "login";
-	}
-	//Implementar pagina de acesso negado
-	@GetMapping("/403")
-	public String acessDeniedPage() {
-		return "login";
-	}
-	
+
 	/**
 	* Lógica de triagem para pagina inicial que deve ser apresentada no momento do acesso
 	*/
