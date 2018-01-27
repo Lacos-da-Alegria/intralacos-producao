@@ -9,8 +9,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import com.lacosdaalegria.intralacos.model.ResetToken;
+import com.lacosdaalegria.intralacos.model.usuario.ResetToken;
 
+//Melhorar Classe
 @Component
 public class EmailService {
 

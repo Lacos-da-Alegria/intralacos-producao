@@ -35,12 +35,24 @@ public class AtividadeController {
 	@Autowired
 	private RecursoService recurso;
 	
+	/*
+	 * ======================================================================================
+	 * =============================== Controle de Hospitais ================================
+	 * ======================================================================================
+	 */
+	 
 	@GetMapping("/hospitais/controle")
 	public String hospitaisPage(Model model) {
 		model.addAttribute("hospitais", hospital.getAll());
 		return "admin/hospitais";
-	}
+	} 
 	
+	/*
+	 * ======================================================================================
+	 * ================================ Lista de Atividades =================================
+	 * ======================================================================================
+	 */
+		
 	@GetMapping("/voluntario/lista/atividade")
 	public String listaAtividade(Model model) {
 		model.addAttribute("hospitais", hospital.getAllActive());
@@ -90,7 +102,11 @@ public class AtividadeController {
 		return service.getPosicao(agenda, info.getVoluntario());
 	}
 	
-	
+	/*
+	 * ======================================================================================
+	 * ======================= Controle de Registro nas Atividades ==========================
+	 * ======================================================================================
+	 */
 	
 	@GetMapping("/voluntario/inscrever/hospital")
 	public @ResponseBody Registro inscreverHospital(Hospital hospital) {
@@ -105,6 +121,11 @@ public class AtividadeController {
 	@GetMapping("/voluntario/cancelar")
 	public @ResponseBody Registro cancelarAtividade(Registro registro) {
 		return service.cancelar(info.getVoluntario(), registro);
+	}
+	
+	@GetMapping("/voluntario/registros")
+	public @ResponseBody Iterable<Registro> registros() {
+		return service.meusRegistros(info.getVoluntario());
 	}
 	
 	@GetMapping("/voluntario/info/hospital")
@@ -127,10 +148,11 @@ public class AtividadeController {
 		return ongs.getAcoesAtivas();
 	}
 	
-	@GetMapping("/voluntario/registros")
-	public @ResponseBody Iterable<Registro> registros() {
-		return service.meusRegistros(info.getVoluntario());
-	}
+	/*
+	 * ======================================================================================
+	 * ======================== Controle Coordenador de Atividade ===========================
+	 * ======================================================================================
+	 */
 	
 	@GetMapping("/coordenador/home")
 	public String atividadePage(Model model) {
@@ -172,6 +194,30 @@ public class AtividadeController {
 		return "redirect:/coordenador/home";
 	}
 	
+	@PostMapping("/coordenador/atualizar/hospital")
+	public String updateHospitalPost(Hospital hospital, RedirectAttributes redirectAttrs) {
+		redirectAttrs.addFlashAttribute("successMessage", "Informações do Hospital foram atualizadas com sucesso!");
+		this.hospital.updateHospitalCoordenador(hospital);
+		return "redirect:/coordenador/home";
+	}
+	
+	/*
+	 * ======================================================================================
+	 * ================================ Chamada Hospitais ===================================
+	 * ======================================================================================
+	 */
+	
+	@GetMapping("/coordenador/finalizar/chamada")
+	public String voluntarioPresente(RedirectAttributes redirectAttrs) {
+		Coordenador coordenador = recurso.findCoordenador(info.getVoluntario());
+		if(service.finalizaChamada(coordenador.getHospital())) {
+			redirectAttrs.addFlashAttribute("successMessage", "Chamada finalizada com sucesso");
+		} else {
+			redirectAttrs.addFlashAttribute("erroMessage", "Ainda há voluntários na chamada");
+		}
+		return "redirect:/coordenador/home";
+	}
+	
 	@GetMapping("/coordenador/chamada/presente")
 	public @ResponseBody Registro voluntarioPresente(Registro registro) {
 		if(registro.chamadaAberta())
@@ -187,6 +233,12 @@ public class AtividadeController {
 		else
 			return null;
 	}
+	
+	/*
+	 * ======================================================================================
+	 * ================================== Chamada Ações =====================================
+	 * ======================================================================================
+	 */
 	
 	@GetMapping("/polo/chamada/presente")
 	public @ResponseBody Registro poloPresente(Registro registro) {
@@ -204,23 +256,4 @@ public class AtividadeController {
 			return null;
 	}
 	
-	@GetMapping("/coordenador/finalizar/chamada")
-	public String voluntarioPresente(RedirectAttributes redirectAttrs) {
-		Coordenador coordenador = recurso.findCoordenador(info.getVoluntario());
-		if(service.finalizaChamada(coordenador.getHospital())) {
-			redirectAttrs.addFlashAttribute("successMessage", "Chamada finalizada com sucesso");
-		} else {
-			redirectAttrs.addFlashAttribute("erroMessage", "Ainda há voluntários na chamada");
-		}
-		return "redirect:/coordenador/home";
-	}
-	
-	@PostMapping("/coordenador/atualizar/hospital")
-	public String updateHospitalPost(Hospital hospital, RedirectAttributes redirectAttrs) {
-		redirectAttrs.addFlashAttribute("successMessage", "Informações do Hospital foram atualizadas com sucesso!");
-		this.hospital.updateHospitalCoordenador(hospital);
-		return "redirect:/coordenador/home";
-	}
-	
-
 }

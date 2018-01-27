@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.google.common.collect.Iterables;
 import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.MaisLacos;
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.atividade.Apoio;
 import com.lacosdaalegria.intralacos.model.atividade.Fila;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
@@ -18,12 +17,12 @@ import com.lacosdaalegria.intralacos.model.atividade.Registro;
 import com.lacosdaalegria.intralacos.model.atividade.Semana;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.recurso.Coordenador;
-import com.lacosdaalegria.intralacos.repository.HospitalRepository;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.atividade.ApoioRepository;
+import com.lacosdaalegria.intralacos.repository.atividade.HospitalRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.RegistroRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.SemanaRepository;
 import com.lacosdaalegria.intralacos.repository.ongs.AgendaRepository;
-import com.lacosdaalegria.intralacos.service.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service

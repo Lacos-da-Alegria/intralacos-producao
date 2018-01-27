@@ -16,7 +16,10 @@ public class GeneralController {
 	public String logginPage() {
 		return "login";
 	}
-	
+
+	/**
+	* Lógica de triagem para pagina inicial que deve ser apresentada no momento do acesso
+	*/
 	@GetMapping("/")
 	public String initial() {
 		if(info.hasRole("ROLE_ACEITE")) {

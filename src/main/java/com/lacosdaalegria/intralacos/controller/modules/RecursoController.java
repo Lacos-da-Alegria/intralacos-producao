@@ -7,15 +7,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.recurso.ControleNovato;
 import com.lacosdaalegria.intralacos.model.recurso.Diretoria;
 import com.lacosdaalegria.intralacos.model.recurso.Equipe;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.HospitalService;
-import com.lacosdaalegria.intralacos.service.VoluntarioService;
 import com.lacosdaalegria.intralacos.service.modules.AtividadeService;
 import com.lacosdaalegria.intralacos.service.modules.RecursoService;
+import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.InfoDiretoria;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
@@ -35,6 +35,26 @@ public class RecursoController {
 	@Autowired
 	private InfoDiretoria infoDiretoria;
 	
+	/*
+	 * ======================================================================================
+	 * =========================== Informações de Diretores =================================
+	 * ======================================================================================
+	 */
+	
+	@GetMapping("/info/contato")
+	public String infoContato(Model model) {
+		model.addAttribute("diretorias", service.allDiretorias());
+		return "info/contato";
+		
+	}
+	
+	
+	/*
+	 * ======================================================================================
+	 * ========================== Admin Controle de Diretores ===============================
+	 * ======================================================================================
+	 */
+	 
 	@GetMapping("/admin/diretoria")
 	public String diretoriaPage(Model model) {
 		model.addAttribute("diretorias", service.allDiretorias());
@@ -59,11 +79,11 @@ public class RecursoController {
 		return "redirect:/admin/diretoria";
 	}
 	
-	@GetMapping("/info/contato")
-	public String infoContato(Model model) {
-		model.addAttribute("diretorias", service.allDiretorias());
-		return "info/contato";
-	}
+	/*
+	 * ======================================================================================
+	 * ======================== Controle de Equipe de Demandas ==============================
+	 * ======================================================================================
+	 */ 
 	
 	@GetMapping("/diretor/cadastro/equipes")
 	public String cadastroEquipe() {
@@ -82,11 +102,18 @@ public class RecursoController {
 		updateEquipeDiretor(service.updateEquipe(equipe, email));
 		return "redirect:/demanda/page";
 	}
-	
+	//Metodo que atualiza info da equipe atual selecionada pelo diretor
+	//Deve ser tranferido para camada de serviço
 	private void updateEquipeDiretor(Equipe equipe) {
 		if(info.getVoluntario().hasRole("DIRETOR"))
 			infoDiretoria.setEquipe(equipe);
 	}
+	
+	/*
+	 * ======================================================================================
+	 * ================== Controle de Coordenadores e Equipe Novatos ========================
+	 * ======================================================================================
+	 */ 
 	
 	@GetMapping("/hospitais/recurso/humano")
 	public String rhPage(Model model) {
@@ -120,11 +147,15 @@ public class RecursoController {
 		return "redirect:/hospitais/recurso/humano";
 	}
 	
+	/*
+	 * ======================================================================================
+	 * ============================== Controle de Novatos ===================================
+	 * ======================================================================================
+	 */ 
+	
 	@GetMapping("/controlador/page")
 	public String controladorPage(Model model) {
-		
 		ControleNovato controle = service.findControlador(info.getVoluntario());
-		
 		model.addAttribute("controle", controle);
 		model.addAttribute("novatos", hospital.top30Novatos(controle.getHospital()));
 		model.addAttribute("inscritos", atividade.novatosInscrito(controle.getHospital()));
@@ -168,11 +199,12 @@ public class RecursoController {
 		vService.desativarNovato(voluntario, info.getVoluntario(), observacao);
 		return "redirect:/controlador/page";
 	}
-	
-	@GetMapping("/comunicacao/cadastro/notificacao")
-	public String cadastroNotificacao() {
-		return "admin/cadastroNotificacao";
-	}
+		
+	/*
+	 * ======================================================================================
+	 * ========================= Controle de Hospitais Diretoria ============================
+	 * ======================================================================================
+	 */ 
 	
 	@GetMapping("/hospitais/atualizar/hospital")
 	public String updateHospital(Hospital hospital, Model model) {

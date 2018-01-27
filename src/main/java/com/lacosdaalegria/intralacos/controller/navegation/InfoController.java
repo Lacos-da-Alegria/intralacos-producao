@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.lacosdaalegria.intralacos.service.VoluntarioService;
+import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 
 @Controller
 public class InfoController {
@@ -48,6 +48,7 @@ public class InfoController {
 	
 	@GetMapping("/info/depoimentos")
 	public String infoDepoimentos(HttpServletRequest request, Model model) {
+		//Habilitar botão para exclusão logica de depoimento
 		if(request.isUserInRole("DIRETOR"))
 			model.addAttribute("diretor", "c230c8dc-0d8e-4721-94ac-5291ad330be6");
 		return "info/depoimentos";

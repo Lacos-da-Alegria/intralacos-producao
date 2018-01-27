@@ -1,7 +1,9 @@
-package com.lacosdaalegria.intralacos.controller.user;
+package com.lacosdaalegria.intralacos.controller.modules;
 
 import java.util.Objects;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +19,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lacosdaalegria.intralacos.email.EmailService;
 import com.lacosdaalegria.intralacos.model.Global;
-import com.lacosdaalegria.intralacos.model.ResetToken;
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
+import com.lacosdaalegria.intralacos.model.usuario.ResetToken;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.HospitalService;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
-import com.lacosdaalegria.intralacos.service.VoluntarioService;
 import com.lacosdaalegria.intralacos.service.modules.OngsService;
+import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
@@ -41,6 +43,73 @@ public class VoluntarioController {
 	private OngsService ongs;
 	@Autowired
 	private EmailService email;
+	
+	
+	/*
+	 * ======================================================================================
+	 * ================================== Voluntário ========================================
+	 * ======================================================================================
+	 */
+		
+	@GetMapping("/voluntario/home")
+	public String voluntarioPage(Model model) {
+		model.addAttribute("codigo", Global.getCodigo());
+		model.addAttribute("hospitais", hospital.getAllActive());
+		model.addAttribute("acoes", ongs.getAcoesAtivas());
+		model.addAttribute("rodada", Global.rodadaRandomica());
+		return "home";
+	}
+	
+	/*
+	 * ======================================================================================
+	 * =================================== Cadastro =========================================
+	 * ======================================================================================
+	 */
+	
+	@GetMapping("/cadastro")
+	public String registerPage(Model model) {
+		
+		model.addAttribute("voluntario", new Voluntario());
+		
+		model.addAttribute("hospitais", hospital.getAllActive());
+		model.addAttribute("ras", regiao.getAllActive());
+		
+		return "register";
+	}
+	
+    @PostMapping("/cadastro")
+    public ModelAndView createNewUser(@Valid Voluntario voluntario, BindingResult result, 
+    				HttpServletRequest request) {
+    	
+    	ModelAndView modelAndView = new ModelAndView();
+    	modelAndView.addObject("voluntario", voluntario);
+    	
+        service.duplicidadeInfo(voluntario, result);
+    	
+    	if(result.hasErrors()) {
+    		
+    		modelAndView.addObject("hospitais", hospital.getAllActive());
+    		modelAndView.addObject("ras", regiao.getAllActive());
+
+    		modelAndView.setViewName("register");
+    		
+    	} else {
+    		
+    		service.registerVoluntario(voluntario);
+        	
+            modelAndView.addObject("successMessage", "Você foi cadastrado com sucesso!");
+            
+            modelAndView.setViewName("login");
+    	}
+    	
+    	return modelAndView;
+    }
+	
+	/*
+	 * ======================================================================================
+	 * =========================== Atualização de Informações ===============================
+	 * ======================================================================================
+	 */
 	
 	@GetMapping("/info/usuario")
 	public String userPage(Model model) {
@@ -77,25 +146,20 @@ public class VoluntarioController {
         return "redirect:/info/usuario";
     }
 	
+	//Metodo que valida result para atualização, deve ser transferido para camada de serviço
 	private boolean hasNoErroUpdate(BindingResult result) {
-		
 		for(ObjectError e : result.getAllErrors()) {
 			if(!e.getCodes()[0].contains("senha") && !e.getCodes()[0].contains("preferencia"))
 				return false;
 		}
-	
 		return true;
-		
 	}
 	
-	@GetMapping("/voluntario/home")
-	public String voluntarioPage(Model model) {
-		model.addAttribute("codigo", Global.getCodigo());
-		model.addAttribute("hospitais", hospital.getAllActive());
-		model.addAttribute("acoes", ongs.getAcoesAtivas());
-		model.addAttribute("rodada", Global.rodadaRandomica());
-		return "home";
-	}
+	/*
+	 * ======================================================================================
+	 * ================================== Resetar Senha =====================================
+	 * ======================================================================================
+	 */
 	
 	@GetMapping("/cadastro/gerar/token")
 	public String resetToken(String email, RedirectAttributes redirectAttrs) {
@@ -150,6 +214,8 @@ public class VoluntarioController {
 		return "redirect:/novato/home";
 	}
 	
+	//Metodo temporário, deve ser desativado assim que equipe de sustentação
+	//for capaz de promover novatos
 	@PostMapping("/novato/promover")
 	public String promoveNovato(String codigo){
 		if(Objects.equals(Global.getCodigo(), codigo)) {
@@ -163,5 +229,26 @@ public class VoluntarioController {
 	public String activeAcount() {
 		service.reativarConta(info.getVoluntario());
 		return "redirect:/novato/home";
+	}
+	
+	/*
+	 * ======================================================================================
+	 * =============================== Termo de Aceite ======================================
+	 * ======================================================================================
+	 */
+	 
+	 @GetMapping("/termo/aceite")
+	public String termoPage() {
+		return "info/termo";
+	}
+	
+	@GetMapping("/termo/aceitar")
+	public String registerPage(boolean aceite, HttpSession session) {
+		if(aceite) {
+			service.aceitaTermo(info.getVoluntario());
+			session.setAttribute("vindas", true);
+			return "redirect:/novato/home";
+		} else 
+			return "redirect:/termo/aceite";
 	}
 }

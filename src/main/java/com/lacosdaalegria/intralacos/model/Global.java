@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
+//Mudar nome para Calendario
+//Utilizar para regras de data gerais
 @Component
 public class Global {
 

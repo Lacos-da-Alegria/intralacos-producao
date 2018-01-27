@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
-import com.lacosdaalegria.intralacos.repository.HospitalRepository;
-import com.lacosdaalegria.intralacos.repository.VoluntarioRepository;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
+import com.lacosdaalegria.intralacos.repository.atividade.HospitalRepository;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
+import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
 
 @Service
 public class HospitalService {

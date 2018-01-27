@@ -1,4 +1,4 @@
-package com.lacosdaalegria.intralacos.model;
+package com.lacosdaalegria.intralacos.model.usuario;
 
 import java.util.Date;
 import java.util.UUID;
@@ -23,6 +23,12 @@ public class ResetToken {
 	private String token = UUID.randomUUID().toString();
 	private Integer status = 1;
 	private Date criacao = new Date();
+	
+	/*
+	 * ======================================================================================
+	 * ============================== Getters and Setters ===================================
+	 * ======================================================================================
+	 */
 	
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)

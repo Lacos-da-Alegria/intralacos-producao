@@ -1,4 +1,4 @@
-package com.lacosdaalegria.intralacos.service;
+package com.lacosdaalegria.intralacos.service.modules;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,13 +20,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.base.Objects;
 import com.lacosdaalegria.intralacos.model.MaisLacos;
-import com.lacosdaalegria.intralacos.model.ResetToken;
-import com.lacosdaalegria.intralacos.model.Role;
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
-import com.lacosdaalegria.intralacos.repository.ResetTokenRepository;
-import com.lacosdaalegria.intralacos.repository.VoluntarioRepository;
+import com.lacosdaalegria.intralacos.model.usuario.ResetToken;
+import com.lacosdaalegria.intralacos.model.usuario.Role;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
+import com.lacosdaalegria.intralacos.repository.usuario.ResetTokenRepository;
+import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
+import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
 
 @Service
 public class VoluntarioService {
@@ -34,19 +35,19 @@ public class VoluntarioService {
 	@Autowired
 	private VoluntarioRepository repository;
 	@Autowired
-	private RoleService roleService;
-	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	private S3 s3;
 	@Autowired
 	private ResetTokenRepository token;
+	@Autowired
+	private RoleRepository role;
 	
 	public void registerVoluntario(Voluntario voluntario) {
 		
 		voluntario.setSenha(bCryptPasswordEncoder.encode(voluntario.getSenha()));
 		
-		voluntario.addRole(roleService.getRole("ROLE_ACEITE"));
+		voluntario.addRole(getRole("ROLE_ACEITE"));
 		
 		repository.save(voluntario);
 	}
@@ -63,7 +64,7 @@ public class VoluntarioService {
 	
 	public void promoteNovato(Voluntario voluntario){
 		Set<Role> papel = new HashSet<>();
-		papel.add(roleService.getRole("ROLE_VOLUNTARIO"));
+		papel.add(getRole("ROLE_VOLUNTARIO"));
 		
 		voluntario.setPromovido(true);
 		voluntario.setRoles(papel);
@@ -100,7 +101,7 @@ public class VoluntarioService {
 	
 	public void admin(Voluntario voluntario) {
 		
-		voluntario.addRole(roleService.getRole("ROLE_ADMIN"));
+		voluntario.addRole(getRole("ROLE_ADMIN"));
 		
 		repository.save(voluntario);
 	}
@@ -117,7 +118,7 @@ public class VoluntarioService {
 	public void aceitaTermo(Voluntario voluntario) {
 		
 		Set<Role> papel = new HashSet<>();
-		papel.add(roleService.getRole("ROLE_NOVATO"));
+		papel.add(getRole("ROLE_NOVATO"));
 		voluntario.setRoles(papel);
 		voluntario.setAceitaTermo(true);
 		updateRole("ROLE_NOVATO");
@@ -129,13 +130,13 @@ public class VoluntarioService {
 
 		Voluntario voluntario = repository.findByEmail(email);
 		
-		voluntario.getRoles().add(roleService.getRole(role));
+		voluntario.getRoles().add(getRole(role));
 		
 		return repository.save(voluntario);
 	}
 	
 	public Voluntario addRole(Voluntario voluntario, String role) {
-		voluntario.getRoles().add(roleService.getRole(role));
+		voluntario.getRoles().add(getRole(role));
 		return repository.save(voluntario);
 	}
 	
@@ -251,6 +252,11 @@ public class VoluntarioService {
 		}
 	}
 	
+	public Role getRole(String role) {
+		return this.role.findByRole(role);
+	}
+	
+	//Migrar regras de datas para classe Calendario
 	private Date vencimentoToken() {
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(new Date()); 

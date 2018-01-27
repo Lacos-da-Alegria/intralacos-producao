@@ -95,7 +95,8 @@
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group il-form-spaccing">
-							<label class="il-form-label"><b>WhatsApp*</b></label>
+							<label class="il-form-label"><b>WhatsApp*</b><span th:if="${#fields.hasErrors('whatsapp')}" th:errors="*{whatsapp}"
+									class="validation-message"></span></label>
 							<input name="whatsapp" type="tel" class="form-control" th:field="*{whatsapp}" placeholder="Ex.: 999999999" maxlength="9" required>
 						</div>
 					</div>

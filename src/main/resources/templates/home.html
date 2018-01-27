@@ -35,17 +35,17 @@
 				  <h1 class= "centered">Atividades dessa Semana!</h1>
 				  
 				  <ul class="nav nav-pills" th:if="${#lists.size(acoes) > 0 }">
-				    <li class="active"><a data-toggle="pill" href="#home">Hospitais</a></li>
-				    <li ><a data-toggle="pill" href="#menu1">Ong's <span class="badge bg-important" th:text="${#lists.size(acoes)}"></span></a></li>
+				    <li class="active"><a data-toggle="pill" href="#hospitais">Hospitais</a></li>
+				    <li ><a data-toggle="pill" href="#acoes">Ong's <span class="badge bg-important" th:text="${#lists.size(acoes)}"></span></a></li>
 				  </ul>
 				  
 		 <div class="tab-content">
-         <div id="home" class="tab-pane fade in active row mt">        
+         <div id="hospitais" class="tab-pane fade in active row mt">        
                     
          <!-- Comeca a logica chosse when dos botoens de participacao das atividades -->
          
 			<!-- Inicio Card Atividade Hospital -->	
-			<div th:each="hospital : ${hospitais}" class="col-lg-4 col-md-4 col-sm-4 mb">
+			<div th:each="hospital : ${hospitais}" th:id="'div-hospital-'+ ${hospital.id}" class="col-lg-4 col-md-4 col-sm-4 mb">
 				<div class="content-panel pn">
 					<div class="col-xs-4 col-xs-offset-8">
 						<button class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getHospitalInfo('+${hospital.id}+')'">INFO</button>
@@ -62,21 +62,21 @@
 					<div class="centered">
 						<h6>
 							<span th:id="${rodada ? '' : 'iconA-' + hospital.id}"><i class="fa li_paperplane"></i></span>
-						<br><span th:text="${hospital.nome}"></span></h6>
+			 			<br><span th:text="${hospital.nome}"></span></h6>
 					</div>
 				</div><!--/content-panel -->
 			</div><!--/col-md-4-->
 			
 			<!-- Fim Card Atividade Hospital -->   
                       	
-                   </div>
+         </div>
                    
-                   <div id="menu1" class="tab-pane fade row mt" >
+		 <div id="acoes" class="tab-pane fade row mt" >
                     
          <!-- Comeca a logica chosse when dos botoens de participacao das atividades -->
          
 				<!-- Inicio Card Atividade Ongs -->	
-				<div th:each="acao : ${acoes}" class="col-lg-4 col-md-4 col-sm-4 mb" >
+				<div th:each="acao : ${acoes}" th:id="'div-acao-'+ ${acao.id}" class="col-lg-4 col-md-4 col-sm-4 mb" >
 					<div class="content-panel pn">
 						<div class="col-xs-4 col-xs-offset-8">
 							<button class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getAgendaInfo('+${acao.id}+')'">INFO</button>
@@ -682,6 +682,7 @@
 		}
 		
 		function initializaInfoPosicao(atividade){
+			colocarAtividadePrimeiro(atividade);
 			if(verificaRegistro(atividade)){
 				$("#iconA-"+atividade.id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
 			} else {
@@ -689,6 +690,19 @@
 					$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoHospital('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
 				else
 					$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoAcao('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
+			}
+		}
+		
+		function colocarAtividadePrimeiro(atividade){
+			var card;
+			if(atividade.hasOwnProperty('tag')){
+				card = $('#div-hospital-'+atividade.id);
+				$('#div-hospital-'+atividade.id).remove();
+				$('#hospitais').prepend(card);
+			} else {
+				card = $('#div-acao-'+atividade.id);
+				$('#div-acao-'+atividade.id).remove();
+				$('#acoes').prepend(card);
 			}
 		}
 		

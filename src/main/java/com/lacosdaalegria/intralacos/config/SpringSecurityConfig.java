@@ -11,14 +11,10 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.AccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
-	
-	@Autowired
-	private AccessDeniedHandler accessDeniedHandler;
 	
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -70,9 +66,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 				.permitAll()
 				.and()
 	        .logout()
-				.permitAll()
-				.and()
-	        .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+				.permitAll();
     }
 
     @Override

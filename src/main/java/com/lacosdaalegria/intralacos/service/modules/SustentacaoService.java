@@ -3,10 +3,9 @@ package com.lacosdaalegria.intralacos.service.modules;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.sustentacao.Analista;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.sustentacao.AnalistaRepository;
-import com.lacosdaalegria.intralacos.service.VoluntarioService;
 
 @Service
 public class SustentacaoService {

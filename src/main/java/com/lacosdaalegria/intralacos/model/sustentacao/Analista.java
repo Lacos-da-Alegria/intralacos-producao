@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.DynamicUpdate;
 
-import com.lacosdaalegria.intralacos.model.Voluntario;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 
 @Entity
 @Table
@@ -19,6 +19,12 @@ public class Analista {
 	
 	private Long id;
 	private Voluntario voluntario;
+	
+	/*
+	 * ======================================================================================
+	 * ============================== Getters and Setters ===================================
+	 * ======================================================================================
+	 */
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

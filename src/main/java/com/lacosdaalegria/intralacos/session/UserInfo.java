@@ -11,12 +11,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import com.lacosdaalegria.intralacos.model.MaisLacos;
-import com.lacosdaalegria.intralacos.model.Voluntario;
 import com.lacosdaalegria.intralacos.model.demanda.Demanda;
-import com.lacosdaalegria.intralacos.service.VoluntarioService;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.modules.AtividadeService;
 import com.lacosdaalegria.intralacos.service.modules.DemandaService;
 import com.lacosdaalegria.intralacos.service.modules.OuvidoriaService;
+import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -90,6 +90,7 @@ public class UserInfo {
 		voluntario = vService.getByLogin(getAuthentication().getName());
 	}
 	
+	//Fazer classe com metodos estaticos de segurança
 	public boolean hasRole(String role) {
 		for(GrantedAuthority  r : SecurityContextHolder.getContext().getAuthentication().getAuthorities()) {
 			if(r.getAuthority().equals(role))

@@ -20,6 +20,12 @@ public class Categoria {
 	private Integer status = 1;
 	private Grupo grupo;
 	
+	/*
+	 * ======================================================================================
+	 * ============================== Getters and Setters ===================================
+	 * ======================================================================================
+	 */
+	
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
 	public Long getId() {

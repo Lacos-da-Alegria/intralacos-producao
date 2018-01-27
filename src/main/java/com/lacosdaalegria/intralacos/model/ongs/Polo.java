@@ -14,8 +14,8 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.lacosdaalegria.intralacos.model.Regiao;
-import com.lacosdaalegria.intralacos.model.Voluntario;
+import com.lacosdaalegria.intralacos.model.usuario.Regiao;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 
 @Entity
 @Table
@@ -38,6 +38,12 @@ public class Polo{
 	public void removeRegiao(Regiao regiao) {
 		regioes.remove(regiao);
 	}
+	
+	/*
+	 * ======================================================================================
+	 * ============================== Getters and Setters ===================================
+	 * ======================================================================================
+	 */
 	
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
