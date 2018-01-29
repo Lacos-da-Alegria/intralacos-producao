@@ -32,7 +32,7 @@
           	<div class="row mt">
           		<div th:each="aula : ${aulas}" class="col-lg-3 col-md-3 col-sm-3 mb">
 					<div class="content-panel pn">
-						<div id="profile-02" th:style="'background: url('+${aula.imagem}+') background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
+						<div id="profile-02" th:style="'background-image: url('+${aula.imagem}+'); background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
 						</div>
 						<div class="pr2-social centered">
 							<a data-fancybox th:href="${aula.youtube}"><i class="fa fa-youtube-play"></i>Abrir Vídeo</a>
