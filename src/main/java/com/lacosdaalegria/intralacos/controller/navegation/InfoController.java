@@ -1,7 +1,5 @@
 package com.lacosdaalegria.intralacos.controller.navegation;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,14 +42,6 @@ public class InfoController {
 	@GetMapping("/voluntario/calendario/acoes")
 	public String infoCalendarioAcoes() {
 		return "info/calendario";
-	}
-	
-	@GetMapping("/info/depoimentos")
-	public String infoDepoimentos(HttpServletRequest request, Model model) {
-		//Habilitar botão para exclusão logica de depoimento
-		if(request.isUserInRole("DIRETOR"))
-			model.addAttribute("diretor", "c230c8dc-0d8e-4721-94ac-5291ad330be6");
-		return "info/depoimentos";
 	}
 	
 }

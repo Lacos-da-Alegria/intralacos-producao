@@ -38,7 +38,7 @@
 			                <div class="project">
 		                        <div class="photo-wrapper">
 		                            <div class="photo">
-		                            	<a class="more" href="https://www.youtube.com/watch?v=SW1I5sfWnsg?autoplay=1"><img class="img-responsive" src="/assets/img/portfolio/import-info.jpg" alt=""></a>
+		                            	<a data-fancybox href="https://www.youtube.com/watch?v=SW1I5sfWnsg?autoplay=1"><img class="img-responsive" src="/assets/img/portfolio/import-info.jpg" alt=""></a>
 		                            </div>
 		                            <div class="overlay"></div>
 		                        </div>
@@ -63,7 +63,7 @@
 		                    <div class="project">
 		                        <div class="photo-wrapper">
 		                            <div class="photo">
-		                            	<a class="more" href="https://www.youtube.com/watch?v=fxbDkhc4IeI?autoplay=1"><img class="img-responsive" src="/assets/img/portfolio/como-funfa.jpg" alt=""></a>
+		                            	<a data-fancybox href="https://www.youtube.com/watch?v=fxbDkhc4IeI?autoplay=1"><img class="img-responsive" src="/assets/img/portfolio/como-funfa.jpg" alt=""></a>
 		                            </div>
 		                            <div class="overlay"></div>
 		                        </div>
@@ -257,7 +257,7 @@
 	
 	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
    
-	<a th:if="${session.vindas}" class="more" id="hidden_link" href="https://www.youtube.com/watch?v=LkwAybdLPBQ?autoplay=1"></a>
+	<a th:if="${session.vindas}" id="hidden_link" data-fancybox href="https://www.youtube.com/watch?v=LkwAybdLPBQ?autoplay=1"></a>
 	
     <script src="/assets/js/custom/novato-home.js"></script>
     

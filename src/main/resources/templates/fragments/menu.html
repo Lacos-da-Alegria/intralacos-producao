@@ -29,7 +29,6 @@
                           <span>Ouvidoria</span>
                       </a>
                   </li>
-                  
                     
 		          <li class="sub-menu">
                       <a href="javascript:;" >
@@ -41,10 +40,20 @@
                           <li><a class="typeform-share" href="https://ricardo249.typeform.com/to/CHaHvE" data-mode="1" target="_blank">Quiz Laços</a></li>
 	                      <li><a  href="/info/aniversariantes">Aniversariantes do Dia</a></li>
 	                      <li><a  href="/info/depoimentos">Nossos Depoimentos</a></li>
-	                      <li sec:authorize="hasRole('VOLUNTARIO')"><a  href="/voluntario/calendario/acoes">Calendário de Ações</a></li>
+	                      <div sec:authorize="hasRole('VOLUNTARIO')" th:remove="tag">
+	                      <li sec:authorize="hasRole('ADMIN')"><a  href="/voluntario/caronas">Quero Carona</a></li>
+	                      <li><a  href="/voluntario/calendario/acoes">Calendário de Ações</a></li>
+	                      </div>
 	                      <li sec:authorize="hasRole('NOVATO')"><a data-toggle="modal" href="#myModaAtivar">Não Sou Novato</a></li>      
                       </ul>
                   	</li>
+                  	
+                  	<li class="sub-menu">
+                      <a href="/info/capacitacao" >
+                          <i class="fa fa-graduation-cap"></i>
+                          <span>Vamos Aprender</span>
+                      </a>
+                 	</li>
 			    	
 			        <li class="sub-menu">
                       <a href="javascript:;" >
@@ -67,8 +76,6 @@
                       </a>
                   </li>
                 
-				
-					
                   <li sec:authorize="hasAnyRole('COORD', 'DHOSP', 'DEXEC')" class="sub-menu">
                       <a href="/coordenador/home" >
                           <i class="fa fa-hospital-o"></i>
@@ -80,6 +87,13 @@
                       <a href="/controlador/page" >
                           <i class="fa fa-diamond"></i>
                           <span>Controle de Novatos</span>
+                      </a>
+                  </li>
+                  
+                  <li sec:authorize="hasAnyRole('CAPACITA', 'DEXEC')" class="sub-menu">
+                      <a href="/capacitacao/controle/materias" >
+                          <i class="fa fa-life-ring"></i>
+                          <span>Capacitação</span>
                       </a>
                   </li>
                 
@@ -149,6 +163,9 @@
                         <div sec:authorize="hasAnyRole('DCOM')" th:remove="tag">
                           <li><a href="/comunicacao/ouvidoria"> Controle da Ouvidoria</a></li>
                           <li><a href="/comunicacao/cadastro/notificacao">Cadastrar Notificação</a></li>
+                        </div>
+                        <div sec:authorize="hasAnyRole('DEXEC')" th:remove="tag">
+                          <li><a href="/executivo/controle/educadores">Equipe Capacitação</a></li>
                         </div>
                       </ul>
                   </li>

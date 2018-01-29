@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+     <section id="main-content">
+          <section class="wrapper site-min-height">
+          	<h2><a href="/info/capacitacao"><i class="fa fa-arrow-left" aria-hidden="true"></i></a> &nbsp&nbsp Aulas sobre <span th:text="${materia.titulo}"></span></h2>
+          	<div class="row mt">
+          		<div th:each="aula : ${aulas}" class="col-lg-3 col-md-3 col-sm-3 mb">
+					<div class="content-panel pn">
+						<div id="profile-02" th:style="'background: url('+${aula.imagem}+') no-repeat center top;'">
+						</div>
+						<div class="pr2-social centered">
+							<a data-fancybox th:href="${aula.youtube}"><i class="fa fa-youtube-play"></i>Abrir Vídeo</a>
+						</div>
+					</div>
+				</div><!--/ col-md-4 -->
+			</div>
+					
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>	
+	
+  </body>
+</html>

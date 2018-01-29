@@ -146,6 +146,8 @@ public class InitData {
 		
 		roleRepo.save(initRole("ROLE_SUSTENTA"));
 		
+		roleRepo.save(initRole("ROLE_CAPACITA"));
+		
 	}
 	
 	private Role initRole(String name) {
