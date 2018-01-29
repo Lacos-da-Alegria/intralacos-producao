@@ -31,7 +31,7 @@
           	<h2 class="centered"><i class="fa fa-university" aria-hidden="true"></i> Faculdade de Besteurologia</h2>
           	<div class="row mt">
 	            <div th:each="materia : ${materias}" class="col-md-4 col-sm-4 mb">
-					<div class="weather pn" th:style="'background: url('+${materia.imagem}+') no-repeat center top'">
+					<div class="weather pn" th:style="'background: url('+${materia.imagem}+') background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
 						<i th:class="'fa fa-4x '+ ${materia.icone}"></i>
 						<h4 th:text="${materia.titulo}"></h4>
 						<a th:href="'/info/aulas?materia='+${materia.id}">
