@@ -92,21 +92,6 @@
 
     <div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
 	
-	<script>
-	
-		$('#image-file').bind('change', function() {
-			 
-	        if((this.files[0].size/1024)>500){
-	       	 $('#submitFoto').attr('disabled','disabled');
-	       	 alert("O tamanho da foto deve ser inferior a 500Kbytes para ser utilizada, favor reduzir o tamanho da foto antes de envia-la");
-	        } else {
-	       	 $('#submitFoto').removeAttr('disabled');
-	        }
-	
-		 });	
-		
-	</script>
-	
 	<script type="text/javascript">
     
         function clickAndDisable(link) {

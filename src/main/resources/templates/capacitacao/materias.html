@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+     <section id="main-content">
+          <section class="wrapper site-min-height">
+          	<h2 class="centered"><i class="fa fa-university" aria-hidden="true"></i> Faculdade de Besteurologia</h2>
+          	<div class="row mt">
+	            <div th:each="materia : ${materias}" class="col-md-4 col-sm-4 mb">
+					<div class="weather pn" th:style="'background: url('+${materia.imagem}+') background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
+						<i th:class="'fa fa-4x '+ ${materia.icone}"></i>
+						<h4 th:text="${materia.titulo}"></h4>
+						<a th:href="'/info/aulas?materia='+${materia.id}">
+						<div class="profile-01 centered" th:style="'background:'+${materia.cor}">
+							<p>Ir para aulas</p>
+						</div>
+						</a>
+					</div>
+				</div><!-- /col-md-4-->
+			</div>
+					
+				  
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+	<div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>	
+  </body>
+</html>

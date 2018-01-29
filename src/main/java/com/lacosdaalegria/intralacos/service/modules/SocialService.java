@@ -5,16 +5,26 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.lacosdaalegria.intralacos.model.social.Carona;
 import com.lacosdaalegria.intralacos.model.social.Depoimento;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
+import com.lacosdaalegria.intralacos.repository.social.CaronaRepository;
 import com.lacosdaalegria.intralacos.repository.social.DepoimentoRepository;
+import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service
 public class SocialService {
 	
 	@Autowired
 	private DepoimentoRepository depoimento;
+	@Autowired
+	private CaronaRepository carona;
 	
+	/*
+	 * ======================================================================================
+	 * ===================================== Depoimentos ====================================
+	 * ======================================================================================
+	 */
 	
 	public Depoimento saveDepoimento(Depoimento depoimento, Voluntario voluntario) {
 		depoimento.setVoluntario(voluntario);
@@ -30,4 +40,31 @@ public class SocialService {
 		this.depoimento.save(depoimento);
 	}
 	
+	/*
+	 * ======================================================================================
+	 * ======================================= Caronas ======================================
+	 * ======================================================================================
+	 */
+	
+	public Page<Carona> pagecarona(Integer page){
+		return this.carona.findByStatusOrderByCriacaoDesc(1, PageRequest.of(page, 12));
+	}
+	
+	public Carona createCarona(Carona carona, UserInfo info) {
+		carona.setCriador(info.getVoluntario());
+		return this.carona.save(carona);
+	}
+	
+	public Carona queroCarona(Carona carona, UserInfo info) {
+		carona.getViajantes().add(info.getVoluntario());
+		return this.carona.save(carona);
+	}
+	
+	public boolean cacelarCarona(Carona carona, UserInfo info) {
+		if(carona.ehCriador(info.getVoluntario())) {
+			this.carona.delete(carona);
+			return true;
+		} else 
+			return false;
+	}
 }

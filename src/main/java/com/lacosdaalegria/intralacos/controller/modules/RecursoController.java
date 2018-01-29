@@ -48,6 +48,12 @@ public class RecursoController {
 		
 	}
 	
+	@GetMapping("/admin/create/role")
+	public String infoContato(String role) {
+		vService.createRole(role);
+		return "redirect:/";
+	}
+	
 	
 	/*
 	 * ======================================================================================

@@ -62,6 +62,12 @@ public class VoluntarioService {
 		}
 	}
 	
+	public void createRole(String papel) {
+		Role role = new Role();
+		role.setRole("ROLE_"+papel);
+		this.role.save(role);
+	}
+	
 	public void promoteNovato(Voluntario voluntario){
 		Set<Role> papel = new HashSet<>();
 		papel.add(getRole("ROLE_VOLUNTARIO"));

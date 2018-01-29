@@ -33,6 +33,10 @@ var pagina = 0;
 	
  }
  
+ function isEmpty(str) {
+	 return (!str || 0 === str.length);
+ }
+ 
  function modalDelete(id){
 	$('#idDepoimentoDelete').val(id);
 	$('#deletarDepoimento').modal('show');

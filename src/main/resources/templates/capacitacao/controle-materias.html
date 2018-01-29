@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: content"></head>
+
+<body>
+
+  <section id="container" >
+      <!-- **********************************************************************************************************************************************************
+      TOP BAR CONTENT & NOTIFICATIONS
+      *********************************************************************************************************************************************************** -->
+      <!--header start-->
+     <header th:replace="fragments/top-menu :: header"></header>	
+      <!--header end-->
+      
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+      	<div th:replace="fragments/menu :: side"></div>
+      </aside>
+      <!--sidebar end-->
+    
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+          
+          	
+          	<div class="row mt">
+                  <div class="col-md-12">
+                      <div class="content-panel">
+                          <table class="table table-striped table-advance table-hover">
+	                  	  	  <h3 style="margin-left:10px;"> <b> <i class="fa fa-graduation-cap" aria-hidden="true"></i> Controle de Materias </b> 
+	                  	  	  	<a type="button" data-toggle="modal" href="#modalCadastro" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Nova Matéria</span></a>
+	                  	  	  </h3>	                  	      	                   	  
+	                  	  	  <hr>
+	                  	  	  <div th:if="${successMessage != null}">
+							    <div class="alert alert-success" th:utext="${successMessage}"></div>
+							  </div>
+							  <div th:if="${errorMessage != null}">
+							    <div class="alert alert-danger" th:utext="${errorMessage}"></div>
+							  </div>
+                              <thead>
+                              <tr>
+                                  <th><i class="fa fa-star-half-o " aria-hidden="true"></i> <span class="hidden-phone">Titulo</span></th>
+                                  <th><i class="fa fa-arrow-circle-down"> <span class="hidden-phone">Imagem</span></i></th>
+                                  <th><i class="fa fa-star-half-o" aria-hidden="true"></i> <span class="hidden-phone">Alterar Status</span></th>
+                                  <th><i class="fa fa-user-circle-o"></i> <span class="hidden-phone">Aulas</span></th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr th:each="materia : ${materias}">
+	                              <td th:text="${materia.titulo}"></td>
+	                              <td><a th:onclick="'atualizarImagem('+${materia.id}+',\''+${materia.imagem}+'\');'" style="font-size:13px;"  class="btn btn-primary btn-xs fa fa-camera-retro"></a></td>
+	                              <td><a th:href="'/capacitacao/status/materia?materia='+${materia.id}" style="font-size:13px;"  th:class="'btn btn-xs fa fa-history ' + ${materia.status == 1 ? 'btn-danger' : 'btn-success'}"></a></td>
+	                              <td><a th:href="'/capacitacao/controle/aulas?materia='+${materia.id}" style="font-size:13px;"  class="btn btn-success btn-xs fa fa-arrow-circle-right"></a></td>
+                              </tr>   
+                              </tbody>
+                          </table>
+                      </div><!-- /content-panel -->
+                  </div><!-- /col-md-12 -->
+              </div><!-- /row -->		
+	
+					
+					<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                      </div>
+		                      <div class="modal-body">
+		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
+		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
+		
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+		        
+		        <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="modalCadastro" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-b">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered"><i class="fa fa-calendar" aria-hidden="true"></i> Cadastrar Matéria</h4>
+		                      </div>
+		                      
+		              <form class="form-horizontal style-form" action="/capacitacao/create/materia" method = "post" >
+		                      
+		                 <div class="modal-body">
+                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Título</label>
+                              <div class="col-sm-10">
+                                  <input class="form-control" type="text" name="titulo"  required>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Ícone</label>
+                              <div class="col-sm-10">
+                                  <input class="form-control" type="text" name="icone"  required>
+                              </div>
+                          </div>
+                           <div class="form-group">
+                              <label class="col-sm-2 col-sm-2 control-label">Cor</label> 
+                              <div class="col-sm-10">
+                                 <input class="form-control" type="text" name="cor"  required>
+                              </div>
+                          </div> 
+						</div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-primary" type="submit">Cadastrar</button>
+		                      </div>
+		                      
+		                      </form>
+		                        	
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		           <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="atualizarImagem" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-b">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title">Atualizar Imagem da Materia</h4>
+		                      </div>
+		                      <form action="/capacitacao/imagem/materia" method = "post" enctype="multipart/form-data">
+		                      <div class="modal-body">
+							  	<div class="text-center">
+						          <img id="photo-materia"  class="avatar img-circle" alt="avatar" name="pic" height="152" width="152">
+						          <h6>Altere sua Foto da Atividade</h6> 
+						          <input type="hidden" id="materia-id" name="materia" required >
+						          <input id="image-file" class="form-control" type="file" name="file" required multiple>
+							  	</div>
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-primary" type="submit">Atualizar</button>
+		                      </div>
+		                      </form> 
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+		          
+          </section>
+      </section>
+
+      <!--main content end-->
+
+  </section>
+
+    <div th:include="fragments/commonJs :: scripts" th:remove="tag"></div>
+	
+	<script type="text/javascript">
+    
+        function clickAndDisable(link) {
+            // disable subsequent clicks
+            link.onclick = function(event) {
+               event.preventDefault();
+            }
+          };
+          
+          function atualizarImagem(id, imagem){
+        	  console.log(imagem);
+        	  $('#photo-materia').attr('src',imagem);
+        	  $('#materia-id').val(id);
+        	  $('#atualizarImagem').modal('show');
+          }
+          
+    </script> 
+
+  </body>
+</html>
