@@ -283,7 +283,7 @@
       *********************************************************************************************************************************************************** -->                  
                   
                   <div class="col-lg-3 ds">
-                  <span sec:authorize="hasAnyRole('COORD', 'DHOSP', 'SUSTENTA')">
+                  <span sec:authorize="hasAnyRole('SUSTENTA')">
                   	<h3>Código de Promoção de Novato</h3>               
                       <div class="desc box2 centered">
 						<button type="button" class="btn btn-round btn-primary"><span class="fa fa-code"></span>&nbsp&nbspCódigo da Semana - <b><font size="3" th:text="${codigo}"></font></b></button>
@@ -303,21 +303,6 @@
 	                      </div> -->
                       
                    
-						<h3>Calendário de Atividades</h3><br>
-                       <!-- CALENDAR-->
-                        <div id="calendar" class="mb">
-                            <div class="panel green-panel no-margin">
-                                <div class="panel-body">
-                                    <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
-                                        <div class="arrow"></div>
-                                        <h3 class="popover-title" style="disadding: none;"></h3>
-                                        <div id="date-popover-content" class="popover-content"></div>
-                                    </div>
-                                    <div id="my-calendar"></div>
-                                </div>
-                            </div>
-                        </div><!-- / calendar -->
-                      
                   </div><!-- /col-lg-3 -->
               </div><!--/row -->
           </section>
@@ -337,28 +322,6 @@
 		$('#ModalLembreteDem').modal('show');
 	});
 
-	$(document).ready(function () {
-	    $("#date-popover").popover({html: true, trigger: "manual"});
-	    $("#date-popover").hide();
-	    $("#date-popover").click(function (e) {
-	        $(this).hide();
-	    });
-	
-	    $("#my-calendar").zabuto_calendar({
-	        action: function () {
-	            return myDateFunction(this.id, false);
-	        },
-	        action_nav: function () {
-	            return myNavFunction(this.id);
-	        },
-	        ajax: {
-	            url: "nothing",
-	            modal: true
-	        },
-	       
-	    });
-	});
-	
 	function getHospitalInfo(id){
 		
 		var request = $.ajax({
