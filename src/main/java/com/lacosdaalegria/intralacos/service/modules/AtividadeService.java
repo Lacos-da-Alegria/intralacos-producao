@@ -394,7 +394,7 @@ public class AtividadeService {
 	private Date lastWeek() {
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(new Date()); 
-		c.add(Calendar.DATE, -6);
+		c.add(Calendar.DATE, -9);
 		return c.getTime();
 	}
 
