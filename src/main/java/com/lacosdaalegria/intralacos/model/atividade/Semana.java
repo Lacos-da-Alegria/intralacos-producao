@@ -10,16 +10,24 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Semana {
-	
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
 	private Date criacao = new Date();
+
+	@NotNull
 	private Integer semana;
+
+	@NotNull
 	private Integer ano;
 	private Integer status = 1;
 	
@@ -34,49 +42,4 @@ public class Semana {
 		ano = cal.get(Calendar.YEAR);
 		
 	}
-	
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Date getCriacao() {
-		return criacao;
-	}
-	public void setCriacao(Date criacao) {
-		this.criacao = criacao;
-	}
-	@NotNull
-	public Integer getSemana() {
-		return semana;
-	}
-	public void setSemana(Integer semana) {
-		this.semana = semana;
-	}
-	@NotNull
-	public Integer getAno() {
-		return ano;
-	}
-	public void setAno(Integer ano) {
-		this.ano = ano;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	
-	
-
 }

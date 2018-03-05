@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.usuario.Regiao;
@@ -21,24 +23,50 @@ import com.lacosdaalegria.intralacos.model.usuario.Regiao;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Instituicao {
-	
+
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
+
+	@NotBlank
 	private String nome;
 	private Integer status = 1;
+
+	@NotBlank
 	private String telefone;
+
+	@NotBlank
 	private String email;
+
+	@NotBlank
 	private String responsavel;
 	private String contatoResponsavel;
 	private String emailResponsavel;
+
+	@Lob
 	private String descricao;
+
+	@Lob
 	private String atividades;
+
+	@NotBlank
 	private String endereco;
+
+	@ManyToMany
 	private Set<Tag> tags;
 	private boolean fomos;
+
+	@Lob
 	private String pontosCriticos;
+
+	@ManyToOne
 	private Regiao regiao;
 	private String imagem;
+
+	@NotNull
+	@ManyToOne
 	private Polo polo;
 	
 	public Set<Tag> caracteristicas(){
@@ -66,129 +94,4 @@ public class Instituicao {
 	public String jaFomos() {
 		return fomos ? "Sim" : "Não";
 	}
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	@NotBlank
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	@NotBlank
-	public String getTelefone() {
-		return telefone;
-	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-	
-	@NotBlank
-	public String getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-	@NotBlank
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	@NotBlank
-	public String getResponsavel() {
-		return responsavel;
-	}
-	public void setResponsavel(String responsavel) {
-		this.responsavel = responsavel;
-	}
-	public String getContatoResponsavel() {
-		return contatoResponsavel;
-	}
-	public void setContatoResponsavel(String contatoResponsavel) {
-		this.contatoResponsavel = contatoResponsavel;
-	}
-	public String getEmailResponsavel() {
-		return emailResponsavel;
-	}
-	public void setEmailResponsavel(String emailResponsavel) {
-		this.emailResponsavel = emailResponsavel;
-	}
-	@Lob
-	public String getDescricao() {
-		return descricao;
-	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	@Lob
-	public String getAtividades() {
-		return atividades;
-	}
-	public void setAtividades(String atividades) {
-		this.atividades = atividades;
-	}
-	@ManyToMany
-	public Set<Tag> getTags() {
-		return tags;
-	}
-	public void setTags(Set<Tag> tags) {
-		this.tags = tags;
-	}
-	public boolean isFomos() {
-		return fomos;
-	}
-	public void setFomos(boolean fomos) {
-		this.fomos = fomos;
-	}
-	@Lob
-	public String getPontosCriticos() {
-		return pontosCriticos;
-	}
-	public void setPontosCriticos(String pontosCriticos) {
-		this.pontosCriticos = pontosCriticos;
-	}
-	@ManyToOne
-	public Regiao getRegiao() {
-		return regiao;
-	}
-	public void setRegiao(Regiao regiao) {
-		this.regiao = regiao;
-	}
-	public String getImagem() {
-		return imagem;
-	}
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
-	}
-	@NotNull
-	@ManyToOne
-	public Polo getPolo() {
-		return polo;
-	}
-	public void setPolo(Polo polo) {
-		this.polo = polo;
-	}
-	
 }

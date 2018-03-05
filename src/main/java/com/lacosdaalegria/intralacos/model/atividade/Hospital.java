@@ -12,32 +12,61 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Hospital {
-	
+
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
+
+	@NotBlank
 	private String nome;
+
+	@NotBlank
 	private String tag;
+
+	@NotNull
 	private Integer status = 0;
+
+	@Lob
 	private String descricao;
 	private String endereco;
 	private String localPreparo;
 	private String horario;
+
+	@NotNull
 	private Integer dia;
+
+	@NotNull
 	private Integer periodo;
+
+	@Max(22)
+	@NotNull
 	private Integer limiteVoluntario;
+
+	@Max(8)
+	@NotNull
 	private Integer limiteApoio;
+
+	@Max(8)
+	@NotNull
 	private Integer limiteNovato;
 	private String imagem;
-	private Boolean inscricao = true;
+	private Boolean inscricao = false;
 	private Boolean chamada = false;
 	private Boolean novatos = true;
-	private Semana semana;
 	
+	@ManyToOne
+	private Semana semana;
+
+	@Transient
 	private Integer situacao = 0;
 	
 	public String imageHospital() {
@@ -196,14 +225,6 @@ public class Hospital {
 		this.chamada = chamada;
 	}
 	
-	public Boolean getNovatos() {
-		return novatos;
-	}
-
-	public void setNovatos(Boolean novatos) {
-		this.novatos = novatos;
-	}
-
 	@ManyToOne
 	public Semana getSemana() {
 		return semana;

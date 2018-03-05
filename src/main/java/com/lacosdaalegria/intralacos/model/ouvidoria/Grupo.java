@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
@@ -18,11 +20,20 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Grupo {
 
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
+
+	@NotBlank
 	private String nome;
+
+	@OneToMany(mappedBy="grupo", cascade=CascadeType.ALL)
 	private Set<Categoria> categorias;
+
+	@OneToMany
 	private Set<Voluntario> atendentes;
 	private Integer status = 1;
 	
@@ -34,49 +45,5 @@ public class Grupo {
 			}
 		}
 	}
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	@NotBlank
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
-	@OneToMany(mappedBy="grupo", cascade=CascadeType.ALL)
-	public Set<Categoria> getCategorias() {
-		return categorias;
-	}
-	public void setCategorias(Set<Categoria> categorias) {
-		this.categorias = categorias;
-	}
-	
-	@OneToMany
-	public Set<Voluntario> getAtendentes() {
-		return atendentes;
-	}
-	public void setAtendentes(Set<Voluntario> atendentes) {
-		this.atendentes = atendentes;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	
+
 }

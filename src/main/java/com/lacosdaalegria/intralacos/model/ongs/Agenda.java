@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.atividade.Semana;
@@ -22,20 +24,38 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @DynamicUpdate
 public class Agenda {
 
-	private Long id;
-	private Instituicao instituicao;
-	private String nome;
-	private Integer voluntarios;
-	private boolean limite;
-	private Date criacao = new Date();
-	private Voluntario criador;
-	private Integer status = 1;
-	private Date horario;
-	private Integer duracao;
-	private boolean inscricao = false;
-	private boolean chamada = false;
-	private Integer situacao = 0;
-	private Semana semana;
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
+	@Getter @Setter	private Long id;
+
+	@ManyToOne
+	@Getter @Setter private Instituicao instituicao;
+
+	@NotNull
+	@Getter @Setter private String nome;
+
+	@NotNull
+	@Getter @Setter private Integer voluntarios;
+	@Getter @Setter private boolean limite;
+	@Getter @Setter private Date criacao = new Date();
+
+	@ManyToOne
+	@Getter @Setter private Voluntario criador;
+	@Getter @Setter private Integer status = 1;
+
+	@NotNull
+	@Getter @Setter private Date horario;
+
+	@NotNull
+	@Getter @Setter private Integer duracao;
+	@Setter private boolean inscricao = false;
+	@Setter private boolean chamada = false;
+
+	@Transient
+	@Getter @Setter private Integer situacao = 0;
+
+	@ManyToOne
+	@Getter @Setter private Semana semana;
 	
 	public boolean ehAgora(int dia, int periodo) {
 		return getDia().equals(dia) && getPeriodo().equals(periodo);
@@ -50,75 +70,7 @@ public class Agenda {
 	 * ============================== Getters and Setters ===================================
 	 * ======================================================================================
 	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	@ManyToOne
-	public Instituicao getInstituicao() {
-		return instituicao;
-	}
-	public void setInstituicao(Instituicao instituicao) {
-		this.instituicao = instituicao;
-	}
-	@NotNull
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	@NotNull
-	public Integer getVoluntarios() {
-		return voluntarios;
-	}
-	public void setVoluntarios(Integer voluntarios) {
-		this.voluntarios = voluntarios;
-	}
-	public boolean isLimite() {
-		return limite;
-	}
-	public void setLimite(boolean limite) {
-		this.limite = limite;
-	}
-	public Date getCriacao() {
-		return criacao;
-	}
-	public void setCriacao(Date criacao) {
-		this.criacao = criacao;
-	}
-	@ManyToOne
-	public Voluntario getCriador() {
-		return criador;
-	}
-	public void setCriador(Voluntario criador) {
-		this.criador = criador;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	@NotNull
-	public Date getHorario() {
-		return horario;
-	}
-	public void setHorario(Date horario) {
-		this.horario = horario;
-	}
-	@NotNull
-	public Integer getDuracao() {
-		return duracao;
-	}
-	public void setDuracao(Integer duracao) {
-		this.duracao = duracao;
-	}
+
 	@Transient
 	public Integer getDia() {
 		Calendar cal = Calendar.getInstance();
@@ -143,31 +95,7 @@ public class Agenda {
 	public boolean isInscricao() {
 		return inscricao;
 	}
-	public void setInscricao(boolean inscricao) {
-		this.inscricao = inscricao;
-	}
 	public boolean isChamada() {
 		return chamada;
 	}
-	public void setChamada(boolean chamada) {
-		this.chamada = chamada;
-	}
-	
-	@ManyToOne
-	public Semana getSemana() {
-		return semana;
-	}
-
-	public void setSemana(Semana semana) {
-		this.semana = semana;
-	}
-	
-	@Transient
-	public Integer getSituacao() {
-		return situacao;
-	}
-	public void setSituacao(Integer situacao) {
-		this.situacao = situacao;
-	}
-
 }

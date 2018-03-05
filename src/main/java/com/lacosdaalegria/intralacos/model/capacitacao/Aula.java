@@ -8,60 +8,26 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Aula {
-	
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+
+	@NotBlank
 	private String youtube;
 	private Integer status = 1;
 	private String imagem;
-	private Materia materia;
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	@NotBlank
-	public String getYoutube() {
-		return youtube;
-	}
-	public void setYoutube(String youtube) {
-		this.youtube = youtube;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	public String getImagem() {
-		return imagem;
-	}
-	public void setImagem(String imagem) {
-		this.imagem = imagem;
-	}
+
 	@ManyToOne
-	public Materia getMateria() {
-		return materia;
-	}
-	public void setMateria(Materia materia) {
-		this.materia = materia;
-	}
-	
-	
+	private Materia materia;
 
 }
