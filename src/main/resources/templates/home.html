@@ -353,7 +353,7 @@
 	function getDate(date){
  		var data = '';
  		data = data + date.getDate()+'/';
- 		data = data + date.getMonth()+1+'/';
+ 		data = data + (parseInt(date.getMonth())+1)+'/';
  		data = data + date.getFullYear()+' ';
  		data = data + date.getHours()+':';
  		data = data + date.getMinutes();
