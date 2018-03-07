@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.lacosdaalegria.intralacos.model.sustentacao.Promocao;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
+import com.lacosdaalegria.intralacos.service.modules.RecursoService;
 import com.lacosdaalegria.intralacos.service.modules.SustentacaoService;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
+import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
 public class SustentacaoController {
@@ -22,6 +25,10 @@ public class SustentacaoController {
 	private SustentacaoService service;
 	@Autowired
 	private VoluntarioService vService;
+	@Autowired
+	private RecursoService recurso;
+	@Autowired
+	private UserInfo info;
 	
 	/*
 	 * ======================================================================================
@@ -68,6 +75,8 @@ public class SustentacaoController {
 			model.addAttribute("errorMessage", "Não foi localizado nenhum voluntário com essa informação");
 		} else  {
 			model.addAttribute("voluntario",  voluntario);
+			if(!voluntario.isPromovido())
+				model.addAttribute("coordenadores", recurso.activeCoordenadores());
 		}
 		
 		return "admin/sustentacao/page";
@@ -85,7 +94,31 @@ public class SustentacaoController {
     		modelAndView.addObject("voluntario", voluntario);
             modelAndView.addObject("successMessage", "Informações atualizadas com sucesso!");
     	}
+    	
+    	if(!voluntario.isPromovido())
+    		modelAndView.addObject("coordenadores", recurso.activeCoordenadores());
+    	
     	return modelAndView;
+	}
+	
+	@PostMapping("/sustentacao/promover/novato")
+	public String updateInfo(Promocao promocao, Model model) {
+		
+		if(promocao.getNovato().isPromovido()) {
+			model.addAttribute("errorMessage", promocao.getNovato().getPrimerioNome() + " já se encontra promovido!");
+			return "admin/sustentacao/page";
+		}
+		
+		promocao = service.registraPromocao(promocao, info);
+		
+		if(promocao.getId() != null) {
+			model.addAttribute("voluntario", vService.promoteNovato(promocao.getNovato()));
+			model.addAttribute("successMessage", "Novato promovido com sucesso!");
+		} else {
+			model.addAttribute("voluntario", promocao.getNovato());
+			model.addAttribute("errorMessage", "Ocorreu um erro, novato não foi promovido!");
+		}
+		return "admin/sustentacao/page";
 	}
 	
 	//Metodo que valida result para atualização, deve ser transferido para camada de serviço

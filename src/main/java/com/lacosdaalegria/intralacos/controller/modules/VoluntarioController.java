@@ -71,7 +71,7 @@ public class VoluntarioController {
 		
 		model.addAttribute("voluntario", new Voluntario());
 		
-		model.addAttribute("hospitais", hospital.getAllActive());
+		model.addAttribute("hospitais", hospital.getHospitalNovatos());
 		model.addAttribute("ras", regiao.getAllActive());
 		
 		return "register";
@@ -88,7 +88,7 @@ public class VoluntarioController {
     	
     	if(result.hasErrors()) {
     		
-    		modelAndView.addObject("hospitais", hospital.getAllActive());
+    		modelAndView.addObject("hospitais", hospital.getHospitalNovatos());
     		modelAndView.addObject("ras", regiao.getAllActive());
 
     		modelAndView.setViewName("register");
@@ -203,7 +203,7 @@ public class VoluntarioController {
 	
 	@GetMapping("/novato/home")
 	public String home(Model model) {
-		model.addAttribute("hospitais", hospital.getAllActive());
+		model.addAttribute("hospitais", hospital.getHospitalNovatos());
 		return "novatos/home";
 	}
 	

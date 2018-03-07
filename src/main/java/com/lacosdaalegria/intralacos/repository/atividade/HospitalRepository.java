@@ -12,6 +12,8 @@ public interface HospitalRepository extends CrudRepository<Hospital, Long>{
 	
 	Iterable<Hospital> findByStatusAndChamadaFalse(Integer status);
 	
+	Iterable<Hospital> findByNovatosTrue();
+	
 	Iterable<Hospital> findByDiaAndPeriodo(Integer dia, Integer periodo);
 	
 }

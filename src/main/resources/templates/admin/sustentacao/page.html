@@ -32,6 +32,7 @@
 		<div class="form-panel">
 		    <h1>Sustentação Intralaços
 		    <a data-toggle="modal" href="#searchVoluntario" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-search fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Localizar Voluntário</span></a>
+		    <a th:if="${voluntario.id != null && !voluntario.promovido}"data-toggle="modal" href="#promoteNovato" type="button" class="btn btn-info pull-right" style="margin-right:10px;"><i class="fa fa-user fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Promover Novato</span></a>
 		    </h1>
 		  	<hr>
 			<div class="row">
@@ -45,9 +46,10 @@
 					<div th:if="${errorMessage != null}">
 					    <div class="alert alert-danger" th:utext="${errorMessage}"></div>
 					</div>
+					
 					<input name = "id" th:field="*{id}" type="hidden">
 					<div class="form-group">
-		           	<label class="col-sm-2 col-sm-2 control-label"><b>Nome do Voluntário</b></label>
+		           	<label class="col-sm-2 col-sm-2 control-label"><b>Nome do </b> <span class="label label-primary" th:text="*{promovido == true ? 'Voluntário' : 'Novato'}"></span></label>
 		           		<div class="col-sm-10">
                            <input type="text" class="form-control" name="nome" th:field="*{nome}" readonly>
                         </div>		         
@@ -146,6 +148,37 @@
 		                      <div class="modal-footer">
 		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
 		                          <button class="btn btn-primary" type="submit">Atualizar</button>
+		                      </div>
+		                      </form> 
+		                  </div>
+		              </div>
+		          </div>
+		        <!-- modal -->
+		        
+		         <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="promoteNovato" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title"><i class="fa fa-heart" aria-hidden="true"></i> Promover Novato</h4>
+		                      </div>
+		                      <form class="form-horizontal" action="/sustentacao/promover/novato" method = "post" >
+		                      <div class="modal-body">
+		                       	 <div class="form-group">  
+		                       	 	<input name = "novato" th:value="${voluntario.id}" type="hidden">
+						            <label class="col-sm-2 col-sm-2 control-label"><b>Selecione Coordenador Responsável</b></label>
+						              <div class="col-sm-10">
+						              	<select name="coordenador_" class="form-control" required>	
+				                      	  <option th:each="coordenador : ${coordenadores}" th:value="${coordenador.id}" th:text="${coordenador.voluntario.nome + ' - ' + coordenador.hospital.tag}"></option>
+										</select>
+						              </div>
+						          </div>
+						          <small><font color="red">*Lembrando da importância de o novato realmente ter ido na primeira atividade, confiamos em vocês</font></small>
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+		                          <button class="btn btn-success" type="submit">Promover</button>
 		                      </div>
 		                      </form> 
 		                  </div>

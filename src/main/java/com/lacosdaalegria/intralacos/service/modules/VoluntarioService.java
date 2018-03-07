@@ -68,14 +68,14 @@ public class VoluntarioService {
 		this.role.save(role);
 	}
 	
-	public void promoteNovato(Voluntario voluntario){
+	public Voluntario promoteNovato(Voluntario voluntario){
 		Set<Role> papel = new HashSet<>();
 		papel.add(getRole("ROLE_VOLUNTARIO"));
 		
 		voluntario.setPromovido(true);
 		voluntario.setRoles(papel);
 		voluntario.setObservacao("Voluntário promovido - " + new Date());
-		repository.save(voluntario);
+		return repository.save(voluntario);
 	}
 	
 	public void desativaNovato(Voluntario voluntario){

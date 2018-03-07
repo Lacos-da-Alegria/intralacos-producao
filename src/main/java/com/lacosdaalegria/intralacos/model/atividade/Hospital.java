@@ -35,6 +35,7 @@ public class Hospital {
 	private String imagem;
 	private Boolean inscricao = true;
 	private Boolean chamada = false;
+	private Boolean novatos = true;
 	private Semana semana;
 	
 	private Integer situacao = 0;
@@ -195,6 +196,14 @@ public class Hospital {
 		this.chamada = chamada;
 	}
 	
+	public Boolean getNovatos() {
+		return novatos;
+	}
+
+	public void setNovatos(Boolean novatos) {
+		this.novatos = novatos;
+	}
+
 	@ManyToOne
 	public Semana getSemana() {
 		return semana;
