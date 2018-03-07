@@ -77,6 +77,7 @@ public class Agenda {
 		cal.setTime(horario);
 		return cal.get(Calendar.DAY_OF_WEEK);
 	}
+
 	@Transient
 	public Integer getPeriodo() {
 		Calendar cal = Calendar.getInstance();
