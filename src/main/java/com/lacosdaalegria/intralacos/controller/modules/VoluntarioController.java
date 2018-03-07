@@ -1,7 +1,5 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
-import java.util.Objects;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -212,17 +210,6 @@ public class VoluntarioController {
 		service.updatePreferencia(info.getVoluntario(), hospital);
 		info.resetPosicao();
 		return "redirect:/novato/home";
-	}
-	
-	//Metodo temporário, deve ser desativado assim que equipe de sustentação
-	//for capaz de promover novatos
-	@PostMapping("/novato/promover")
-	public String promoveNovato(String codigo){
-		if(Objects.equals(Global.getCodigo(), codigo)) {
-			service.promoteNovato(info.getVoluntario());
-			return "redirect:/logout";
-		}
-		return "redirect:/";
 	}
 	
 	@GetMapping("/novato/reativar/conta")
