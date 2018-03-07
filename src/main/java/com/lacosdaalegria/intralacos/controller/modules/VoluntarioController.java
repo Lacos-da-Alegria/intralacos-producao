@@ -51,7 +51,6 @@ public class VoluntarioController {
 		
 	@GetMapping("/voluntario/home")
 	public String voluntarioPage(Model model) {
-		model.addAttribute("codigo", Global.getCodigo());
 		model.addAttribute("hospitais", hospital.getAllActive());
 		model.addAttribute("acoes", ongs.getAcoesAtivas());
 		model.addAttribute("rodada", Global.rodadaRandomica());
