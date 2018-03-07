@@ -32,7 +32,7 @@ public class Agenda {
 	private Integer status = 1;
 	private Date horario;
 	private Integer duracao;
-	private boolean inscricao = true;
+	private boolean inscricao = false;
 	private boolean chamada = false;
 	private Integer situacao = 0;
 	private Semana semana;
