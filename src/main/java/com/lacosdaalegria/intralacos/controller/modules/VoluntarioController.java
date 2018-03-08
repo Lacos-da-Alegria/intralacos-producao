@@ -1,7 +1,5 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
-import java.util.Objects;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -53,7 +51,6 @@ public class VoluntarioController {
 		
 	@GetMapping("/voluntario/home")
 	public String voluntarioPage(Model model) {
-		model.addAttribute("codigo", Global.getCodigo());
 		model.addAttribute("hospitais", hospital.getAllActive());
 		model.addAttribute("acoes", ongs.getAcoesAtivas());
 		model.addAttribute("rodada", Global.rodadaRandomica());
@@ -71,7 +68,7 @@ public class VoluntarioController {
 		
 		model.addAttribute("voluntario", new Voluntario());
 		
-		model.addAttribute("hospitais", hospital.getAllActive());
+		model.addAttribute("hospitais", hospital.getHospitalNovatos());
 		model.addAttribute("ras", regiao.getAllActive());
 		
 		return "register";
@@ -88,7 +85,7 @@ public class VoluntarioController {
     	
     	if(result.hasErrors()) {
     		
-    		modelAndView.addObject("hospitais", hospital.getAllActive());
+    		modelAndView.addObject("hospitais", hospital.getHospitalNovatos());
     		modelAndView.addObject("ras", regiao.getAllActive());
 
     		modelAndView.setViewName("register");
@@ -203,26 +200,15 @@ public class VoluntarioController {
 	
 	@GetMapping("/novato/home")
 	public String home(Model model) {
-		model.addAttribute("hospitais", hospital.getAllActive());
+		model.addAttribute("hospitais", hospital.getHospitalNovatos());
 		return "novatos/home";
 	}
 	
-	@PostMapping("/novato/atualizar/preferencia")
+	@GetMapping("/novato/atualizar/preferencia")
 	public String updatePreferencia(Hospital hospital) {
 		service.updatePreferencia(info.getVoluntario(), hospital);
 		info.resetPosicao();
 		return "redirect:/novato/home";
-	}
-	
-	//Metodo temporário, deve ser desativado assim que equipe de sustentação
-	//for capaz de promover novatos
-	@PostMapping("/novato/promover")
-	public String promoveNovato(String codigo){
-		if(Objects.equals(Global.getCodigo(), codigo)) {
-			service.promoteNovato(info.getVoluntario());
-			return "redirect:/logout";
-		}
-		return "redirect:/";
 	}
 	
 	@GetMapping("/novato/reativar/conta")

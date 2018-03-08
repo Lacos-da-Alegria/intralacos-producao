@@ -26,6 +26,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.BindingResult;
@@ -40,32 +42,74 @@ import br.com.caelum.stella.bean.validation.CPF;
 @Table
 @DynamicUpdate
 public class Voluntario {
-	
-	private Long id;
-	private String login;
-	private String senha;
-	private String confirmaSenha;
-	private String email;
-	private String cpf;
-	private String nome;
-	private String nomeDoutor;
-	private String nascimento;
-	private String ddd;
-	private String whatsapp;
-	private Regiao regiao;
-	private String endereco;
-	private Hospital preferencia;
-	private String sexo;
-	private String como_conheceu;
-	private Integer status = 1;
-	private String profile;
-	private boolean querOngs;
-	private boolean aceitaTermo;
-	private boolean promovido;
-	private Set<Role> roles;
-	private Date dtCriacao = new Date(); 
-	private Voluntario responsavel;
-	private String observacao;
+
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
+	@Getter @Setter	private Long id;
+
+	@Column(unique=true)
+	@NotBlank(message = "Forneça um login")
+	@Getter @Setter	private String login;
+
+	@JsonIgnore
+	@Length(min = 6, message = "Sua senha deve conter no mínimo 6 caracteres")
+	@NotBlank(message = "Forneça uma senha")
+	@Getter @Setter	private String senha;
+
+	@Transient
+	@Getter @Setter	private String confirmaSenha;
+
+	@Column(unique=true)
+	@Email(message = "Forneça um e-mail válido")
+	@NotBlank(message = "Por favor forneça um e-mail")
+	@Getter @Setter	private String email;
+
+	@CPF(message="Forneça um cpf valido")
+	@Column(unique=true)
+	@NotBlank(message = "Forneça um cpf valido")
+	@Getter @Setter	private String cpf;
+
+	@NotBlank(message = "Forneça o seu nome")
+	@Getter @Setter	private String nome;
+	@Getter @Setter	private String nomeDoutor;
+
+	@NotBlank(message = "Informe a sua data de aniversário")
+	@Getter @Setter	private String nascimento;
+
+	@NotBlank(message = "Forneça um DDD")
+	@Getter @Setter	private String ddd;
+
+	@Column(unique=true)
+	@NotBlank(message = "Forneça o seu whatsapp")
+	@Length(min = 9, max=9, message = "O seu whatsapp deve conter 9 digitos")
+	@Getter @Setter	private String whatsapp;
+
+	@NotNull(message = "Qual é a sua cidade satélite")
+	@ManyToOne
+	@Getter @Setter	private Regiao regiao;
+	@Getter @Setter	private String endereco;
+
+	@NotNull(message = "Diga qual é a preferência de atividade que você quer")
+	@ManyToOne
+	@JoinColumn(name = "hospital_id")
+	@Getter @Setter	private Hospital preferencia;
+	@Getter @Setter	private String sexo;
+	@Getter @Setter	private String como_conheceu;
+
+	@NotNull
+	@Getter @Setter	private Integer status = 1;
+	@Setter	private String profile;
+	@Setter	private boolean querOngs;
+	@Setter	private boolean aceitaTermo;
+	@Setter	private boolean promovido;
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Getter @Setter	private Set<Role> roles;
+	@Getter @Setter	private Date dtCriacao = new Date();
+
+	@ManyToOne
+	@Getter @Setter	private Voluntario responsavel;
+	@Getter @Setter	private String observacao;
 	
 	public String profilePic() {
 		if(profile == null)
@@ -179,198 +223,24 @@ public class Voluntario {
 	 * ============================== Getters and Setters ===================================
 	 * ======================================================================================
 	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	@Column(unique=true)
-	@NotBlank(message = "Forneça um login")
-	public String getLogin() {
-		return login;
-	}
-	public void setLogin(String login) {
-		this.login = login;
-	}
-	@JsonIgnore
-	@Length(min = 6, message = "Sua senha deve conter no mínimo 6 caracteres")
-	@NotBlank(message = "Forneça uma senha")
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-	@Transient
-	public String getConfirmaSenha() {
-		return confirmaSenha;
-	}
-	public void setConfirmaSenha(String confirmaSenha) {
-		this.confirmaSenha = confirmaSenha;
-	}
-	@Column(unique=true)
-	@Email(message = "Forneça um e-mail válido")
-	@NotBlank(message = "Por favor forneça um e-mail")
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	@CPF(message="Forneça um cpf valido")
-	@Column(unique=true)
-	@NotBlank(message = "Forneça um cpf valido")
-	public String getCpf() {
-		return cpf;
-	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	@NotBlank(message = "Forneça o seu nome")
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public String getNomeDoutor() {
-		return nomeDoutor;
-	}
 
-	public void setNomeDoutor(String nomeDoutor) {
-		this.nomeDoutor = nomeDoutor;
-	}
-
-	@NotBlank(message = "Informe a sua data de aniversário")
-	public String getNascimento() {
-		return nascimento;
-	}
-	public void setNascimento(String nascimento) {
-		this.nascimento = nascimento;
-	}
-	@NotBlank(message = "Forneça um DDD")
-	public String getDdd() {
-		return ddd;
-	}
-	public void setDdd(String ddd) {
-		this.ddd = ddd;
-	}
-	@Column(unique=true)
-	@NotBlank(message = "Forneça o seu whatsapp")
-	@Length(min = 9, max=9, message = "O seu whatsapp deve conter 9 digitos")
-	public String getWhatsapp() {
-		return whatsapp;
-	}
-	public void setWhatsapp(String whatsapp) {
-		this.whatsapp = whatsapp;
-	}
-	@NotNull(message = "Qual é a sua cidade satélite")
-	@ManyToOne
-	public Regiao getRegiao() {
-		return regiao;
-	}
-	public void setRegiao(Regiao regiao) {
-		this.regiao = regiao;
-	}
-	public String getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
-	@NotNull(message = "Diga qual é a preferência de atividade que você quer")
-	@ManyToOne
-    @JoinColumn(name = "hospital_id")
-	public Hospital getPreferencia() {
-		return preferencia;
-	}
-	public void setPreferencia(Hospital preferencia) {
-		this.preferencia = preferencia;
-	}
-	public String getSexo() {
-		return sexo;
-	}
-	public void setSexo(String sexo) {
-		this.sexo = sexo;
-	}
-	
 	public boolean isAceitaTermo() {
 		return aceitaTermo;
-	}
-	public void setAceitaTermo(boolean aceitaTermo) {
-		this.aceitaTermo = aceitaTermo;
 	}
 	
 	public boolean isPromovido() {
 		return promovido;
 	}
 
-	public void setPromovido(boolean promovido) {
-		this.promovido = promovido;
-	}
-
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	public Set<Role> getRoles() {
-		return roles;
-	}
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-	public String getComo_conheceu() {
-		return como_conheceu;
-	}
-	public void setComo_conheceu(String como_conheceu) {
-		this.como_conheceu = como_conheceu;
-	}
-	@NotNull
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
 	public String getProfile() {
 		if(profile == null)
 			return "/assets/img/ui-sam.jpg";
 		else 
 			return profile;
 	}
-	public void setProfile(String profile) {
-		this.profile = profile;
-	}
+
 	public boolean isQuerOngs() {
 		return querOngs;
-	}
-	public void setQuerOngs(boolean querOngs) {
-		this.querOngs = querOngs;
-	}
-	public Date getDtCriacao() {
-		return dtCriacao;
-	}
-	public void setDtCriacao(Date dtCriacao) {
-		this.dtCriacao = dtCriacao;
-	}
-
-	@ManyToOne
-	public Voluntario getResponsavel() {
-		return responsavel;
-	}
-
-	public void setResponsavel(Voluntario responsavel) {
-		this.responsavel = responsavel;
-	}
-
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
 	}
 
 }

@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
@@ -19,14 +21,26 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Nota {
-	
+
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
+
+	@Lob
+	@NotBlank
 	private String texto;
 	private Date criacao = new Date();
+
+	@NotNull
+	@ManyToOne
 	private Voluntario criador;
 	private Integer status = 1;
 	private Integer tipo;
+
+	@NotNull
+	@ManyToOne
 	private Demanda demanda;
 	
 	/* Tipo de Notas
@@ -79,63 +93,4 @@ public class Nota {
 				return null;
 		}
 	}
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	@Lob
-	@NotBlank
-	public String getTexto() {
-		return texto;
-	}
-	public void setTexto(String texto) {
-		this.texto = texto;
-	}
-	public Date getCriacao() {
-		return criacao;
-	}
-	public void setCriacao(Date criacao) {
-		this.criacao = criacao;
-	}
-	@NotNull
-	@ManyToOne
-	public Voluntario getCriador() {
-		return criador;
-	}
-	public void setCriador(Voluntario criador) {
-		this.criador = criador;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	public Integer getTipo() {
-		return tipo;
-	}
-	public void setTipo(Integer tipo) {
-		this.tipo = tipo;
-	}
-	@NotNull
-	@ManyToOne
-	public Demanda getDemanda() {
-		return demanda;
-	}
-	public void setDemanda(Demanda demanda) {
-		this.demanda = demanda;
-	}
-
-	
 }

@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
@@ -19,16 +21,34 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Atendimento {
-	
+
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
 	private Date dt_criacao = new Date();
+
+	@Lob
+	@NotBlank
 	private String ouvidoria;
+
+	@Lob
 	private String resposta;
 	private Integer status = 0;
+
+	@ManyToOne
 	private Categoria categoria;
+
+	@NotNull
+	@ManyToOne
 	private Grupo grupo;
+
+	@ManyToOne
+	@NotNull
 	private Voluntario solicitante;
+
+	@ManyToOne
 	private Voluntario responsavel;
 
 	
@@ -44,82 +64,4 @@ public class Atendimento {
 		return ouvidoria.replaceAll("[/\r?\n|\r/]", "");
 	}
 	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Date getDt_criacao() {
-		return dt_criacao;
-	}
-	public void setDt_criacao(Date dt_criacao) {
-		this.dt_criacao = dt_criacao;
-	}
-	@Lob
-	@NotBlank
-	public String getOuvidoria() {
-		return ouvidoria;
-	}
-	public void setOuvidoria(String ouvidoria) {
-		this.ouvidoria = ouvidoria;
-	}
-	@Lob
-	public String getResposta() {
-		return resposta;
-	}
-	public void setResposta(String resposta) {
-		this.resposta = resposta;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	@ManyToOne
-	public Categoria getCategoria() {
-		return categoria;
-	}
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
-	}
-	
-	@NotNull
-	@ManyToOne
-	public Grupo getGrupo() {
-		return grupo;
-	}
-
-	public void setGrupo(Grupo grupo) {
-		this.grupo = grupo;
-	}
-
-	@ManyToOne
-	@NotNull
-	public Voluntario getSolicitante() {
-		return solicitante;
-	}
-	public void setSolicitante(Voluntario solicitante) {
-		this.solicitante = solicitante;
-	}
-	@ManyToOne
-	public Voluntario getResponsavel() {
-		return responsavel;
-	}
-	public void setResponsavel(Voluntario responsavel) {
-		this.responsavel = responsavel;
-	}
-	
-	
-
 }

@@ -3,7 +3,7 @@
 <body>
     <header class="header black-bg" th:fragment="header">
           <div class="sidebar-toggle-box">
-              <div class="fa fa-bars tooltips" data-placement="right" data-original-title="Menu"></div>
+              <div class="fa fa-bars tooltips" data-placement="right" id="menu-button" data-original-title="Menu"></div>
           </div>
             
 	<a th:href="${@userInfo.hrefText()}" class="logo hidden-phone"><b th:text="${@userInfo.roleText()}"></b></a>

@@ -28,7 +28,7 @@
 			saveState	 : true,
 			disableLink	 : true,
 			showCount : false,
-//			cookie	: 'dcjq-accordion'
+			cookie	: 'dcjq-accordion'
 		};
 
 		//call in the default otions

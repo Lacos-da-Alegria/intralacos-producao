@@ -1,11 +1,15 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.recurso.ControleNovato;
@@ -123,7 +127,7 @@ public class RecursoController {
 	
 	@GetMapping("/hospitais/recurso/humano")
 	public String rhPage(Model model) {
-		model.addAttribute("hospitais", this.hospital.getAllActive());
+		model.addAttribute("hospitais", this.hospital.getAll());
 		model.addAttribute("coordenadores", service.activeCoordenadores());
 		model.addAttribute("controladores", service.activeControleNovato());
 		return "admin/recursoHumano";
@@ -143,7 +147,8 @@ public class RecursoController {
 	
 	@PostMapping("/hospitais/add/controle/novato")
 	public String addControleNovato(Hospital hospital, String email) {
-		service.createControlador(hospital, email);
+		if(hospital.getNovatos())
+			service.createControlador(hospital, email);
 		return "redirect:/hospitais/recurso/humano";
 	}
 	
@@ -223,6 +228,33 @@ public class RecursoController {
 		model.addAttribute("successMessage", "Informações do Hospital atualizadas com sucesso!");
 		this.hospital.updateHospitalDiretoria(hospital);
 		return "admin/updateHospital";
+	}
+	
+	@GetMapping("/hospitais/add/hospital")
+	public String addHospital(Model model) {
+		model.addAttribute("hospital", new Hospital());
+		model.addAttribute("novo", true);
+		return "admin/updateHospital";
+	}
+	
+	@PostMapping("/hospitais/add/hospital")
+	public ModelAndView updateInfo(@Valid Hospital hospital, BindingResult result) {
+		
+		ModelAndView modelAndView = new ModelAndView();
+		
+		modelAndView.setViewName("admin/updateHospital");
+		
+    	if(!result.hasErrors()) {
+    		modelAndView.addObject("hospital", this.hospital.saveHospital(hospital));
+            modelAndView.addObject("successMessage", "Hospital cadastrado com sucesso!");
+            
+    	} else {
+    		modelAndView.addObject("errorMessage", "Erro nas informações de cadastro");
+    		modelAndView.addObject("hospital", hospital);
+    		modelAndView.addObject("novo", true);
+    	}
+    	
+    	return modelAndView;
 	}
 	
 	@PostMapping("/hospitais/imagem/hospital")

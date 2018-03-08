@@ -9,6 +9,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -17,54 +19,21 @@ import com.lacosdaalegria.intralacos.model.ongs.Polo;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Regiao{
-	
-	private Long id;
-	private String nome;
-	private Integer status = 1;
-	private Polo polo;
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
+
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	
+	private Long id;
+
 	@NotBlank
-	public String getNome() {
-		return nome;
-	}
-	
+	private String nome;
+
 	@NotNull
-	public Integer getStatus() {
-		return status;
-	}
+	private Integer status = 1;
+
 	@JsonIgnore
 	@ManyToOne
-	public Polo getPolo() {
-		return polo;
-	}
-
-	public void setPolo(Polo polo) {
-		this.polo = polo;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+	private Polo polo;
 
 }

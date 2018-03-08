@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.ongs.Instituicao;
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
@@ -107,7 +108,15 @@ public class OngsService {
 	
 	public void agendaAcao(Agenda agenda, Voluntario criador) {
 		agenda.setCriador(criador);
+		verificaSemana(agenda);
 		this.agenda.save(agenda);		
+	}
+	
+	private void verificaSemana(Agenda agenda) {
+		if(Global.ehEssaSemana(agenda.getHorario())) {
+			System.out.println("Mesma semana");
+			agenda.setInscricao(true);
+		}
 	}
 	
 	public Iterable<Agenda> getAgenda(Polo polo){
@@ -123,7 +132,21 @@ public class OngsService {
 	}
 	
 	public Iterable<Agenda> getAcoesAtivas(){
-		return agenda.findByHorarioBetweenAndStatus(addDays(-1), addDays(7), 1);
+		return agenda.findByInscricaoTrueAndStatus(1);
+	}
+	
+	public void ativaAcoesDessaSemana() {
+		
+		Iterable<Agenda> agendas = getAcoesEssaSemana();
+		
+		for(Agenda agenda : agendas) {
+			agenda.setInscricao(true);
+		}
+		saveAllAgendas(agendas);
+	}
+	
+	private Iterable<Agenda> getAcoesEssaSemana(){
+		return agenda.findByHorarioBetweenAndStatus(new Date(), addDays(7), 1);
 	}
 	
 	public void saveAllAgendas(Iterable<Agenda> agendas) {

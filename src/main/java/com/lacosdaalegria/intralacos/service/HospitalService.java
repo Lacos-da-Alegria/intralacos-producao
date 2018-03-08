@@ -26,7 +26,9 @@ public class HospitalService {
 	public Iterable<Hospital> getAll(){
 		return repository.findAll();
 	}
-	
+	public Iterable<Hospital> getHospitalNovatos(){
+		return repository.findByNovatosTrue();
+	}
 	public Iterable<Voluntario> top30Novatos(Hospital hospital){
 		return voluntario.findTop30ByPreferenciaAndStatusAndPromovidoFalseOrderByDtCriacao(hospital, 1);
 	}
@@ -47,6 +49,10 @@ public class HospitalService {
 		String profile = s3.carregaImagem("pic", hospital.getId().toString(), file);
 		hospital.setImagem("https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-318693850464/" + profile);
 		repository.save(hospital);
+	}
+	
+	public Hospital saveHospital(Hospital hospital) {
+		return repository.save(hospital);
 	}
 
 }

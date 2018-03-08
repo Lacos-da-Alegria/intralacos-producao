@@ -15,6 +15,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.recurso.Equipe;
@@ -23,17 +25,37 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Demanda {
-	
+
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
 	private Date criacao = new Date();
+
+	@NotNull
+	@ManyToOne
 	private Voluntario criador;
+
+	@ManyToOne
 	private Voluntario responsavel;
+
+	@NotNull
 	private Integer prazo;
 	private Integer status = 0;
+
+	@NotBlank
 	private String titulo;
+
+	@NotBlank
+	@Lob
 	private String descricao;
+
+	@NotNull
+	@ManyToOne
 	private Equipe equipe;
+
+	@OneToMany
 	private List<Nota> notas;
 	
 	public Long diasVencimento() {
@@ -60,84 +82,4 @@ public class Demanda {
 	public String descricaoText() {
 		return descricao.replaceAll("\\<.*?\\>", "").replace("&nbsp;", "");
 	}
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Date getCriacao() {
-		return criacao;
-	}
-	public void setCriacao(Date criacao) {
-		this.criacao = criacao;
-	}
-	@NotNull
-	@ManyToOne
-	public Voluntario getCriador() {
-		return criador;
-	}
-	public void setCriador(Voluntario criador) {
-		this.criador = criador;
-	}
-	@ManyToOne
-	public Voluntario getResponsavel() {
-		return responsavel;
-	}
-	public void setResponsavel(Voluntario responsavel) {
-		this.responsavel = responsavel;
-	}
-	@NotNull
-	public Integer getPrazo() {
-		return prazo;
-	}
-	public void setPrazo(Integer prazo) {
-		this.prazo = prazo;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	@NotBlank
-	public String getTitulo() {
-		return titulo;
-	}
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-	@NotBlank
-	@Lob
-	public String getDescricao() {
-		return descricao;
-	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	@NotNull
-	@ManyToOne
-	public Equipe getEquipe() {
-		return equipe;
-	}
-	public void setEquipe(Equipe equipe) {
-		this.equipe = equipe;
-	}
-	@OneToMany
-	public List<Nota> getNotas() {
-		return notas;
-	}
-	public void setNotas(List<Nota> notas) {
-		this.notas = notas;
-	}
-
 }

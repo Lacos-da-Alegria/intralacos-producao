@@ -28,11 +28,11 @@
       <!--main content start-->
      <section id="main-content">
           <section class="wrapper site-min-height">
-          	<h2><a href="/info/capacitacao"><i class="fa fa-arrow-left" aria-hidden="true"></i></a> &nbsp&nbsp Aulas sobre <span th:text="${materia.titulo}"></span></h2>
+          	<h2><a href="/info/capacitacao"><i class="fa fa-arrow-left" aria-hidden="true"></i></a> &nbsp<span th:text="${materia.titulo}"></span></h2>
           	<div class="row mt">
           		<div th:each="aula : ${aulas}" class="col-lg-3 col-md-3 col-sm-3 mb">
 					<div class="content-panel pn">
-						<div id="profile-02" th:style="'background: url('+${aula.imagem}+') background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
+						<div id="profile-02" th:style="'background-image: url('+${aula.imagem}+'); background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
 						</div>
 						<div class="pr2-social centered">
 							<a data-fancybox th:href="${aula.youtube}"><i class="fa fa-youtube-play"></i>Abrir Vídeo</a>

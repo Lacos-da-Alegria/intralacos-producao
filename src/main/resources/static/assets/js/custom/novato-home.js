@@ -6,3 +6,8 @@ $( document ).ready(function() {
 	$('#ModalCancelar').modal('show');
 });
 
+function reativarConta(){
+	$('#ModalCancelar').modal('hide');
+	$('#reativarConta').modal('show');
+}
+

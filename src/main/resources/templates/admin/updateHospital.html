@@ -30,15 +30,18 @@
           <section class="wrapper">
 
 		<div class="form-panel">
-		   <h3><a href="/hospitais/controle"><i class="fa fa-arrow-left" aria-hidden="true"></i></a> &nbsp&nbsp <i class="fa fa-university" aria-hidden="true"></i> Atualizar - <span th:text="${hospital.nome}"></span> 
-		  	<a data-toggle="modal" href="#atualizarImagem" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-camera-retro fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Atualizar Imagem</span></a></h3><hr>
+		   <h3><a href="/hospitais/controle"><i class="fa fa-arrow-left" aria-hidden="true"></i></a> &nbsp&nbsp <i class="fa fa-university" aria-hidden="true"></i> <span th:if="${novo == true}">Criar Hospital</span> <span th:if="${novo == null}">Atualizar - <span th:text="${hospital.nome}"></span></span> 
+		  	<a th:if="${novo == null}" data-toggle="modal" href="#atualizarImagem" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-camera-retro fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Atualizar Imagem</span></a></h3><hr>
 			<div class="row">
-		      <form class="form-horizontal style-form" th:object="${hospital}" action="/hospitais/atualizar/hospital" method = "post">
+		      <form class="form-horizontal style-form" th:object="${hospital}" th:action="${novo == null ? '/hospitais/atualizar/hospital' : '/hospitais/add/hospital'}" method = "post">
 		      <!-- edit form column -->
 		      <div class="col-md-12 personal-info ">
 		      	
 		      		<div th:if="${successMessage != null}">
 					    <div class="alert alert-success" th:utext="${successMessage}"></div>
+					</div>
+					<div th:if="${errorMessage != null}">
+					    <div class="alert alert-danger" th:utext="${errorMessage}"></div>
 					</div>
 		      	
 		         	<div class="form-group">
@@ -46,7 +49,6 @@
 		         	<input type="hidden" name="id" required th:field="*{id}">
 		         	<input type="hidden" name="inscricao" required th:field="*{inscricao}">
 		         	<input type="hidden" name="chamada" required th:field="*{chamada}">
-		         	<input type="hidden" name="tag" required th:field="*{tag}">
 		         	<input type="hidden" name="status" required th:field="*{status}">
 		         	
 		         	
@@ -61,6 +63,12 @@
                            <input type="text" class="form-control" name="endereço" th:field="*{endereco}" required>
                         </div>		         
 		           	</div>
+		           	<div class="form-group">
+		           	<label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-tag" aria-hidden="true"></i> Tag</b></label>
+		           		<div class="col-sm-10">
+                           <input type="text" class="form-control" name="tag" th:field="*{tag}" required>
+                        </div>		         
+		           	</div>
 		          <div class="form-group">
 		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-envelope-o" aria-hidden="true"></i> Local de Preparo</b></label>
 		              <div class="col-sm-10">
@@ -71,7 +79,7 @@
 		            <div class="form-group">  
 		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Horário da Atividade</b></label>
 		             <div class="col-sm-10">
-		             	<input class="form-control" type="text" name="horario" th:field="*{horario}">
+		             	<input class="form-control" type="text" name="horario" th:field="*{horario}" required>
 		              </div>
 		          </div>
 		          <div class="form-group">  
@@ -124,16 +132,16 @@
 		          <div class="form-group">  
 		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-book" aria-hidden="true"></i> Descrição da Instituição</b></label>
 		              <div class="col-sm-10">
-		              	<textarea rows="6" class="form-control placeholder-no-fix" name="descricao" th:field="*{descricao}" required></textarea>
+		              	<textarea rows="6" class="form-control placeholder-no-fix" name="descricao" th:field="*{descricao}"></textarea>
 		              </div>
 		          </div>
 		          
 		          <div class="form-group">
 		            <label class="col-md-2 control-label"></label>
 		         	 <div class="modal-footer">
-		         		<input class="btn btn-primary" value="Atualizar Informações" type="submit">
+		         		<input class="btn btn-primary" th:value="${novo == null ? 'Atualizar Informações' : 'Criar'}" type="submit">
 		              <span></span>
-		              	<input class="btn btn-default" value="Cancelar" type="reset">
+		              	<input th:if="${novo == null}" class="btn btn-default" value="Cancelar" type="reset">
 		              </div>
 		            
 		          </div>

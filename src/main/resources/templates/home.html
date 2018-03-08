@@ -30,7 +30,7 @@
           <section class="wrapper">
 
               <div class="row">
-                  <div class="col-lg-9">
+                  <div class="col-lg-12">
 				  
 				  <h1 class= "centered">Atividades dessa Semana!</h1>
 				  
@@ -45,7 +45,7 @@
          <!-- Comeca a logica chosse when dos botoens de participacao das atividades -->
          
 			<!-- Inicio Card Atividade Hospital -->	
-			<div th:each="hospital : ${hospitais}" th:id="'div-hospital-'+ ${hospital.id}" class="col-lg-4 col-md-4 col-sm-4 mb">
+			<div th:each="hospital : ${hospitais}" th:id="'div-hospital-'+ ${hospital.id}" class="col-lg-3 col-md-3 col-sm-3 mb">
 				<div class="content-panel pn">
 					<div class="col-xs-4 col-xs-offset-8">
 						<button class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getHospitalInfo('+${hospital.id}+')'">INFO</button>
@@ -76,7 +76,7 @@
          <!-- Comeca a logica chosse when dos botoens de participacao das atividades -->
          
 				<!-- Inicio Card Atividade Ongs -->	
-				<div th:each="acao : ${acoes}" th:id="'div-acao-'+ ${acao.id}" class="col-lg-4 col-md-4 col-sm-4 mb" >
+				<div th:each="acao : ${acoes}" th:id="'div-acao-'+ ${acao.id}" class="col-lg-3 col-md-3 col-sm-3 mb" >
 					<div class="content-panel pn">
 						<div class="col-xs-4 col-xs-offset-8">
 							<button class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getAgendaInfo('+${acao.id}+')'">INFO</button>
@@ -278,47 +278,6 @@
 		          
                   </div><!-- /col-lg-9 END SECTION MIDDLE -->
                   
-      <!-- **********************************************************************************************************************************************************
-      RIGHT SIDEBAR CONTENT
-      *********************************************************************************************************************************************************** -->                  
-                  
-                  <div class="col-lg-3 ds">
-                  <span sec:authorize="hasAnyRole('COORD', 'DHOSP', 'SUSTENTA')">
-                  	<h3>Código de Promoção de Novato</h3>               
-                      <div class="desc box2 centered">
-						<button type="button" class="btn btn-round btn-primary"><span class="fa fa-code"></span>&nbsp&nbspCódigo da Semana - <b><font size="3" th:text="${codigo}"></font></b></button>
-                      </div>
-                  </span>
-				<!-- <h3>Notificações Importantes</h3>
-
-	                      <div class="desc">
-	                      	<div class="thumb">
-	                      		<span class="badge bg-theme0${feed.tipo}"><i class="fa fa-clock-o"></i></span>
-	                      	</div>
-	                      	<div class="details">   
-	                      		<p><muted>${feed.dt_cricao}</muted><br/>                 		
-	                      		   <a target="_blank"  href="${feed.link}">${feed.tag}</a> ${feed.mensagem} <br/>
-	                      		</p>
-	                      	</div>
-	                      </div> -->
-                      
-                   
-						<h3>Calendário de Atividades</h3><br>
-                       <!-- CALENDAR-->
-                        <div id="calendar" class="mb">
-                            <div class="panel green-panel no-margin">
-                                <div class="panel-body">
-                                    <div id="date-popover" class="popover top" style="cursor: pointer; disadding: block; margin-left: 33%; margin-top: -50px; width: 175px;">
-                                        <div class="arrow"></div>
-                                        <h3 class="popover-title" style="disadding: none;"></h3>
-                                        <div id="date-popover-content" class="popover-content"></div>
-                                    </div>
-                                    <div id="my-calendar"></div>
-                                </div>
-                            </div>
-                        </div><!-- / calendar -->
-                      
-                  </div><!-- /col-lg-3 -->
               </div><!--/row -->
           </section>
       </section>
@@ -337,28 +296,6 @@
 		$('#ModalLembreteDem').modal('show');
 	});
 
-	$(document).ready(function () {
-	    $("#date-popover").popover({html: true, trigger: "manual"});
-	    $("#date-popover").hide();
-	    $("#date-popover").click(function (e) {
-	        $(this).hide();
-	    });
-	
-	    $("#my-calendar").zabuto_calendar({
-	        action: function () {
-	            return myDateFunction(this.id, false);
-	        },
-	        action_nav: function () {
-	            return myNavFunction(this.id);
-	        },
-	        ajax: {
-	            url: "nothing",
-	            modal: true
-	        },
-	       
-	    });
-	});
-	
 	function getHospitalInfo(id){
 		
 		var request = $.ajax({
@@ -416,7 +353,7 @@
 	function getDate(date){
  		var data = '';
  		data = data + date.getDate()+'/';
- 		data = data + date.getMonth()+1+'/';
+ 		data = data + (parseInt(date.getMonth())+1)+'/';
  		data = data + date.getFullYear()+' ';
  		data = data + date.getHours()+':';
  		data = data + date.getMinutes();

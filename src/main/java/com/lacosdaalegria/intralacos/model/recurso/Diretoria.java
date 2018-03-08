@@ -11,6 +11,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
@@ -18,11 +20,20 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Diretoria {
 
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
+
+	@NotBlank
 	private String nome;
+
+	@OneToMany
 	private Set<Voluntario> diretores;
+
+	@NotBlank
 	private String role;
 	private Integer status = 1;
 	private Integer ordem;
@@ -42,54 +53,5 @@ public class Diretoria {
 			}
 		}
 	}
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	@NotBlank
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	@OneToMany
-	public Set<Voluntario> getDiretores() {
-		return diretores;
-	}
-	public void setDiretores(Set<Voluntario> diretores) {
-		this.diretores = diretores;
-	}
-	@NotBlank
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	public Integer getOrdem() {
-		return ordem;
-	}
-	public void setOrdem(Integer ordem) {
-		this.ordem = ordem;
-	}
-	
-	
+
 }
