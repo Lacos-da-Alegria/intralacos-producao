@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
@@ -22,16 +24,32 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Registro {
-	
+
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
+
+	@ManyToOne
 	private Voluntario voluntario;
+
+	@ManyToOne
 	private Hospital hospital;
+
+	@ManyToOne
 	private Agenda agenda;
+
+	@NotNull
 	private Integer tipo = 0;
+
+	@NotNull
 	private Integer status = 0;
 	private Integer posicao;
 	private Date criacao = new Date();
+
+	@NotNull
+	@ManyToOne
 	private Semana semana;
 	
 	public String corChamada() {
@@ -159,79 +177,4 @@ public class Registro {
 			return hospital.getDia().equals(dia) && hospital.getPeriodo().equals(periodo);
 		}
 	}
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	@ManyToOne
-	public Voluntario getVoluntario() {
-		return voluntario;
-	}
-	public void setVoluntario(Voluntario voluntario) {
-		this.voluntario = voluntario;
-	}
-	@ManyToOne
-	public Hospital getHospital() {
-		return hospital;
-	}
-	public void setHospital(Hospital hospital) {
-		this.hospital = hospital;
-	}
-	@ManyToOne
-	public Agenda getAgenda() {
-		return agenda;
-	}
-
-	public void setAgenda(Agenda agenda) {
-		this.agenda = agenda;
-	}
-
-	@NotNull
-	public Integer getTipo() {
-		return tipo;
-	}
-	public void setTipo(Integer tipo) {
-		this.tipo = tipo;
-	}
-	@NotNull
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public Integer getPosicao() {
-		return posicao;
-	}
-	public void setPosicao(Integer posicao) {
-		this.posicao = posicao;
-	}
-	public Date getCriacao() {
-		return criacao;
-	}
-	public void setCriacao(Date criacao) {
-		this.criacao = criacao;
-	}
-	@NotNull
-	@ManyToOne
-	public Semana getSemana() {
-		return semana;
-	}
-	public void setSemana(Semana semana) {
-		this.semana = semana;
-	}
-	
 }

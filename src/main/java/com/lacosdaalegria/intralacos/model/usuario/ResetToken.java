@@ -11,58 +11,25 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class ResetToken {
 
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
+
+	@NotNull
+	@ManyToOne
 	private Voluntario voluntario;
 	private String token = UUID.randomUUID().toString();
 	private Integer status = 1;
 	private Date criacao = new Date();
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	@NotNull
-	@ManyToOne
-	public Voluntario getVoluntario() {
-		return voluntario;
-	}
-	public void setVoluntario(Voluntario voluntario) {
-		this.voluntario = voluntario;
-	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	public Date getCriacao() {
-		return criacao;
-	}
-	public void setCriacao(Date criacao) {
-		this.criacao = criacao;
-	}
-	
+
 }

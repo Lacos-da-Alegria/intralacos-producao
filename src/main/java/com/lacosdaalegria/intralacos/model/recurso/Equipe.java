@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
@@ -21,15 +23,30 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Equipe {
-	
+
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
+
+	@NotBlank
 	private String nome;
+
+	@ManyToOne
 	private Diretoria diretoria;
+
+	@OneToOne
 	private Voluntario lider;
 	private Integer numeroMembros;
+
+	@OneToMany
 	private Set<Voluntario> membros;
+
+	@NotBlank
 	private String objetivo;
+
+	@Lob
 	private String descricao;
 	
 	public void updateEquipe(Equipe equipe) {
@@ -53,69 +70,5 @@ public class Equipe {
 			}
 		}
 	}
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	@NotBlank
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	@ManyToOne
-	public Diretoria getDiretoria() {
-		return diretoria;
-	}
-	public void setDiretoria(Diretoria diretoria) {
-		this.diretoria = diretoria;
-	}
-	@OneToOne
-	public Voluntario getLider() {
-		return lider;
-	}
-	public void setLider(Voluntario lider) {
-		this.lider = lider;
-	}
-	public Integer getNumeroMembros() {
-		return numeroMembros;
-	}
-	public void setNumeroMembros(Integer numeroMembros) {
-		this.numeroMembros = numeroMembros;
-	}
-	@OneToMany
-	public Set<Voluntario> getMembros() {
-		return membros;
-	}
-	public void setMembros(Set<Voluntario> membros) {
-		this.membros = membros;
-	}
-	@NotBlank
-	public String getObjetivo() {
-		return objetivo;
-	}
-	public void setObjetivo(String objetivo) {
-		this.objetivo = objetivo;
-	}
-	@Lob
-	public String getDescricao() {
-		return descricao;
-	}
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-	
 
 }

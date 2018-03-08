@@ -7,18 +7,20 @@ import java.util.Set;
 
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
+import lombok.Getter;
+import lombok.Setter;
 
 public class Fila {
-	
-	private Agenda agenda;
-	private Hospital hospital;
-	private List<Registro> registros;
-	private List<Voluntario> lista;
-	private List<Voluntario> equipe;
-	private List<Voluntario> espera;
-	private List<Voluntario> novatos;
-	private List<Voluntario> especial;
-	private List<Registro> chamada;
+
+	@Getter @Setter private Agenda agenda;
+	@Getter @Setter private Hospital hospital;
+	@Getter @Setter private List<Registro> registros;
+	@Setter private List<Voluntario> lista;
+	@Setter private List<Voluntario> equipe;
+	@Setter private List<Voluntario> espera;
+	@Setter private List<Voluntario> novatos;
+	@Setter private List<Voluntario> especial;
+	@Setter private List<Registro> chamada;
 	
 	
 	public Fila(Hospital hospital, List<Registro> registros) {
@@ -163,39 +165,12 @@ public class Fila {
 	 * ============================== Getters and Setters ===================================
 	 * ======================================================================================
 	 */
-	
-	public Agenda getAgenda() {
-		return agenda;
-	}
 
-	public void setAgenda(Agenda agenda) {
-		this.agenda = agenda;
-	}
-
-	public Hospital getHospital() {
-		return hospital;
-	}
-
-	public void setHospital(Hospital hospital) {
-		this.hospital = hospital;
-	}
-
-	public List<Registro> getRegistros() {
-		return registros;
-	}
-
-	public void setRegistros(List<Registro> registros) {
-		this.registros = registros;
-	}
 
 	public List<Voluntario> getLista() {
 		if(lista == null)
 			lista = new ArrayList<>();
 		return lista;
-	}
-
-	public void setLista(List<Voluntario> lista) {
-		this.lista = lista;
 	}
 
 	public List<Voluntario> getEquipe() {
@@ -204,28 +179,16 @@ public class Fila {
 		return equipe;
 	}
 
-	public void setEquipe(List<Voluntario> equipe) {
-		this.equipe = equipe;
-	}
-
 	public List<Voluntario> getEspera() {
 		if(espera == null)
 			espera = new ArrayList<>();
 		return espera;
 	}
 
-	public void setEspera(List<Voluntario> espera) {
-		this.espera = espera;
-	}
-
 	public List<Voluntario> getNovatos() {
 		if(novatos == null)
 			novatos = new ArrayList<>();
 		return novatos;
-	}
-
-	public void setNovatos(List<Voluntario> novatos) {
-		this.novatos = novatos;
 	}
 	
 	private List<Voluntario> getEspecial() {
@@ -239,9 +202,4 @@ public class Fila {
 			chamada = new ArrayList<>();
 		return chamada;
 	}
-
-	public void setChamada(List<Registro> chamada) {
-		this.chamada = chamada;
-	}
-
 }

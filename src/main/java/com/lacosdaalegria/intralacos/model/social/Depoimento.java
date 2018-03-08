@@ -12,6 +12,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
@@ -19,65 +21,22 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Depoimento {
-	
-	private Long id;
-	private Date dtCriacao = new Date();
-	private String conteudo;
-	private Integer status = 1;
-	private Voluntario voluntario;
-	private String cor;
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
+
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Date getDtCriacao() {
-		return dtCriacao;
-	}
-	public void setDtCriacao(Date dtCriacao) {
-		this.dtCriacao = dtCriacao;
-	}
+	private Long id;
+	private Date dtCriacao = new Date();
+
 	@Lob
 	@NotBlank
-	public String getConteudo() {
-		return conteudo;
-	}
-	public void setConteudo(String conteudo) {
-		this.conteudo = conteudo;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+	private String conteudo;
+	private Integer status = 1;
+
 	@NotNull
 	@ManyToOne
-	public Voluntario getVoluntario() {
-		return voluntario;
-	}
-	public void setVoluntario(Voluntario voluntario) {
-		this.voluntario = voluntario;
-	}
-	public String getCor() {
-		return cor;
-	}
-	public void setCor(String cor) {
-		this.cor = cor;
-	}
-	
-	
-	
-	
+	private Voluntario voluntario;
+	private String cor;
+
 }

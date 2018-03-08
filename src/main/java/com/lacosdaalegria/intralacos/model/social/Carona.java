@@ -15,6 +15,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
@@ -24,92 +26,37 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Carona {
 
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
 	private Date criacao = new Date();
+
+	@NotNull
+	@ManyToOne
 	private Voluntario criador;
+
+	@Lob
+	@NotBlank
 	private String rota;
+
+	@OneToMany
 	private Set<Voluntario> viajantes;
+
+	@NotNull
+	@Min(1)
 	private Integer vagas;
 	private Integer status = 1;
+
+	@ManyToOne
 	private Hospital hospital;
+
+	@ManyToOne
 	private Agenda agenda;
 	
 	public boolean ehCriador(Voluntario voluntario) {
 		return criador.getId().equals(voluntario.getId());
 	}
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	public Date getCriacao() {
-		return criacao;
-	}
-	public void setCriacao(Date criacao) {
-		this.criacao = criacao;
-	}
-	@NotNull
-	@ManyToOne
-	public Voluntario getCriador() {
-		return criador;
-	}
-	public void setCriador(Voluntario criador) {
-		this.criador = criador;
-	}
-	@Lob
-	@NotBlank
-	public String getRota() {
-		return rota;
-	}
-	public void setRota(String rota) {
-		this.rota = rota;
-	}
-	@OneToMany
-	public Set<Voluntario> getViajantes() {
-		return viajantes;
-	}
-	public void setViajantes(Set<Voluntario> viajantes) {
-		this.viajantes = viajantes;
-	}
-	@NotNull
-	@Min(1)
-	public Integer getVagas() {
-		return vagas;
-	}
-	public void setVagas(Integer vagas) {
-		this.vagas = vagas;
-	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	@ManyToOne
-	public Hospital getHospital() {
-		return hospital;
-	}
-	public void setHospital(Hospital hospital) {
-		this.hospital = hospital;
-	}
-	@ManyToOne
-	public Agenda getAgenda() {
-		return agenda;
-	}
-	public void setAgenda(Agenda agenda) {
-		this.agenda = agenda;
-	}
-	
 }

@@ -11,6 +11,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -20,12 +22,25 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Polo{
-	
+
+	@Id
+	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
+
+	@NotBlank
 	private String nome;
+
+	@JsonIgnore
+	@OneToMany
 	private Set<Regiao> regioes;
+
+	@JsonIgnore
+	@OneToMany
 	private Set<Voluntario> membros;
+
+	@NotNull
 	private Integer status = 1;
 	
 	public void removeMembro(Voluntario membro) {
@@ -38,52 +53,5 @@ public class Polo{
 	public void removeRegiao(Regiao regiao) {
 		regioes.remove(regiao);
 	}
-	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-	
-	@Id
-	@GeneratedValue(strategy =  GenerationType.AUTO)
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	@NotBlank
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	@JsonIgnore
-	@OneToMany	
-	public Set<Regiao> getRegioes() {
-		return regioes;
-	}
-	public void setRegioes(Set<Regiao> regioes) {
-		this.regioes = regioes;
-	}
-	@NotNull
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-	@JsonIgnore
-	@OneToMany
-	public Set<Voluntario> getMembros() {
-		return membros;
-	}
 
-	public void setMembros(Set<Voluntario> membros) {
-		this.membros = membros;
-	}
-	
 }
