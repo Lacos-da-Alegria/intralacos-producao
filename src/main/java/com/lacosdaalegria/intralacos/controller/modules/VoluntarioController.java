@@ -204,7 +204,7 @@ public class VoluntarioController {
 		return "novatos/home";
 	}
 	
-	@PostMapping("/novato/atualizar/preferencia")
+	@GetMapping("/novato/atualizar/preferencia")
 	public String updatePreferencia(Hospital hospital) {
 		service.updatePreferencia(info.getVoluntario(), hospital);
 		info.resetPosicao();
