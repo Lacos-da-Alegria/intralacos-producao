@@ -7,4 +7,4 @@ before_install:
         - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 
 install:
-        - mvn package
+        - mvn package -Dmaven.test.skip=true
