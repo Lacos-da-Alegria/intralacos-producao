@@ -23,8 +23,7 @@ import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 @Entity
 @Table
 @DynamicUpdate
-@Getter
-@Setter
+@Getter @Setter
 public class Promocao {
 
 	@Id
@@ -49,6 +48,7 @@ public class Promocao {
 	@NotNull
 	@ManyToOne
 	private Hospital primeiraAtividade;
+	
 	private Date dtCriacao = new Date(); 
 
 }

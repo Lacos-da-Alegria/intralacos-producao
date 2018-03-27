@@ -2,9 +2,9 @@ spring:
   thymeleaf:
     cache: false
   datasource:
-    url: jdbc:mysql://localhost:3306/dev?useSSL=false
-    username: root
-    password: password
+    url: jdbc:mysql://10.39.96.3:3306/prd?useSSL=false
+    username: lacos
+    password: 367421
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     properties:
@@ -18,8 +18,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 465
-    username: contato@email.com
-    password: password
+    username: intralacos@gmail.com
+    password: 123465qw
     properties:
       mail:
         smtp:
@@ -30,4 +30,4 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
                
 server:
-  port: 8080
+  port: 80
