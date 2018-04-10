@@ -11,20 +11,36 @@ public class AtividadeTask {
 	
 	@Autowired
 	private AtividadeService service;
-	
+
+	// Fecha a lista as 20hs do dia anterior
+	@Scheduled(cron="0 0 20 * * *")
+	public void atividadeHospitalMatutina() {
+		service.atividadesHospitaisMatutinas();
+	}
+
 	@Scheduled(cron="0 0 7 * * *")
-	public void atividadeMatutina() {
-		service.atividadesMatutinas();
+	public void atividadeOngMatutina() {
+		service.atividadesOngsMatutinas();
 	}
 	
 	@Scheduled(cron="0 0 12 * * *")
-	public void atividadeVespertina() {
-		service.atividadesVespertinas();
+	public void atividadesHospitaisVespertinas() {
+		service.atividadesHospitaisVespertinas();
+	}
+
+	@Scheduled(cron="0 0 12 * * *")
+	public void atividadesOngsVespertinas() {
+		service.atividadesOngsVespertinas();
 	}
 	
 	@Scheduled(cron="0 0 18 * * *")
-	public void atividadeNoturna() {
-		service.atividadesNoturnas();
+	public void atividadesHospitaisNoturnas() {
+		service.atividadesHospitaisNoturnas();
+	}
+
+	@Scheduled(cron="0 0 18 * * *")
+	public void atividadesOngsNoturnas() {
+		service.atividadesOngsNoturnas();
 	}
 
 }

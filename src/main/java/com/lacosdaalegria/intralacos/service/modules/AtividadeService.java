@@ -332,22 +332,42 @@ public class AtividadeService {
 		}
 		this.hospital.saveAll(hospitais);
 	}
-	
-	public void atividadesMatutinas() {
+
+	/*
+		A lista dos Hospitais com atividade matutina fecham as 20hs do dia anterior
+	 */
+	public void atividadesHospitaisMatutinas() {
+		Integer amanha = getDia()+1;
 		Semana semana = getSemana();
-		hospitaisAgora(this.hospital.findByDiaAndPeriodo(getDia(), 1), semana);
+
+		// Retorna os hospitais matutinos do dia seguinte para fechar a lista
+		Iterable<Hospital> hospitais = this.hospital.findByDiaAndPeriodo(amanha, 1);
+
+		hospitaisAgora(hospitais, semana);
+	}
+
+	public void atividadesOngsMatutinas() {
+		Semana semana = getSemana();
 		acoesAgora(ongsService.getAcoesAtivas(), semana, 1);
 	}
-	
-	public void atividadesVespertinas() {	
+
+	public void atividadesHospitaisVespertinas() {
 		Semana semana = getSemana();
 		hospitaisAgora(this.hospital.findByDiaAndPeriodo(getDia(), 2), semana);
-		acoesAgora(ongsService.getAcoesAtivas(), semana, 2);
 	}
 	
-	public void atividadesNoturnas() {
+	public void atividadesOngsVespertinas() {
+		Semana semana = getSemana();
+		acoesAgora(ongsService.getAcoesAtivas(), semana, 2);
+	}
+
+	public void atividadesHospitaisNoturnas() {
 		Semana semana = getSemana();
 		hospitaisAgora(this.hospital.findByDiaAndPeriodo(getDia(), 3), semana);
+	}
+	
+	public void atividadesOngsNoturnas() {
+		Semana semana = getSemana();
 		acoesAgora(ongsService.getAcoesAtivas(), semana, 3);
 	}
 	
