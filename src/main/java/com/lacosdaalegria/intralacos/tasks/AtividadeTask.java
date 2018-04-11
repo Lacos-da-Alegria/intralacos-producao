@@ -14,16 +14,16 @@ public class AtividadeTask {
 
 	// Fecha a lista as 20hs do dia anterior
 	@Scheduled(cron="0 0 20 * * *")
-	public void atividadeHospitalMatutina() {
+	public void atividadesHospitaisMatutinas() {
 		service.atividadesHospitaisMatutinas();
 	}
 
 	@Scheduled(cron="0 0 7 * * *")
-	public void atividadeOngMatutina() {
+	public void atividadesOngsMatutinas() {
 		service.atividadesOngsMatutinas();
 	}
 	
-	@Scheduled(cron="0 0 12 * * *")
+	@Scheduled(cron="0 0 10 * * *")
 	public void atividadesHospitaisVespertinas() {
 		service.atividadesHospitaisVespertinas();
 	}
