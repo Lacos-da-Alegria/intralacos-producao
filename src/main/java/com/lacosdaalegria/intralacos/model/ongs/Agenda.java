@@ -50,6 +50,9 @@ public class Agenda {
 	@Getter @Setter private Integer duracao;
 	@Setter private boolean inscricao = false;
 	@Setter private boolean chamada = false;
+	
+	@Getter @Setter
+	private Integer novatos;
 
 	@Transient
 	@Getter @Setter private Integer situacao = 0;
@@ -65,12 +68,6 @@ public class Agenda {
 		return this.semana.getId().equals(semana.getId());
 	}
 	
-	/*
-	 * ======================================================================================
-	 * ============================== Getters and Setters ===================================
-	 * ======================================================================================
-	 */
-
 	@Transient
 	public Integer getDia() {
 		Calendar cal = Calendar.getInstance();

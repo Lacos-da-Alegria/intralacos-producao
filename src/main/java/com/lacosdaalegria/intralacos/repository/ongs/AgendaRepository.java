@@ -16,9 +16,14 @@ public interface AgendaRepository extends CrudRepository<Agenda, Long>{
 	@Query("SELECT v FROM Agenda v WHERE v.instituicao.polo = :polo and v.status = 1 and v.criacao >= :data")
 	Iterable<Agenda> findByPolo(@Param("polo") Polo polo, @Param("data") Date inicio);
 	
+	@Query("SELECT v FROM Agenda v WHERE v.instituicao.polo = :polo")
+	Iterable<Agenda> findByPolo(@Param("polo") Polo polo);
+	
 	Iterable<Agenda> findByHorarioBetweenAndStatus(Date inicio, Date fim, Integer status);
 	
 	Iterable<Agenda> findByInscricaoTrueAndStatus(Integer status);
+	
+	Iterable<Agenda> findByInscricaoTrueAndStatusAndNovatosNotNull(Integer status);
 
 	@Query("SELECT v FROM Agenda v WHERE v.instituicao.polo = :polo and v.status = 1 and v.chamada = true")
 	Iterable<Agenda> chamadaPolo(@Param("polo") Polo polo);

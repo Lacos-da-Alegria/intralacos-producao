@@ -15,9 +15,9 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 @Component
 public class S3 {
-	
-	private final String bucketName = "elasticbeanstalk-us-west-2-318693850464";
-	private BasicAWSCredentials creds = new BasicAWSCredentials("AKIAJAKKL5MQFBMNPOUQ", "G93Aq//8d8mdaLIYeWT+OlxJJ1VtuBYZiIphmBcQ");
+
+	private final String bucketName = "bucket-name";
+	private BasicAWSCredentials creds = new BasicAWSCredentials("key", "token");
 	private AmazonS3 s3client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-west-2").build();
 
 	public String carregaImagem(String tag, int id, MultipartFile imagem){

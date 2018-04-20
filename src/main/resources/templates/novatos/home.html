@@ -32,8 +32,15 @@
 				<div class="col-lg-12 main-chart">
 				
 		         	<h2 class="centered">Seja Bem Vindo ao Laços da Alegria!</h2><br>
+
+					<ul class="nav nav-pills" th:if="${#lists.size(acoes) > 0 }">
+						<li class="active"><a data-toggle="pill" href="#home">Home</a></li>
+						<li ><a data-toggle="pill" href="#acoes">Ong's <span class="badge bg-important" th:text="${#lists.size(acoes)}"></span></a></li>
+					</ul>
 					  
-                  	<div class="row">
+					<div class="tab-content">
+                  	
+                  	<div id="home" class="tab-pane fade in active row mt">
                   	
                   		<div class="col-lg-3 col-md-3 col-sm-3 mb">
 							<div class="weather-3 pn centered">
@@ -92,6 +99,34 @@
                       
 					</div><!-- /row -->	
 					
+					<div id="acoes" class="tab-pane fade row mt">
+						<!-- Inicio Card Atividade Ongs -->	
+						<div th:each="acao : ${acoes}" th:id="'div-acao-'+ ${acao.id}" class="col-lg-3 col-md-3 col-sm-3 mb" >
+							<div class="content-panel pn">
+								<div class="col-xs-4 col-xs-offset-8">
+									<button class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getAgendaInfo('+${acao.id}+')'">INFO</button>
+								</div>
+								<div id="profile-01" th:style="'background-image: url('+${acao.instituicao.imagem()}+'); background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
+									<br><h3 class="with-shadow" th:text="${acao.nome}"></h3>
+								</div>
+									<span hidden th:id="'acao-' + ${acao.id}" th:data-situacao="${acao.situacao}"></span>
+									<a th:onclick="'registroAcao('+${acao.id}+')'" >
+										<div th:id="'corH-' + ${acao.id}" class="centered profile-01l" >								
+											<p th:id="'textoH-' + ${acao.id}"><i class="fa fa-spinner fa-pulse fa-fw"> </i> Carregando</p>
+										</div>
+									</a>
+								<div class="centered">
+									<h6>
+										<span th:id="${rodada ? '' : 'iconA-' + acao.id}"><i class="fa li_paperplane"></i></span>
+									<br><span th:text="${acao.instituicao.nome}"></span></h6>
+								</div>
+							</div><!--/content-panel -->
+						</div><!--/col-md-4-->
+						<!-- Fim Card Atividade Ongs -->   
+					</div>
+					
+					</div>
+					
 					 <div class="row">
 					 
 					 <br><h1 class= "centered">Mais Laços!</h1><br>
@@ -135,9 +170,92 @@
                   	</div>
                   <!-- /row mt -->	
                   	
+                  	<!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="InfoAcao" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-t">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered"><span id="aNome"></span></h4>
+		                      </div>
+		                      <div class="modal-body">
+		                        <p><b>Descrição:</b><span id="aDescricao"></span></p>
+		                          <p><b>Endereço:</b><span id="aEndereco"></span></p> 
+		                          <p><b>Horário:</b><span id="aHorario"></span></p>		                          
+		                          <p><b>Duração da Ação:</b><span id="aDuracao"></span> horas</p>
+		                          <p><b>Nº de Voluntários:</b><span id="aVoluntarios"></span></p>	
+		                      </div>
+		                      <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->			
+															
+		            <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="Modalfechada" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-t">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Inscrições Fechadas</h4>
+		                      </div> 
+		                      <div class="modal-body centered">
+		                          <p>Inscrições acontecem de <b>Segunda</b> à <b>Sábado</b> às 12h! </p>
+		                          <small style="color:red;">Caso esteja em périodo de escrição entre em contato com o devido Coordenador da atividade, informando-o que a chamada da atividade anterior precisa ser realizada para liberação das inscrições!</small>		                       	
+		                      </div>
+		                       <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                      </div>                  
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+		          
+		          <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="Modalbloqueada" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-t">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Inscrição Bloqueada</h4>
+		                      </div> 
+		                      <div class="modal-body centered">
+		                          <p>Você já está inscrito em outra atividade que acorrerá nesse mesmo horário. Caso queira participar dessa, favor cancelar primeiramente a outra</p>		                       	
+		                      </div>
+		                       <div class="modal-footer">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                      </div>                  
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+				  	
+				  <!-- Modal -->
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalCancelar" class="modal fade">
+		              <div class="modal-dialog">
+		                  <div class="modal-content">
+		                      <div class="modal-header-d">
+		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		                          <h4 class="modal-title centered">Cancelar Participação</h4>
+		                      </div>
+		                      <div class="modal-body centered">
+		                          <p>Você Realmente quer <b>Cancelar</b> sua participação nessa atividade?</p>		                       	
+		                      </div>
+		                      <div class="modal-footer">
+		                       <input  type="hidden" id="ativCancelar">
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                          <button class="btn btn-danger" onclick="cancelar();">Confirmar Cancelamento</button>
+		                      </div>
+		                  </div>
+		              </div>
+		          </div>
+		          <!-- modal -->
+                  	
 		          <!-- Modal -->
 		          <div th:if="${@userInfo.getVoluntario().getStatus() == 2}">
-					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalCancelar" class="modal fade">
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="MensagemBad" class="modal fade">
 		              <div class="modal-dialog">
 		                  <div class="modal-content">
 		                      <div class="modal-header-d">

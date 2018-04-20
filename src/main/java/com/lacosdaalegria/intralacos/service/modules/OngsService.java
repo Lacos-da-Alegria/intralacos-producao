@@ -114,7 +114,6 @@ public class OngsService {
 	
 	private void verificaSemana(Agenda agenda) {
 		if(Global.ehEssaSemana(agenda.getHorario())) {
-			System.out.println("Mesma semana");
 			agenda.setInscricao(true);
 		}
 	}
@@ -127,12 +126,20 @@ public class OngsService {
 		return agenda.chamadaPolo(polo);
 	} 
 	
+	public Iterable<Agenda> agendaPolo(Polo polo){
+		return agenda.findByPolo(polo);
+	} 
+	
 	public Iterable<Agenda> calendarioAcoes(){
 		return agenda.findByHorarioBetweenAndStatus(addMonth(-1), addMonth(3), 1);
 	}
 	
 	public Iterable<Agenda> getAcoesAtivas(){
 		return agenda.findByInscricaoTrueAndStatus(1);
+	}
+	
+	public Iterable<Agenda> getAcoesAtivasNovatos(){
+		return agenda.findByInscricaoTrueAndStatusAndNovatosNotNull(1);
 	}
 	
 	public void ativaAcoesDessaSemana() {

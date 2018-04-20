@@ -123,7 +123,7 @@ public class Registro {
 	}
 	
 	private void initTipoInstituicao(){
-		if(voluntario.isPromovido()) {
+		if(voluntario.isPromovido() || voluntario.hasRole("NOVATO_ONGS")) {
 			if(voluntario.hasRole("ONGS")) {
 				tipo = 3;
 			} else {

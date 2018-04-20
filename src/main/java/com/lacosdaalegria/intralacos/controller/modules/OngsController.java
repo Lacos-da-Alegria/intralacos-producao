@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.lacosdaalegria.intralacos.model.Global;
+import com.lacosdaalegria.intralacos.model.atividade.Fila;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.ongs.Instituicao;
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
@@ -85,8 +87,8 @@ public class OngsController {
 	
 	@PostMapping("/ongs/remove/membro")
 	public String removeMembro(Voluntario voluntario) {
-		vService.removeRole(voluntario, "ROLE_ONGS");
 		service.removeMembro(voluntario);
+		vService.removeRole(voluntario, "ROLE_ONGS");
 		return "redirect:/ongs/equipes";
 	}
 	
@@ -152,13 +154,46 @@ public class OngsController {
 			return "redirect:/polo/chamadas?agenda="+agenda.getId();
 		}
 	}
+	
+	@GetMapping("/polo/lista/atividade")
+	public String listaAtividade(Model model) {
+		Polo polo = service.myPolo(info.getVoluntario());
+		model.addAttribute("acoes", service.agendaPolo(polo));
+		model.addAttribute("rodada", Global.rodadaRandomica());
+		model.addAttribute("fila", new Fila());
+		return "ongs/lista";
+	}
+	
+	@GetMapping("/polo/lista/acao")
+	public String listaAcao(Agenda agenda, Model model) {
+		if(Global.rodadaRandomica() || agenda == null){
+			return "redirect:/polo/lista/atividade";
+		}
+		
+		Polo polo = service.myPolo(info.getVoluntario());
+		
+		if(agenda.getId() != null) {
+			//Verifica se instituição é do mesmo polo
+			if(agenda.getInstituicao().getPolo().getId().equals(polo.getId())) {
+				
+				model.addAttribute("rodada", Global.rodadaRandomica());
+				model.addAttribute("acoes", service.agendaPolo(polo));
+				model.addAttribute("fila", atividade.getFilaAtividade(agenda));
+				model.addAttribute("agenda", agenda);
+				
+				return "ongs/lista";
+			}
+		}
+		
+		return "redirect:/polo/lista/atividade";
+	}
+	
 
 	/*
 	 * ======================================================================================
 	 * ========================= Calendario de Ações / Agendas ==============================
 	 * ======================================================================================
 	 */
-	 
 	 
 	@GetMapping("/polo/calendario")
 	public String calendario(Model model){

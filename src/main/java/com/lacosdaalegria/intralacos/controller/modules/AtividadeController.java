@@ -97,7 +97,7 @@ public class AtividadeController {
 		return service.getPosicao(hospital, info.getVoluntario());
 	}
 	
-	@GetMapping("/voluntario/posicao/acao")
+	@GetMapping("/info/posicao/acao")
 	public @ResponseBody Integer posicaoAcao(Agenda agenda) {
 		return service.getPosicao(agenda, info.getVoluntario());
 	}
@@ -113,17 +113,17 @@ public class AtividadeController {
 		return service.inscrever(info.getVoluntario(), hospital);
 	}
 	
-	@GetMapping("/voluntario/inscrever/acao")
+	@GetMapping("/info/inscrever/acao")
 	public @ResponseBody Registro inscreverAcao(Agenda agenda) {
 		return service.inscrever(info.getVoluntario(), agenda);
 	}
 	
-	@GetMapping("/voluntario/cancelar")
+	@GetMapping("/info/cancelar")
 	public @ResponseBody Registro cancelarAtividade(Registro registro) {
 		return service.cancelar(info.getVoluntario(), registro);
 	}
 	
-	@GetMapping("/voluntario/registros")
+	@GetMapping("/info/registros")
 	public @ResponseBody Iterable<Registro> registros() {
 		return service.meusRegistros(info.getVoluntario());
 	}
@@ -133,7 +133,7 @@ public class AtividadeController {
 		return hospital;
 	}
 	
-	@GetMapping("/voluntario/info/agenda")
+	@GetMapping("/info/agenda")
 	public @ResponseBody Agenda infoAgenda(Agenda agenda) {
 		return agenda;
 	}
@@ -143,7 +143,7 @@ public class AtividadeController {
 		return hospital.getAllActive();
 	}
 	
-	@GetMapping("/voluntario/acoes")
+	@GetMapping("/info/acoes")
 	public @ResponseBody Iterable<Agenda> acoes() {
 		return ongs.getAcoesAtivas();
 	}

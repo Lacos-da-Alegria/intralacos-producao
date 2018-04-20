@@ -3,9 +3,7 @@ package com.lacosdaalegria.intralacos.service.modules;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -69,11 +67,11 @@ public class VoluntarioService {
 	}
 	
 	public Voluntario promoteNovato(Voluntario voluntario){
-		Set<Role> papel = new HashSet<>();
-		papel.add(getRole("ROLE_VOLUNTARIO"));
+
+		removeRole(voluntario, "ROLE_NOVATO");
+		addRole(voluntario, "ROLE_VOLUNTARIO");
 		
 		voluntario.setPromovido(true);
-		voluntario.setRoles(papel);
 		voluntario.setObservacao("Voluntário promovido - " + new Date());
 		return repository.save(voluntario);
 	}
@@ -123,9 +121,7 @@ public class VoluntarioService {
 	
 	public void aceitaTermo(Voluntario voluntario) {
 		
-		Set<Role> papel = new HashSet<>();
-		papel.add(getRole("ROLE_NOVATO"));
-		voluntario.setRoles(papel);
+		addRole(voluntario, "ROLE_NOVATO");
 		voluntario.setAceitaTermo(true);
 		updateRole("ROLE_NOVATO");
 		repository.save(voluntario);

@@ -128,8 +128,10 @@ public class Fila {
 					getChamada().add(registro);
 				} else {
 					if (registro.isNovato()) {
-						getNovatos().add(registro.getVoluntario());
-						getChamada().add(registro);
+						if(agenda.getNovatos().intValue() > getNovatos().size()) {
+							getNovatos().add(registro.getVoluntario());
+							getChamada().add(registro);
+						}
 					} else {
 						getEspecial().add(registro.getVoluntario());
 						getChamada().add(registro);
