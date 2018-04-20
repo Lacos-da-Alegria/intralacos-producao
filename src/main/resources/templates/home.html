@@ -327,7 +327,7 @@
 	function getAgendaInfo(id){
 		
 		var request = $.ajax({
-			url: "/voluntario/info/agenda?agenda=" + id,
+			url: "/info/agenda?agenda=" + id,
 			method: "GET",
 			dataType: "json"
 		});
@@ -441,7 +441,7 @@
 			agenda.situacao = 1;
 			
 			var request = $.ajax({
-				url: "/voluntario/inscrever/acao?agenda="+agenda.id,
+				url: "/info/inscrever/acao?agenda="+agenda.id,
 				method: "GET",
 				dataType: "json"
 			});
@@ -469,7 +469,7 @@
 			var r = getRegistroHospital($('#ativCancelar').val());
 			
 			var request = $.ajax({
-				url: "/voluntario/cancelar?registro="+r.id,
+				url: "/info/cancelar?registro="+r.id,
 				method: "GET",
 				dataType: "json"
 			});
@@ -657,7 +657,7 @@
 		}
 		
 		function descobrirPosicaoAcao(id){
-			doPosicaoAjax("/voluntario/posicao/acao?agenda=", id);
+			doPosicaoAjax("/info/posicao/acao?agenda=", id);
 		}
 		
 		function doPosicaoAjax(url, id){
@@ -715,7 +715,7 @@
 		function initAcoes(){
 			
 			var request = $.ajax({
-				url: "/voluntario/acoes",
+				url: "/info/acoes",
 				method: "GET",
 				dataType: "json"
 			});
@@ -736,7 +736,7 @@
 		function initRegistros(){
 			
 			var request = $.ajax({
-				url: "/voluntario/registros",
+				url: "/info/registros",
 				method: "GET",
 				dataType: "json"
 			});

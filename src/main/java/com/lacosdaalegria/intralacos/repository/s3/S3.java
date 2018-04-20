@@ -15,7 +15,7 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 @Component
 public class S3 {
-	
+
 	private final String bucketName = "bucket-name";
 	private BasicAWSCredentials creds = new BasicAWSCredentials("key", "token");
 	private AmazonS3 s3client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(creds)).withRegion("us-west-2").build();

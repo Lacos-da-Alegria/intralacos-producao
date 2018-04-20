@@ -234,6 +234,10 @@ public class AtividadeService {
 		if(fila.finalizada()) {
 			agenda.setChamada(false);
 			this.agenda.save(agenda);
+			
+			promoveNovatosOngs(fila.novatosQueForam());
+			desativaNovatos(fila.novatosNaoForam());
+			
 			return true;
 		}
 		return false;
@@ -242,6 +246,12 @@ public class AtividadeService {
 	private void promoveNovatos(Set<Voluntario> novatos) {
 		for(Voluntario n : novatos) {
 			vService.promoteNovato(n);
+		}
+	}
+	
+	private void promoveNovatosOngs(Set<Voluntario> novatos) {
+		for(Voluntario n : novatos) {
+			vService.addRole(n, "ROLE_NOVATO_ONGS");
 		}
 	}
 	
@@ -268,7 +278,7 @@ public class AtividadeService {
 		Registro registro = new Registro();
 		registro.setVoluntario(voluntario);
 		registro.setSemana(agenda.getSemana());
-		registro.setPosicao(10001);
+		registro.initPosicao(info.isFaltante());
 		return registro;
 	}
 	

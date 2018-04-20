@@ -29,19 +29,24 @@ import com.lacosdaalegria.intralacos.session.UserInfo;
 @Controller
 public class VoluntarioController {
 	
-	@Autowired
+	
 	private RegiaoService regiao;
-	@Autowired
 	private UserInfo info;
-	@Autowired
 	private VoluntarioService service;
-	@Autowired
 	private HospitalService hospital; 
-	@Autowired
 	private OngsService ongs;
-	@Autowired
 	private EmailService email;
 	
+	@Autowired
+	public VoluntarioController(RegiaoService regiao, UserInfo info, VoluntarioService service,
+			HospitalService hospital, OngsService ongs, EmailService email) {
+		this.regiao = regiao;
+		this.info = info;
+		this.service = service;
+		this.hospital = hospital;
+		this.ongs = ongs;
+		this.email = email;
+	}
 	
 	/*
 	 * ======================================================================================
@@ -200,7 +205,15 @@ public class VoluntarioController {
 	
 	@GetMapping("/novato/home")
 	public String home(Model model) {
+		
 		model.addAttribute("hospitais", hospital.getHospitalNovatos());
+		model.addAttribute("rodada", Global.rodadaRandomica());
+		
+		if(info.hasRole("NOVATO_ONGS"))
+			model.addAttribute("acoes", ongs.getAcoesAtivas());
+		else
+			model.addAttribute("acoes", ongs.getAcoesAtivasNovatos());
+		
 		return "novatos/home";
 	}
 	

@@ -148,6 +148,8 @@ public class InitData {
 		
 		roleRepo.save(initRole("ROLE_CAPACITA"));
 		
+		roleRepo.save(initRole("NOVATO_ONGS"));
+		
 	}
 	
 	private Role initRole(String name) {
