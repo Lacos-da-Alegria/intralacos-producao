@@ -21,7 +21,7 @@ public interface AgendaRepository extends CrudRepository<Agenda, Long>{
 	
 	Iterable<Agenda> findByHorarioBetweenAndStatus(Date inicio, Date fim, Integer status);
 	
-	Iterable<Agenda> findByInscricaoTrueAndStatus(Integer status);
+	Iterable<Agenda> findByInscricaoTrueAndStatusOrChamadaTrue(Integer status);
 	
 	Iterable<Agenda> findByInscricaoTrueAndStatusAndNovatosNotNull(Integer status);
 

@@ -135,7 +135,7 @@ public class OngsService {
 	}
 	
 	public Iterable<Agenda> getAcoesAtivas(){
-		return agenda.findByInscricaoTrueAndStatus(1);
+		return agenda.findByInscricaoTrueAndStatusOrChamadaTrue(1);
 	}
 	
 	public Iterable<Agenda> getAcoesAtivasNovatos(){

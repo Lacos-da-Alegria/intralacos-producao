@@ -36,7 +36,14 @@ public interface VoluntarioRepository extends CrudRepository<Voluntario, Long> {
 	
 	Iterable<Voluntario> findByEmailOrLoginOrWhatsappOrCpf(String email, String login, String whatsapp, String cpf);
 	
+	@Query(value = "SELECT v.* FROM voluntario v WHERE v.status = 1 and v.promovido = 1 and "
+			+ "v.id not in (SELECT DISTINCT voluntario_id from registro r where "
+			+ "r.status = 1 and r.criacao >=  now() - interval 4 month)", nativeQuery = true)
+	Iterable<Voluntario> findVoluntarioDesativar();
 	
-	
+	@Query(value = "SELECT v.* FROM voluntario v WHERE v.status != 1 and v.promovido = 1 and "
+			+ "v.id in (SELECT DISTINCT voluntario_id from registro r where "
+			+ "r.status = 1 and r.criacao >=  now() - interval 4 month)", nativeQuery = true)
+	Iterable<Voluntario> findVoluntarioAtivar();
 	
 }

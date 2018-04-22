@@ -67,7 +67,7 @@
 			                     	   <a><i th:if="${voluntario.isAniversariante()}" class="fa fa-birthday-cake" aria-hidden="true"> - </i><span th:text="${voluntario.nome}"></span></a>
 			      					</td>
 			      					<td>				                      
-			                     	   <a th:utext="${voluntario.nomeDoutor}"></a>
+			                     	   <a th:utext="${'(' + voluntario.ddd + ')  ' + voluntario.whatsapp}"></a>
 			      					</td>
 			      				</tr>
 				              </tbody>
@@ -104,7 +104,7 @@
 			                     	   <a><i th:if="${voluntario.isAniversariante()}" class="fa fa-birthday-cake" aria-hidden="true"> - </i><span th:text="${voluntario.nome}"></span></a>
 			      					</td>
 			      					<td>				                      
-			                     	   <a th:utext="${voluntario.whatsapp}"></a>
+			                     	   <a th:utext="${'(' + voluntario.ddd + ')  ' + voluntario.whatsapp}"></a>
 			      					</td>
 			      				</tr>				                
 				              </tbody>
