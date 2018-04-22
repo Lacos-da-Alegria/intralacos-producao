@@ -13,6 +13,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -213,6 +214,25 @@ public class VoluntarioService {
 		this.token.save(token);
 		return token;
 	}
+	
+	@Transactional
+	public void ativarVoluntarios() {
+		Iterable<Voluntario> voluntarios = repository.findVoluntarioAtivar();
+		
+		voluntarios.forEach(v -> v.setStatus(1));
+		
+		repository.saveAll(voluntarios);
+	}
+	
+	@Transactional
+	public void desativarVoluntarios() {
+		Iterable<Voluntario> voluntarios = repository.findVoluntarioDesativar();
+		
+		voluntarios.forEach(v -> v.setStatus(2));
+		
+		repository.saveAll(voluntarios);
+		
+	} 
 	
 	public String resetSenha(String token, String senha, String _senha) {
 		String mensagem = "";

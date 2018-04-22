@@ -348,6 +348,10 @@ public class AtividadeService {
 	 */
 	public void atividadesHospitaisMatutinas() {
 		Integer amanha = getDia()+1;
+		
+		if(amanha == 8)
+			amanha = 1;
+		
 		Semana semana = getSemana();
 
 		// Retorna os hospitais matutinos do dia seguinte para fechar a lista
