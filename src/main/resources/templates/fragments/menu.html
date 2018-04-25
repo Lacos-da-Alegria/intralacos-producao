@@ -68,8 +68,8 @@
                       </ul>
                   	</li>
                   
-                  <li sec:authorize="hasRole('VOLUNTARIO')" class="sub-menu">
-                      <a href="/voluntario/lista/atividade" >
+                  <li sec:authorize="hasAnyRole('VOLUNTARIO', 'NOVATO_ONGS')" class="sub-menu">
+                      <a href="/atividade/lista" >
                           <i class="fa fa-list-ol"></i>
                           <span>Lista da Atividade</span>
                       </a>

@@ -209,9 +209,10 @@ public class VoluntarioController {
 		model.addAttribute("hospitais", hospital.getHospitalNovatos());
 		model.addAttribute("rodada", Global.rodadaRandomica());
 		
-		if(info.hasRole("NOVATO_ONGS"))
+		if(info.hasRole("ROLE_NOVATO_ONGS")) {
+			model.addAttribute("novato_ongs", true);
 			model.addAttribute("acoes", ongs.getAcoesAtivas());
-		else
+		} else
 			model.addAttribute("acoes", ongs.getAcoesAtivasNovatos());
 		
 		return "novatos/home";

@@ -101,6 +101,7 @@
 					
 					<div id="acoes" class="tab-pane fade row mt">
 						<!-- Inicio Card Atividade Ongs -->	
+						<input type="hidden" id="novato_ongs" th:value="${novato_ongs}">
 						<div th:each="acao : ${acoes}" th:id="'div-acao-'+ ${acao.id}" class="col-lg-3 col-md-3 col-sm-3 mb" >
 							<div class="content-panel pn">
 								<div class="col-xs-4 col-xs-offset-8">
@@ -265,7 +266,7 @@
 		                      <div class="modal-body">
 		                          <p>Devido a sua falta na atividade sua conta foi desativada. Entendemos que imprevistos acontecem e queremos muito você fazendo parte do do nosso projeto.</p>
 		                          <p>Mas temos uma fila muito grande e caso você não possar ir é so avisar a pessoa responsavel que entrou em contato com você, com alguma antecedência.</p>
-		                          <p>Agora para você voltar a ser chamado para uma atividade é só ir no menu ao lado caso esteja em um computador ou so descer a pagina caso esteja em um celular. Onde ficava a sua posição já fila e reativar sua conta, em pouco tempo voltaremos a entrar em contato.</p>
+		                          <p>Agora para você voltar a ser chamado para uma atividade é só reativar sua conta, em pouco tempo voltaremos a entrar em contato.</p>
 		                          <p>Ou você pode falar com o responsavel que entrou em contato com você para tirar alguma dúvida ou abrir uma ouvidoria.</p>
 		                          <p>Esperamos você em uma de nossas atividades s2</p>
 		                          		                       	

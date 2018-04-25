@@ -7,7 +7,7 @@ $( document ).ready(function() {
 });
 
 function reativarConta(){
-	$('#ModalCancelar').modal('hide');
+	$('#MensagemBad').modal('hide');
 	$('#reativarConta').modal('show');
 }
 
@@ -253,10 +253,10 @@ function clickAndDisable(link) {
 		if(verificaRegistro(atividade)){
 			$("#iconA-"+atividade.id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
 		} else {
-			if(atividade.hasOwnProperty('tag'))
-				$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoHospital('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
-			else
+			if($('#novato_ongs').val())
 				$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoAcao('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
+			else
+				$("#iconA-"+atividade.id).html('<a onclick="descobrirPosicaoAcaoNovato('+atividade.id+')"style="color: #5373e7;font-size: 1.2em; cursor:pointer;"><i class="fa fa-hand-o-right">&nbsp&nbspClique para ver sua posição</i></a>');
 		}
 	}
 	
@@ -300,6 +300,33 @@ function clickAndDisable(link) {
 					$("#iconA-"+id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
 				} else {
 					$("#iconA-"+id).html('<i class="fa fa-hand-o-right"  style="color: #5373e7;font-size: 1.2em;">&nbsp&nbsp'+posicao+'º na Fila de Espera</i>');
+				}
+			}
+		});
+		
+		request.fail(function(jqXHR, textStatus) {
+			redirectLogin(jqXHR);
+		});
+	}	
+	
+	function descobrirPosicaoAcaoNovato(id){
+		doPosicaoNovatoAjax("/novato/posicao/acao?agenda=", id);
+	}
+	
+	function doPosicaoNovatoAjax(url, id){
+		$("#iconA-"+id).html('<span style="color: #5373e7;font-size: 1.2em;"><i class="fa fa-spinner fa-pulse fa-fw"></i> Carregando<span>');			
+		var request = $.ajax({
+			url: url+id,
+			method: "GET",
+			dataType: "json"
+		});
+		
+		request.done(function(posicao){
+			if(posicao !=  null){
+				if(posicao < 0){
+					$("#iconA-"+id).html('<i class="fa fa-thumbs-o-down"  style="color: #5373e7; font-size: 1.2em;">&nbsp&nbspNão foi dessa vez</i>');
+				} else {
+					$("#iconA-"+id).html('<i class="fa fa-thumbs-o-up"  style="color: #14c10e; font-size: 1.2em;">&nbsp&nbspEsperamos você lá</i>');
 				}
 			}
 		});

@@ -162,6 +162,14 @@ public class Fila {
 		return -1;
 	}
 	
+	public Integer getPosicaoNovato(Voluntario voluntario) {
+		for(int i = 0; i < getNovatos().size() ; i++){
+			if(getNovatos().get(i).getId().equals(voluntario.getId()))
+				return i+1;
+		}
+		return -1;
+	}
+	
 	/*
 	 * ======================================================================================
 	 * ============================== Getters and Setters ===================================

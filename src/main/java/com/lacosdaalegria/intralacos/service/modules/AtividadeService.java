@@ -127,6 +127,14 @@ public class AtividadeService {
 			return null;
 	}
 	
+	public Integer getPosicaoNovato(Agenda agenda, Voluntario voluntario) {
+		if(!Global.rodadaRandomica()) {
+			Fila fila = new Fila(agenda, registro.findFilaAcao(agenda, agenda.getSemana()));
+			return fila.getPosicaoNovato(voluntario);	
+		} else 
+			return null;
+	}
+	
 	private void initTipoHospital(Registro registro){
 		if(registro.getVoluntario().isPromovido()) {
 			if(registro.getVoluntario().hasRole("APOIO")) {
