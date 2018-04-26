@@ -53,7 +53,7 @@
                               <tr th:each="atendimento : ${atendimentos}">   
 	                              <td th:if="${atendimento.status} == 1">&nbsp;&nbsp;&nbsp; <i class="fa fa-check fa-2x" style="color:#11bf25;" aria-hidden="true"></i></td>
 	                              <td th:if="${atendimento.status} == 0">&nbsp;&nbsp;&nbsp; <i class="fa fa-exclamation fa-2x" style="color:#fdb507;" aria-hidden="true"></i></td>
-	                              <td th:text="${atendimento.dt_criacao}"></td>
+	                              <td th:text="${atendimento.criacao}"></td>
 	                              <td th:text="${atendimento.categoria.nome}"></td>
 	                              <td th:text="${atendimento.nomeAtendente()}"></td>
 	                              <td><a th:onclick="'apresentaDetalhe(\'' + ${atendimento.mostraOuvidoria()} + '\', \'' + ${atendimento.mostraResposta()} + '\' , ' + ${atendimento.id} + ');'" style="font-size:16px;"  class="btn btn-primary btn-xs fa fa-info-circle"></a></td>

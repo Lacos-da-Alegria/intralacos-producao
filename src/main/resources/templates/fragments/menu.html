@@ -160,12 +160,13 @@
                           <li><a href="/hospitais/recurso/humano"> Recurso Humano</a></li>
                           <li><a href="/hospitais/controle"> Controle de Hospitais</a></li>
                         </div>
-                        <div sec:authorize="hasAnyRole('DCOM')" th:remove="tag">
+                        <div sec:authorize="hasAnyRole('DCOM', 'DEXEC')" th:remove="tag">
                           <li><a href="/comunicacao/ouvidoria"> Controle da Ouvidoria</a></li>
                           <li><a href="/comunicacao/cadastro/notificacao">Cadastrar Notificação</a></li>
                         </div>
                         <div sec:authorize="hasAnyRole('DEXEC')" th:remove="tag">
-                          <li><a href="/executivo/controle/educadores">Equipe Capacitação</a></li>
+                        	<li><a href="/executivo/controle/ouvidoria"> Supervisão Ouvidoria</a></li>
+                          	<li><a href="/executivo/controle/educadores">Equipe Capacitação</a></li>
                         </div>
                       </ul>
                   </li>

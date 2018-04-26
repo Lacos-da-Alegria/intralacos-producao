@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.repository.ouvidoria;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -20,5 +22,7 @@ public interface AtendimentoRepository extends CrudRepository<Atendimento, Long>
 	
 	@Query("SELECT count(a) FROM Atendimento a WHERE a.responsavel IS NULL AND a.status = 0 and a.grupo = :grupo")
 	Integer countOuvidoriasAbertas(@Param("grupo") Grupo grupo);
+	
+	Page<Atendimento> findAllByOrderByCriacaoDesc(Pageable page);
 
 }

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.lacosdaalegria.intralacos.model.ouvidoria.Atendimento;
@@ -151,6 +152,15 @@ public class OuvidoriaController {
 	public String repondeAtendimento(Atendimento atendimento) {
 		service.respondeAtendimento(atendimento, info.getVoluntario());	
 		return "redirect:/atendimento/page";
+	}
+	
+	@GetMapping("/executivo/controle/ouvidoria")
+	public String supervisaoOuvidoria(@RequestParam(value = "pagina", required = false) Integer pagina, Model model) {
+		
+		model.addAttribute("pagina", service.pageAtendimento(pagina));
+		model.addAttribute("atual", pagina);
+		
+		return "atendimento/supervisao";
 	}
 	
 	/*

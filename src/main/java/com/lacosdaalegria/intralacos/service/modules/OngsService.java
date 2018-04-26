@@ -3,6 +3,8 @@ package com.lacosdaalegria.intralacos.service.modules;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,6 +38,8 @@ public class OngsService {
 	private RegiaoService regiao;
 	@Autowired
 	private S3 s3;
+	@Autowired
+	private VoluntarioService vService;
 	
 	public Iterable<Instituicao> findInstituicoes(Polo polo){
 		return instituicao.findByPolo(polo);
@@ -63,9 +67,11 @@ public class OngsService {
 		this.polo.save(polo);
 	}
 	
+	@Transactional
 	public void removeMembro(Voluntario membro) {
 		Polo polo = this.polo.findByMembros(membro);
 		polo.removeMembro(membro);
+		vService.removeRole(membro, "ROLE_ONGS");
 		this.polo.save(polo);		
 	}
 	

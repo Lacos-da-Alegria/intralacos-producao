@@ -43,6 +43,16 @@ public class OuvidoriaService {
 		return grupo.findAll();
 	}
 	
+	public Page<Atendimento> pageAtendimento(Integer page){
+		
+		if(page == null)
+			page = 0;
+		else
+			page = page - 1;
+		
+		return this.atendimento.findAllByOrderByCriacaoDesc(PageRequest.of(page, 12));
+	}
+	
 	public void retirarCategoria(Categoria categoria) {
 		categoria.setGrupo(null);
 		this.categoria.save(categoria);
