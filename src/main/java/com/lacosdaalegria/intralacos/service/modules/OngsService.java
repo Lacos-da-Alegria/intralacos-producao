@@ -131,12 +131,12 @@ public class OngsService {
 	
 	public Iterable<Agenda> getChamadas(Polo polo){
 		return agenda.chamadaPolo(polo);
-	} 
-	
-	public Iterable<Agenda> agendaPolo(Polo polo){
-		return agenda.findByPolo(polo);
-	} 
-	
+	}
+
+	public Iterable<Agenda> getParticipantes(Polo polo){
+		return agenda.participantesPolo(polo);
+	}
+
 	public Iterable<Agenda> calendarioAcoes(){
 		return agenda.findByHorarioBetweenAndStatus(addMonth(-1), addMonth(3), 1);
 	}

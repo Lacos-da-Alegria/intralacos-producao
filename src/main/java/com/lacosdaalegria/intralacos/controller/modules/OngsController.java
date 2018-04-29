@@ -157,7 +157,7 @@ public class OngsController {
 	@GetMapping("/polo/lista/atividade")
 	public String listaAtividade(Model model) {
 		Polo polo = service.myPolo(info.getVoluntario());
-		model.addAttribute("acoes", service.getChamadas(polo));
+		model.addAttribute("acoes", service.getParticipantes(polo));
 		model.addAttribute("rodada", Global.rodadaRandomica());
 		model.addAttribute("fila", new Fila());
 		return "ongs/lista";
@@ -176,7 +176,7 @@ public class OngsController {
 			if(agenda.getInstituicao().getPolo().getId().equals(polo.getId())) {
 				
 				model.addAttribute("rodada", Global.rodadaRandomica());
-				model.addAttribute("acoes", service.getChamadas(polo));
+				model.addAttribute("acoes", service.getParticipantes(polo));
 				model.addAttribute("fila", atividade.getFilaAtividade(agenda));
 				model.addAttribute("agenda", agenda);
 				
