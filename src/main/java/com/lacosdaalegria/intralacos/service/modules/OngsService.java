@@ -24,6 +24,7 @@ import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
 
 @Service
+@Transactional
 public class OngsService {
 
 	@Autowired

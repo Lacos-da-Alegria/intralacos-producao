@@ -2,6 +2,7 @@ package com.lacosdaalegria.intralacos.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
@@ -11,6 +12,7 @@ import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
 
 @Service
+@Transactional
 public class HospitalService {
 	
 	@Autowired

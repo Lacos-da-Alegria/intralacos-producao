@@ -2,6 +2,7 @@ package com.lacosdaalegria.intralacos.service.modules;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.lacosdaalegria.intralacos.model.capacitacao.Aula;
@@ -14,6 +15,7 @@ import com.lacosdaalegria.intralacos.repository.capacitacao.MateriaRepository;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
 
 @Service
+@Transactional
 public class CapacitacaoService {
 
 	@Autowired

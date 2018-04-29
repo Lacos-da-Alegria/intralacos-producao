@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lacosdaalegria.intralacos.model.social.Carona;
 import com.lacosdaalegria.intralacos.model.social.Depoimento;
@@ -13,6 +14,7 @@ import com.lacosdaalegria.intralacos.repository.social.DepoimentoRepository;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service
+@Transactional
 public class SocialService {
 	
 	@Autowired

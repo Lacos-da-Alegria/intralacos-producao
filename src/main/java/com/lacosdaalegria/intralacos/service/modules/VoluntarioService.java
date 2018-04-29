@@ -29,6 +29,7 @@ import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
 import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
 
 @Service
+@Transactional
 public class VoluntarioService {
 	
 	@Autowired
@@ -123,8 +124,12 @@ public class VoluntarioService {
 	public void aceitaTermo(Voluntario voluntario) {
 		
 		addRole(voluntario, "ROLE_NOVATO");
+		removeRole(voluntario, "ROLE_ACEITE");
+		
 		voluntario.setAceitaTermo(true);
+		
 		updateRole("ROLE_NOVATO");
+		
 		repository.save(voluntario);
 		
 	}

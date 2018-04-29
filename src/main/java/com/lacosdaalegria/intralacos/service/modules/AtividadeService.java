@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Iterables;
 import com.lacosdaalegria.intralacos.model.Global;
@@ -26,6 +27,7 @@ import com.lacosdaalegria.intralacos.repository.ongs.AgendaRepository;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service
+@Transactional
 public class AtividadeService {
 
 	@Autowired
