@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,20 +22,15 @@ import com.lacosdaalegria.intralacos.repository.recurso.EquipeRepository;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RecursoService {
 
-	@Autowired
-	private DiretoriaRepository diretoria;
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired
-	private EquipeRepository equipe;
-	@Autowired
-	private CoordenadorRepository coordenador;
-	@Autowired
-	private ControleNovatoRepository controleNovato;
-	@Autowired
-	private ApoioRepository apoio;
+	private @NonNull DiretoriaRepository diretoria;
+	private @NonNull VoluntarioService vService;
+	private @NonNull EquipeRepository equipe;
+	private @NonNull CoordenadorRepository coordenador;
+	private @NonNull ControleNovatoRepository controleNovato;
+	private @NonNull ApoioRepository apoio;
 	
 	public void saveDiretoria(Diretoria diretoria) {
 		this.diretoria.save(diretoria);

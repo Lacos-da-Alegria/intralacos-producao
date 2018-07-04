@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,14 +15,12 @@ import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class SustentacaoService {
 	
-	@Autowired
-	private AnalistaRepository repository;
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired
-	private PromocaoRepository promocao;
+	private @NonNull AnalistaRepository repository;
+	private @NonNull VoluntarioService vService;
+	private @NonNull PromocaoRepository promocao;
 	
 	public void addAnalista(String email) {
 		Voluntario voluntario = vService.findByEmail(email);

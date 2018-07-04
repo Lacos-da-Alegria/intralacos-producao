@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,18 +18,14 @@ import com.lacosdaalegria.intralacos.repository.recurso.EquipeRepository;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class DemandaService {
 	
-	@Autowired
-	private EquipeRepository equipe;
-	@Autowired
-	private DemandaRepository demanda;
-	@Autowired
-	private NotaRepository nota;
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired
-	private DiretoriaRepository diretoria;
+	private @NonNull EquipeRepository equipe;
+	private @NonNull DemandaRepository demanda;
+	private @NonNull NotaRepository nota;
+	private @NonNull VoluntarioService vService;
+	private @NonNull DiretoriaRepository diretoria;
 	
 	public Equipe getEquipe(Voluntario voluntario) {
 		return equipe.findByMembrosOrLider(voluntario, voluntario);

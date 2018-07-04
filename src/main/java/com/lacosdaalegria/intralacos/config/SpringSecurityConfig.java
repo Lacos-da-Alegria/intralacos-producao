@@ -2,6 +2,8 @@ package com.lacosdaalegria.intralacos.config;
 
 import javax.sql.DataSource;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -14,13 +16,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-
-	@Autowired
-	private DataSource dataSource;
+	private @NonNull BCryptPasswordEncoder bCryptPasswordEncoder;
+	private @NonNull DataSource dataSource;
 	
 	@Value("${spring.queries.users-query}")
 	private String usersQuery;

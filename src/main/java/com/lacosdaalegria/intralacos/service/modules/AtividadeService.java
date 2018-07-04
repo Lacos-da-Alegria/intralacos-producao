@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,26 +30,18 @@ import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class AtividadeService {
 
-	@Autowired
-	private SemanaRepository semana;
-	@Autowired
-	private RegistroRepository registro;
-	@Autowired
-	private ApoioRepository apoio;
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired
-	private HospitalRepository hospital;
-	@Autowired
-	private OngsService ongsService;
-	@Autowired
-	private RecursoService recurso;
-	@Autowired
-	private AgendaRepository agenda;
-	@Autowired
-	private UserInfo info;
+	private @NonNull SemanaRepository semana;
+	private @NonNull RegistroRepository registro;
+	private @NonNull ApoioRepository apoio;
+	private @NonNull VoluntarioService vService;
+	private @NonNull HospitalRepository hospital;
+	private @NonNull OngsService ongsService;
+	private @NonNull RecursoService recurso;
+	private @NonNull AgendaRepository agenda;
+	private @NonNull UserInfo info;
 	
 	public Semana novaSemana() {
 		return semana.save(new Semana());

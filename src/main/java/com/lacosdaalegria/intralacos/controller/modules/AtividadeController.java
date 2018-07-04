@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,18 +24,14 @@ import com.lacosdaalegria.intralacos.service.modules.RecursoService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
+@RequiredArgsConstructor
 public class AtividadeController {
 	
-	@Autowired
-	private HospitalService hospital;
-	@Autowired
-	private AtividadeService service;
-	@Autowired
-	private OngsService ongs;
-	@Autowired
-	private UserInfo info;
-	@Autowired
-	private RecursoService recurso;
+	private @NonNull HospitalService hospital;
+	private @NonNull AtividadeService service;
+	private @NonNull OngsService ongs;
+	private @NonNull UserInfo info;
+	private @NonNull RecursoService recurso;
 	
 	/*
 	 * ======================================================================================

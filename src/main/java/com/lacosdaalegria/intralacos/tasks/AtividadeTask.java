@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.tasks;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -7,12 +9,11 @@ import org.springframework.stereotype.Component;
 import com.lacosdaalegria.intralacos.service.modules.AtividadeService;
 
 @Component
+@RequiredArgsConstructor
 public class AtividadeTask {
 	
-	@Autowired
-	private AtividadeService service;
+	private @NonNull AtividadeService service;
 
-	// Fecha a lista as 20hs do dia anterior
 	@Scheduled(cron="0 0 20 * * *")
 	public void atividadesHospitaisMatutinas() {
 		service.atividadesHospitaisMatutinas();

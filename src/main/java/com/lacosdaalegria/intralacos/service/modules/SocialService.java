@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,12 +17,11 @@ import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class SocialService {
 	
-	@Autowired
-	private DepoimentoRepository depoimento;
-	@Autowired
-	private CaronaRepository carona;
+	private @NonNull DepoimentoRepository depoimento;
+	private @NonNull CaronaRepository carona;
 	
 	/*
 	 * ======================================================================================

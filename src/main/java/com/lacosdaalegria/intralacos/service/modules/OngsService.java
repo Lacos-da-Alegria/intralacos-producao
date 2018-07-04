@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.transaction.Transactional;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,22 +27,16 @@ import com.lacosdaalegria.intralacos.service.RegiaoService;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class OngsService {
 
-	@Autowired
-	private AgendaRepository agenda;
-	@Autowired
-	private InstituicaoRepository instituicao;
-	@Autowired
-	private PoloRepository polo;
-	@Autowired
-	private TagRepository tag;
-	@Autowired
-	private RegiaoService regiao;
-	@Autowired
-	private S3 s3;
-	@Autowired
-	private VoluntarioService vService;
+	private @NonNull AgendaRepository agenda;
+	private @NonNull InstituicaoRepository instituicao;
+	private @NonNull PoloRepository polo;
+	private @NonNull TagRepository tag;
+	private @NonNull RegiaoService regiao;
+	private @NonNull S3 s3;
+	private @NonNull VoluntarioService vService;
 	
 	public Iterable<Instituicao> findInstituicoes(Polo polo){
 		return instituicao.findByPolo(polo);

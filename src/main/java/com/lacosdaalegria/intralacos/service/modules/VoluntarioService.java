@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,18 +32,14 @@ import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class VoluntarioService {
 	
-	@Autowired
-	private VoluntarioRepository repository;
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	@Autowired
-	private S3 s3;
-	@Autowired
-	private ResetTokenRepository token;
-	@Autowired
-	private RoleRepository role;
+	private @NonNull VoluntarioRepository repository;
+	private @NonNull BCryptPasswordEncoder bCryptPasswordEncoder;
+	private @NonNull S3 s3;
+	private @NonNull ResetTokenRepository token;
+	private @NonNull RoleRepository role;
 	
 	public void registerVoluntario(Voluntario voluntario) {
 		

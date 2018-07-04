@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,12 +14,11 @@ import com.lacosdaalegria.intralacos.session.UserInfo;
 *	Controladora que disponibiliza em todas views a informação se existem novos atendimentos abertos para o devido grupo
 */
 @ControllerAdvice
+@RequiredArgsConstructor
 public class NotificacaoController {
 	
-	@Autowired
-	private UserInfo info;
-	@Autowired
-	private OuvidoriaService ouvidoria;
+	private @NonNull UserInfo info;
+	private @NonNull OuvidoriaService ouvidoria;
 	
 	@ModelAttribute
 	public void addAttributes(Model model) {

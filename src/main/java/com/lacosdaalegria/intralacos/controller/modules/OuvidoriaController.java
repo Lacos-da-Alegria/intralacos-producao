@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -19,14 +21,12 @@ import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
+@RequiredArgsConstructor
 public class OuvidoriaController {
-	
-	@Autowired
-	private OuvidoriaService service;
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired
-	private UserInfo info;
+
+	private @NonNull OuvidoriaService service;
+	private @NonNull VoluntarioService vService;
+	private @NonNull UserInfo info;
 	
 	/*
 	 * ======================================================================================
