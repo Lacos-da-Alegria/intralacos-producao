@@ -2,6 +2,7 @@ package com.lacosdaalegria.intralacos.service.modules;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lacosdaalegria.intralacos.model.sustentacao.Analista;
 import com.lacosdaalegria.intralacos.model.sustentacao.Promocao;
@@ -11,6 +12,7 @@ import com.lacosdaalegria.intralacos.repository.sustentacao.PromocaoRepository;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service
+@Transactional
 public class SustentacaoService {
 	
 	@Autowired

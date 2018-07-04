@@ -34,37 +34,30 @@
                   <div class="col-md-12">
                       <div class="content-panel">
                           <table class="table table-striped table-advance table-hover">
-	                  	  	  <h3 style="margin-left:10px;"> <b> <i class="fa fa-university" aria-hidden="true"></i><span th:text="${grupo.nome}"></span> </b> 
-	                  	  	  </h3>	                  	      	                   	  
+	                  	  	  <h3 style="margin-left:10px;"> <b> <i class="fa fa-university" aria-hidden="true"></i>Supervisão Ouvidoria </b> 
+	                  	  	  
+		                  	  	  <select id="paginas" class="form-control pull-right" style="width:60px; margin-right:8px">
+		                  	  	  	<option th:each="i : ${#numbers.sequence( 1, pagina.getTotalPages())}" th:value="${i}" th:text="${i}" th:selected="${atual == i}"></option>
+		                  	  	  </select>  
+		                  	  	   
+	                  	  	  </h3>	 
 	                  	  	  <hr>
                               <thead>
                               <tr>
                                   <th><i class="fa fa-star-half-o " aria-hidden="true"></i> <span class="hidden-phone">Data de Criação</span></th>
                                   <th><i class="fa fa-caret-square-o-down " aria-hidden="true"></i> <span class="hidden-phone">Categoria</span></th>
                                   <th><i class="fa fa-user-circle-o "></i> <span class="hidden-phone">Solicitante</span></th>
-                                  <th><i class="fa fa-check-square "></i> <span class="hidden-phone">Ação</span></th>
+                                  <th><i class="fa fa-check-square "></i> <span class="hidden-phone">Responsável</span></th>
                                   <th><i class="fa fa-paper-plane "></i> <span class="hidden-phone">Responder</span></th>
                               </tr>
                               </thead>
                               <tbody>
-                              <tr th:each="atendimento : ${atendimentos}">
+                              <tr th:each="atendimento : ${pagina.content}">
 	                              <td th:text="${atendimento.criacao}"></td>
 	                              <td th:text="${atendimento.categoria.nome}"></td>
 	                              <td th:text="${atendimento.solicitante.getPrimerioNome()}"></td>
-	                              <div th:if="${atendimento.responsavel == null}" th:remove="tag">
-	                              	<td><a th:href="'/atendimento/capturar?atendimento=' + ${atendimento.id}" class="btn btn-success btn-xs fa fa-lock" style="font-size:16px;"></a></td>
-	                              	<td><a class="btn btn-danger btn-xs fa fa-times" style="font-size:16px;"></a></td>
-	                              </div>
-	                              <div th:if="${atendimento.responsavel != null}" th:remove="tag">
-	                              	<div th:if="${atendimento.responsavel.id == @userInfo.getVoluntario().getId()}" th:remove="tag">
-	                              		<td><a th:href="'/atendimento/descapturar?atendimento=' + ${atendimento.id}" style="font-size:16px;" class="btn btn-warning btn-xs fa fa-unlock"></a></td>
-		                              	<td><a th:onclick="'apresentaDetalhe(\'' + ${atendimento.mostraOuvidoria()} + '\',' + ${atendimento.id} + ');'" style="font-size:16px;"  class="btn btn-primary btn-xs fa fa-info-circle"></a></td>
-	                              	</div>
-	                              	<div th:if="${atendimento.responsavel.id != @userInfo.getVoluntario().getId()}" th:remove="tag">
-	                              		<td><a class="btn btn-danger btn-xs fa fa-times" style="font-size:16px;"></a></td>
-		                              	<td><a class="btn btn-danger btn-xs fa fa-times" style="font-size:16px;"></a></td>
-	                              	</div>
-	                              </div>
+	                              <td><span th:if="${atendimento.responsavel != null}" th:text="${atendimento.responsavel.getPrimerioNome()}"></span></td>
+		                          <td><a th:onclick="'apresentaDetalhe(\'' + ${atendimento.mostraOuvidoria()} + '\', \'' + ${atendimento.mostraResposta()} + '\');'" style="font-size:16px;"  class="btn btn-primary btn-xs fa fa-info-circle"></a></td>
                               </tr>   
                               </tbody>
                           </table>
@@ -99,11 +92,10 @@
 					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalDetalhe" class="modal fade">
 		              <div class="modal-dialog">
 		                  <div class="modal-content">
-		                      <div class="modal-header-b">
+		                      <div class="modal-header-x">
 		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		                          <h4 class="modal-title">Detalhe do Atendimento</h4>
 		                      </div>
-		                      <form action="/atendimento/reponder" method="post">
 		                      <div class="modal-body">
 		                      	<div class="content-panel showback">
 		                      		<h4><i class="fa fa-envelope"></i> Mensagem</h4>
@@ -111,17 +103,15 @@
 		                      		<div id="ouvidoria"></div>
 		                      	</div>
 		                      	<br>
-		                      	<input type="hidden" id="ouvId" name="atendimento">
 		                      	<div class="content-panel showback">
 		                      		<h4><i class="fa fa-check-square-o"></i> Resposta</h4>
-		                      		<textarea rows="8" class="form-control placeholder-no-fix" name="resposta"></textarea>
+		                      		<hr style="border-color:#bababa;">
+		                      		<div id="resposta"></div>
 		                      	</div>
 		                      </div>
 		                      <div class="modal-footer">  
 		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
-		                          <input class="btn btn-primary" type="submit" value="Enviar">
-		                     </div> 
-		                     </form>  
+		                     </div>   
 		                  </div>
 		              </div>
 		          </div>
@@ -152,13 +142,18 @@
     
     <script type="text/javascript">
       
-        function apresentaDetalhe(ouvidoria, id) {
+        function apresentaDetalhe(ouvidoria, resposta) {
         	
         	$("#ouvidoria").html(ouvidoria);
-        	$("#ouvId").val(id);
+        	$("#resposta").html(resposta);
         	  
         	$('#ModalDetalhe').modal('show');        	
           };
+          
+          $('#paginas').on('change', function() {
+			  console.log( this.value );
+			  window.location.href = "/executivo/controle/ouvidoria?pagina="+this.value;
+		});
           
     </script> 
 

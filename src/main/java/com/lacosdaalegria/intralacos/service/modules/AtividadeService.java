@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Iterables;
 import com.lacosdaalegria.intralacos.model.Global;
@@ -26,6 +27,7 @@ import com.lacosdaalegria.intralacos.repository.ongs.AgendaRepository;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Service
+@Transactional
 public class AtividadeService {
 
 	@Autowired
@@ -121,6 +123,14 @@ public class AtividadeService {
 		if(!Global.rodadaRandomica()) {
 			Fila fila = new Fila(agenda, registro.findFilaAcao(agenda, agenda.getSemana()));
 			return fila.getPosicao(voluntario);	
+		} else 
+			return null;
+	}
+	
+	public Integer getPosicaoNovato(Agenda agenda, Voluntario voluntario) {
+		if(!Global.rodadaRandomica()) {
+			Fila fila = new Fila(agenda, registro.findFilaAcao(agenda, agenda.getSemana()));
+			return fila.getPosicaoNovato(voluntario);	
 		} else 
 			return null;
 	}

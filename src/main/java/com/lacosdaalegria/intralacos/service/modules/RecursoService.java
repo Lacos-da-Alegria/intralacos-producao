@@ -3,6 +3,7 @@ package com.lacosdaalegria.intralacos.service.modules;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lacosdaalegria.intralacos.model.atividade.Apoio;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
@@ -18,6 +19,7 @@ import com.lacosdaalegria.intralacos.repository.recurso.DiretoriaRepository;
 import com.lacosdaalegria.intralacos.repository.recurso.EquipeRepository;
 
 @Service
+@Transactional
 public class RecursoService {
 
 	@Autowired

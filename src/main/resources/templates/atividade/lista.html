@@ -41,7 +41,7 @@
 								<option th:each="acao : ${acoes}" th:value="${acao.id}" th:text="${acao.nome}" th:selected="${agenda != null && agenda.id == acao.id}"></option>
 		                	</select>
 		             	</div>
-		             	<div class="col-sm-12 col-sm-12" style="margin:5px">
+		             	<div sec:authorize="hasRole('VOLUNTARIO')" class="col-sm-12 col-sm-12" style="margin:5px">
 							<label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Hospitais</b></label>
 		             	 	<select class="form-control select2" id="hospital" name="hospital"  style="width:100%;">
 		             	 		<option value="">Selecione um hospital</option>
@@ -201,7 +201,7 @@
 		
 		$('#agenda').on('change', function() {
 			  console.log( this.value );
-			  window.location.href = "/voluntario/lista/acao?agenda="+this.value;
+			  window.location.href = "/atividade/lista/acao?agenda="+this.value;
 		});
 		
 		$('.select2').select2();

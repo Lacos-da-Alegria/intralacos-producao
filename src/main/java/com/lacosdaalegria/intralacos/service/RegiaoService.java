@@ -4,12 +4,14 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
 import com.lacosdaalegria.intralacos.model.usuario.Regiao;
 import com.lacosdaalegria.intralacos.repository.usuario.RegiaoRepository;
 
 @Service
+@Transactional
 public class RegiaoService {
 
 	@Autowired

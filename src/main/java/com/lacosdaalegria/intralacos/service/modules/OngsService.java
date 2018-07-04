@@ -3,6 +3,8 @@ package com.lacosdaalegria.intralacos.service.modules;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +24,7 @@ import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
 
 @Service
+@Transactional
 public class OngsService {
 
 	@Autowired
@@ -36,6 +39,8 @@ public class OngsService {
 	private RegiaoService regiao;
 	@Autowired
 	private S3 s3;
+	@Autowired
+	private VoluntarioService vService;
 	
 	public Iterable<Instituicao> findInstituicoes(Polo polo){
 		return instituicao.findByPolo(polo);
@@ -63,9 +68,11 @@ public class OngsService {
 		this.polo.save(polo);
 	}
 	
+	@Transactional
 	public void removeMembro(Voluntario membro) {
 		Polo polo = this.polo.findByMembros(membro);
 		polo.removeMembro(membro);
+		vService.removeRole(membro, "ROLE_ONGS");
 		this.polo.save(polo);		
 	}
 	
@@ -124,12 +131,12 @@ public class OngsService {
 	
 	public Iterable<Agenda> getChamadas(Polo polo){
 		return agenda.chamadaPolo(polo);
-	} 
-	
-	public Iterable<Agenda> agendaPolo(Polo polo){
-		return agenda.findByPolo(polo);
-	} 
-	
+	}
+
+	public Iterable<Agenda> getParticipantes(Polo polo){
+		return agenda.participantesPolo(polo);
+	}
+
 	public Iterable<Agenda> calendarioAcoes(){
 		return agenda.findByHorarioBetweenAndStatus(addMonth(-1), addMonth(3), 1);
 	}

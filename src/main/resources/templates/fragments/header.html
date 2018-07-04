@@ -45,6 +45,16 @@
 	
 	gtag('config', 'UA-111765897-1');
   </script>
+
+  <script sec:authorize="isAuthenticated()" src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script sec:authorize="isAuthenticated()">
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "02006e03-8901-4bf9-8203-971547eca716",
+      });
+    });
+  </script>	
   
 </head>
 <body>

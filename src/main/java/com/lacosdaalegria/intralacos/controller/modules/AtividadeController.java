@@ -53,19 +53,23 @@ public class AtividadeController {
 	 * ======================================================================================
 	 */
 		
-	@GetMapping("/voluntario/lista/atividade")
+	@GetMapping("/atividade/lista")
 	public String listaAtividade(Model model) {
-		model.addAttribute("hospitais", hospital.getAllActive());
+		
+		if(!info.hasRole("ROLE_VOLUNTARIO"))
+			model.addAttribute("hospitais", hospital.getAllActive());
+		
 		model.addAttribute("acoes", ongs.getAcoesAtivas());
 		model.addAttribute("rodada", Global.rodadaRandomica());
 		model.addAttribute("fila", new Fila());
+		
 		return "atividade/lista";
 	}
 	
 	@GetMapping("/voluntario/lista/hospital")
 	public String listaHospital(Hospital hospital, Model model) {
 		if(Global.rodadaRandomica() || hospital == null){
-			return "redirect:/voluntario/lista/atividade";
+			return "redirect:/atividade/lista";
 		}
 		
 		model.addAttribute("rodada", Global.rodadaRandomica());
@@ -77,10 +81,10 @@ public class AtividadeController {
 		return "atividade/lista";
 	}
 	
-	@GetMapping("/voluntario/lista/acao")
+	@GetMapping("/atividade/lista/acao")
 	public String listaAcao(Agenda agenda, Model model) {
 		if(Global.rodadaRandomica() || agenda == null){
-			return "redirect:/voluntario/lista/atividade";
+			return "redirect:/atividade/lista";
 		}
 		
 		model.addAttribute("rodada", Global.rodadaRandomica());
@@ -100,6 +104,11 @@ public class AtividadeController {
 	@GetMapping("/info/posicao/acao")
 	public @ResponseBody Integer posicaoAcao(Agenda agenda) {
 		return service.getPosicao(agenda, info.getVoluntario());
+	}
+	
+	@GetMapping("/novato/posicao/acao")
+	public @ResponseBody Integer posicaoAcaoNovato(Agenda agenda) {
+		return service.getPosicaoNovato(agenda, info.getVoluntario());
 	}
 	
 	/*
