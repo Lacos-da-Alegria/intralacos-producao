@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/dev?useSSL=false
     username: root
-    password: 367421
+    password: password
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     properties:
@@ -31,4 +31,4 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
                
 server:
-  port: 4545
+  port: 8080

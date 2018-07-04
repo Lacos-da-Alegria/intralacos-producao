@@ -1,5 +1,6 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,14 +94,14 @@ public class OuvidoriaController {
 	
 	@PostMapping("/comunicacao/adicionar/atendente")
 	public String addAtendente(Grupo grupo, String email) {
-		Voluntario voluntario = vService.addRole(email, "ROLE_ATEND");
+		Voluntario voluntario = vService.addRole(email, RoleEnum.ATENDIMENTO);
 		service.addAtendente(grupo, voluntario);
 		return "redirect:/comunicacao/ouvidoria";
 	}
 	
 	@PostMapping("/comunicacao/retirar/atendente")
 	public String removeAtendente(Grupo grupo, Voluntario voluntario) {
-		vService.removeRole(voluntario, "ROLE_ATEND");
+		vService.removeRole(voluntario, RoleEnum.ATENDIMENTO);
 		service.removeAtendente(voluntario, grupo);
 		return "redirect:/comunicacao/ouvidoria";
 	}

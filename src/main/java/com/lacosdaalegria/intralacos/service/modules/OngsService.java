@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.transaction.Transactional;
 
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,7 @@ public class OngsService {
 	public void removeMembro(Voluntario membro) {
 		Polo polo = this.polo.findByMembros(membro);
 		polo.removeMembro(membro);
-		vService.removeRole(membro, "ROLE_ONGS");
+		vService.removeRole(membro, RoleEnum.POLO);
 		this.polo.save(polo);		
 	}
 	

@@ -3,6 +3,7 @@ package com.lacosdaalegria.intralacos.controller.modules;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +79,7 @@ public class OngsController {
 	
 	@PostMapping("/ongs/adicionar/membro")
 	public String addMembro(Polo polo, String email) {
-		Voluntario voluntario = vService.addRole(email, "ROLE_ONGS");
+		Voluntario voluntario = vService.addRole(email, RoleEnum.POLO);
 		service.addMembro(polo, voluntario);
 		return "redirect:/ongs/equipes";
 	}

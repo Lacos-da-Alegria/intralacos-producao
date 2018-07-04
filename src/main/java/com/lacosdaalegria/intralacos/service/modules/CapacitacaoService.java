@@ -1,5 +1,6 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class CapacitacaoService {
 		Voluntario voluntario = vService.findByEmail(email);
 		if(voluntario != null) {
 			if(educador.findByVoluntario(voluntario) == null) {
-				vService.addRole(voluntario, "ROLE_CAPACITA");
+				vService.addRole(voluntario, RoleEnum.CAPACITACAO);
 				this.educador.save(initEducador(voluntario));
 			}
 		}
@@ -42,7 +43,7 @@ public class CapacitacaoService {
 	}
 	
 	public void removaEducador(Educador educador) {
-		vService.removeRole(educador.getVoluntario(), "ROLE_CAPACITA");
+		vService.removeRole(educador.getVoluntario(), RoleEnum.CAPACITACAO);
 		this.educador.delete(educador);
 	}
 	

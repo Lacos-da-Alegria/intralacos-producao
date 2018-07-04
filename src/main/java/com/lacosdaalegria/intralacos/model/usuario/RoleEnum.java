@@ -1,32 +1,57 @@
 package com.lacosdaalegria.intralacos.model.usuario;
 
+import lombok.Getter;
+
+@Getter
 public enum RoleEnum {
 
-    ACEITE(1, "ROLE_ACEITE"),
-    NOVATO(2, "ROLE_NOVATO"),
-    VOLUNTARIO(3, "ROLE_VOLUNTARIO"),
-    ADMIN(4, "ROLE_ADMIN"),
-    ATENDIMENTO(5, "ROLE_ATEND"),
-    EXECUTIVO(6, "ROLE_DEXEC"),
-    HOSPITAL(7, "ROLE_DHOSP"),
-    ONGS(8, "ROLE_DONGS"),
-    COMUNICACAO(9, "ROLE_DCOM"),
-    POLO(10, "ROLE_ONGS"),
-    DIRETOR(11, "ROLE_DIRETOR"),
-    LIDER(12, "ROLE_LIDER"),
-    DEMANDA(13, "ROLE_DEMANDA"),
-    COORDENADOR(14, "ROLE_COORD"),
-    CONTROLE_NOVATOS(15, "ROLE_CONTROL"),
-    APOIO(16, "ROLE_APOIO"),
-    SUSTENTACAO(17, "ROLE_SUSTENTA"),
-    CAPACITACAO(6294, "ROLE_CAPACITA"),
-    NOVATO_ONGS(16833, "ROLE_NOVATO_ONGS");
+    ACEITE(1l, "ROLE_ACEITE"),
+    NOVATO(2l, "ROLE_NOVATO"),
+    VOLUNTARIO(3l, "ROLE_VOLUNTARIO"),
+    ADMIN(4l, "ROLE_ADMIN"),
+    ATENDIMENTO(5l, "ROLE_ATEND"),
+    EXECUTIVO(6l, "ROLE_DEXEC"),
+    HOSPITAL(7l, "ROLE_DHOSP"),
+    ONGS(8l, "ROLE_DONGS"),
+    COMUNICACAO(9l, "ROLE_DCOM"),
+    POLO(10l, "ROLE_ONGS"),
+    DIRETOR(11l, "ROLE_DIRETOR"),
+    LIDER(12l, "ROLE_LIDER"),
+    DEMANDA(13l, "ROLE_DEMANDA"),
+    COORDENADOR(14l, "ROLE_COORD"),
+    CONTROLE_NOVATOS(15l, "ROLE_CONTROL"),
+    APOIO(16l, "ROLE_APOIO"),
+    SUSTENTACAO(17l, "ROLE_SUSTENTA"),
+    CAPACITACAO(6294l, "ROLE_CAPACITA"),
+    NOVATO_ONGS(16833l, "ROLE_NOVATO_ONGS"),
+    DESCONHECIDO(0l, "Desconhecido");
 
-    private int codigo;
+    private Long codigo;
     private String papel;
 
-    RoleEnum(int codigo, String papel){
+    RoleEnum(Long codigo, String papel){
         this.codigo = codigo;
         this.papel = papel;
+    }
+
+    public Role obj(){
+        Role role = new Role();
+        role.setId(this.codigo);
+        role.setRole(this.papel);
+        return role;
+    }
+
+    public static RoleEnum getById(Long id) {
+        for(RoleEnum e : values()) {
+            if(e.codigo.equals(id)) return e;
+        }
+        return DESCONHECIDO;
+    }
+
+    public static RoleEnum getByPapel(String papel) {
+        for(RoleEnum e : values()) {
+            if(e.papel.equals(papel)) return e;
+        }
+        return DESCONHECIDO;
     }
 }

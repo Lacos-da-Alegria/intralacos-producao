@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -255,7 +256,7 @@ public class AtividadeService {
 	
 	private void promoveNovatosOngs(Set<Voluntario> novatos) {
 		for(Voluntario n : novatos) {
-			vService.addRole(n, "ROLE_NOVATO_ONGS");
+			vService.addRole(n, RoleEnum.NOVATO_ONGS);
 		}
 	}
 	
@@ -294,14 +295,14 @@ public class AtividadeService {
 		Voluntario voluntario = vService.findByEmail(email);
 		if(voluntario != null) {
 			if(this.apoio.findByVoluntario(voluntario) == null) {
-				vService.addRole(voluntario, "ROLE_APOIO");
+				vService.addRole(voluntario, RoleEnum.APOIO);
 				this.apoio.save(initApoio(hospital, voluntario));
 			}
 		}
 	}
 	
 	public void removeApoio(Apoio apoio) {
-		vService.removeRole(apoio.getVoluntario(), "ROLE_APOIO");
+		vService.removeRole(apoio.getVoluntario(), RoleEnum.APOIO);
 		this.apoio.delete(apoio);
 	}
 	
