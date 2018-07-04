@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,26 +29,15 @@ import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
+@RequiredArgsConstructor
 public class VoluntarioController {
 	
-	
-	private RegiaoService regiao;
-	private UserInfo info;
-	private VoluntarioService service;
-	private HospitalService hospital; 
-	private OngsService ongs;
-	private EmailService email;
-	
-	@Autowired
-	public VoluntarioController(RegiaoService regiao, UserInfo info, VoluntarioService service,
-			HospitalService hospital, OngsService ongs, EmailService email) {
-		this.regiao = regiao;
-		this.info = info;
-		this.service = service;
-		this.hospital = hospital;
-		this.ongs = ongs;
-		this.email = email;
-	}
+	private @NonNull RegiaoService regiao;
+	private @NonNull UserInfo info;
+	private @NonNull VoluntarioService service;
+	private @NonNull HospitalService hospital;
+	private @NonNull OngsService ongs;
+	private @NonNull EmailService email;
 	
 	/*
 	 * ======================================================================================

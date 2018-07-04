@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +16,10 @@ import com.lacosdaalegria.intralacos.model.capacitacao.Materia;
 import com.lacosdaalegria.intralacos.service.modules.CapacitacaoService;
 
 @Controller
+@RequiredArgsConstructor
 public class CapacitacaoController {
 
-	@Autowired
-	private CapacitacaoService service;
+	private @NonNull CapacitacaoService service;
 	
 	/*
 	 * ======================================================================================

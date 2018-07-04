@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.controller.navegation;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,10 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 
 @Controller
+@RequiredArgsConstructor
 public class InfoController {
 	
-	@Autowired
-	private VoluntarioService service;
+	private @NonNull VoluntarioService service;
 
 	@GetMapping("/info/faq")
 	public String infoFaq() {

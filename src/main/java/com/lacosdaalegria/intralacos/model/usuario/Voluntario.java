@@ -198,22 +198,7 @@ public class Voluntario {
 		email = voluntario.getEmail();
 		cpf = voluntario.getCpf();
 	}
-	
-	public void addRole(Role role) {
-		if(roles == null)
-			roles = new HashSet<>();
-		roles.add(role);
-	} 
-	
-	public void removeRole(String role) {
-		for(Role r : roles) {
-			if(r.getRole().equals(role)) {
-				roles.remove(r);
-				break;
-			}
-		}
-	}
-	
+
 	public boolean hasRole(String role) {
 		return roles.stream().filter(r -> Objects.equal(r.getRole(), "ROLE_"+role)).findFirst().isPresent();
 	}
@@ -224,10 +209,6 @@ public class Voluntario {
 	 * ======================================================================================
 	 */
 
-	public boolean isAceitaTermo() {
-		return aceitaTermo;
-	}
-	
 	public boolean isPromovido() {
 		return promovido;
 	}
@@ -237,10 +218,6 @@ public class Voluntario {
 			return "/assets/img/ui-sam.jpg";
 		else 
 			return profile;
-	}
-
-	public boolean isQuerOngs() {
-		return querOngs;
 	}
 
 }

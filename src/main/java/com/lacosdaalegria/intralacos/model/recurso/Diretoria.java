@@ -3,14 +3,10 @@ package com.lacosdaalegria.intralacos.model.recurso;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import com.lacosdaalegria.intralacos.model.usuario.Role;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
@@ -35,7 +31,9 @@ public class Diretoria {
 
 	@NotBlank
 	private String role;
+
 	private Integer status = 1;
+
 	private Integer ordem;
 	 
 	public void addDiretor(Voluntario diretor) {
@@ -46,12 +44,7 @@ public class Diretoria {
 	}
 	
 	public void removeDiretor(Voluntario diretor) {
-		for(Voluntario d : diretores){
-			if(d.getId().equals(diretor.getId())){
-				diretores.remove(d);
-				break;
-			}
-		}
+		diretores.removeIf(d -> d.getId().equals(diretor.getId()));
 	}
 
 }

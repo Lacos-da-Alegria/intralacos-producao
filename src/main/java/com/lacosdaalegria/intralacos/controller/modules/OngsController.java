@@ -3,6 +3,9 @@ package com.lacosdaalegria.intralacos.controller.modules;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -30,18 +33,14 @@ import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
+@RequiredArgsConstructor
 public class OngsController {
 	
-	@Autowired
-	private OngsService service;
-	@Autowired
-	private UserInfo info;
-	@Autowired
-	private RegiaoService regiao;
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired
-	private AtividadeService atividade;
+	private @NonNull OngsService service;
+	private @NonNull UserInfo info;
+	private @NonNull RegiaoService regiao;
+	private @NonNull VoluntarioService vService;
+	private @NonNull AtividadeService atividade;
 	
 	/**
 	* Metodo que inicializa bind de formato de datas para o objeto Date
@@ -80,7 +79,7 @@ public class OngsController {
 	
 	@PostMapping("/ongs/adicionar/membro")
 	public String addMembro(Polo polo, String email) {
-		Voluntario voluntario = vService.addRole(email, "ROLE_ONGS");
+		Voluntario voluntario = vService.addRole(email, RoleEnum.POLO);
 		service.addMembro(polo, voluntario);
 		return "redirect:/ongs/equipes";
 	}

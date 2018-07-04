@@ -1,10 +1,10 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -30,26 +30,22 @@ import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class VoluntarioService {
 	
-	@Autowired
-	private VoluntarioRepository repository;
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	@Autowired
-	private S3 s3;
-	@Autowired
-	private ResetTokenRepository token;
-	@Autowired
-	private RoleRepository role;
+	private @NonNull VoluntarioRepository repository;
+	private @NonNull BCryptPasswordEncoder bCryptPasswordEncoder;
+	private @NonNull S3 s3;
+	private @NonNull ResetTokenRepository token;
+	private @NonNull RoleRepository role;
 	
 	public void registerVoluntario(Voluntario voluntario) {
 		
 		voluntario.setSenha(bCryptPasswordEncoder.encode(voluntario.getSenha()));
-		
-		voluntario.addRole(getRole("ROLE_ACEITE"));
-		
-		repository.save(voluntario);
+
+		voluntario  = repository.save(voluntario);
+
+		addRole(voluntario, RoleEnum.ACEITE);
 	}
 	
 	public void duplicidadeInfo(Voluntario v, BindingResult result) {
@@ -70,20 +66,20 @@ public class VoluntarioService {
 	
 	public Voluntario promoteNovato(Voluntario voluntario){
 
-		removeRole(voluntario, "ROLE_NOVATO");
-		addRole(voluntario, "ROLE_VOLUNTARIO");
+		removeRole(voluntario, RoleEnum.NOVATO);
+		addRole(voluntario, RoleEnum.VOLUNTARIO);
 		
 		voluntario.setPromovido(true);
 		voluntario.setObservacao("Voluntário promovido - " + new Date());
+
 		return repository.save(voluntario);
 	}
-	
+
 	public void desativaNovato(Voluntario voluntario){
 		voluntario.setStatus(2);
 		voluntario.setObservacao("Novato não foi na atividade confirmada!");
 		repository.save(voluntario);
 	}
-	
 	
 	/*
 	 * ======================================================================================
@@ -106,10 +102,7 @@ public class VoluntarioService {
 	}
 	
 	public void admin(Voluntario voluntario) {
-		
-		voluntario.addRole(getRole("ROLE_ADMIN"));
-		
-		repository.save(voluntario);
+		this.addRole(voluntario, RoleEnum.ADMIN);
 	}
 	
 	public void initMaisLacos(MaisLacos maisLacos, Voluntario voluntario) {
@@ -123,36 +116,52 @@ public class VoluntarioService {
 	
 	public void aceitaTermo(Voluntario voluntario) {
 		
-		addRole(voluntario, "ROLE_NOVATO");
-		removeRole(voluntario, "ROLE_ACEITE");
+		this.addRole(voluntario, RoleEnum.NOVATO);
+		this.removeRole(voluntario, RoleEnum.ACEITE);
 		
 		voluntario.setAceitaTermo(true);
 		
-		updateRole("ROLE_NOVATO");
+		updateRole(RoleEnum.NOVATO);
 		
 		repository.save(voluntario);
 		
 	}
-	
-	public Voluntario addRole(String email, String role) {
 
-		Voluntario voluntario = repository.findByEmail(email);
-		
-		voluntario.getRoles().add(getRole(role));
-		
+	public Voluntario addRole(Voluntario voluntario, RoleEnum roleEnum) {
+
+	    Set<Role> roles = voluntario.getRoles();
+
+	    if(roles != null)
+	        roles.removeIf(r -> r.getId().equals(roleEnum.getCodigo()));
+	    else
+	        roles = new HashSet<>();
+
+        roles.add(getRole(roleEnum));
+
+		voluntario.setRoles(roles);
+
 		return repository.save(voluntario);
 	}
-	
-	public Voluntario addRole(Voluntario voluntario, String role) {
-		voluntario.getRoles().add(getRole(role));
+
+    public Voluntario addRole(String email, RoleEnum roleEnum) {
+
+	    Voluntario voluntario = repository.findByEmail(email);
+
+	    return addRole(voluntario, roleEnum);
+    }
+
+	public Voluntario removeRole(Voluntario voluntario, RoleEnum roleEnum) {
+
+        Set<Role> roles = voluntario.getRoles();
+
+        roles.removeIf(r -> r.getId().equals(roleEnum.getCodigo()));
+
+        voluntario.setRoles(roles);
+
 		return repository.save(voluntario);
+
 	}
-	
-	public void removeRole(Voluntario voluntario, String role) {
-		voluntario.removeRole(role);
-		repository.save(voluntario);
-	}
-	
+
 	public Voluntario getByLogin(String login) {
 		return repository.findByLogin(login);
 	}
@@ -174,10 +183,10 @@ public class VoluntarioService {
 		repository.save(voluntario);
 	}
 	
-	private void updateRole(String role) {
+	private void updateRole(RoleEnum roleEnum) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
-		updatedAuthorities.add(new SimpleGrantedAuthority(role)); 
+		updatedAuthorities.add(new SimpleGrantedAuthority(roleEnum.getPapel()));
 		Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
 		SecurityContextHolder.getContext().setAuthentication(newAuth);
 	}
@@ -279,8 +288,8 @@ public class VoluntarioService {
 		}
 	}
 	
-	public Role getRole(String role) {
-		return this.role.findByRole(role);
+	public Role getRole(RoleEnum roleEnum) {
+		return this.role.findById(roleEnum.getCodigo()).orElse(null);
 	}
 	
 	//Migrar regras de datas para classe Calendario

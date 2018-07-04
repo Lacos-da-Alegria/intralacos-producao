@@ -2,6 +2,8 @@ package com.lacosdaalegria.intralacos.controller.modules;
 
 import javax.validation.Valid;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,20 +26,15 @@ import com.lacosdaalegria.intralacos.session.InfoDiretoria;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
+@RequiredArgsConstructor
 public class RecursoController {
 
-	@Autowired
-	private RecursoService service;
-	@Autowired
-	private HospitalService hospital;
-	@Autowired
-	private UserInfo info;
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired 
-	private AtividadeService atividade;
-	@Autowired
-	private InfoDiretoria infoDiretoria;
+	private @NonNull RecursoService service;
+	private @NonNull HospitalService hospital;
+	private @NonNull UserInfo info;
+	private @NonNull VoluntarioService vService;
+	private @NonNull AtividadeService atividade;
+	private @NonNull InfoDiretoria infoDiretoria;
 	
 	/*
 	 * ======================================================================================

@@ -2,6 +2,8 @@ package com.lacosdaalegria.intralacos.service;
 
 import java.util.Set;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +14,10 @@ import com.lacosdaalegria.intralacos.repository.usuario.RegiaoRepository;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RegiaoService {
 
-	@Autowired
-	RegiaoRepository repository;
+	private @NonNull RegiaoRepository repository;
 	
 	public Iterable<Regiao> getAllActive(){
 		return repository.findByStatusOrderByNome(1);

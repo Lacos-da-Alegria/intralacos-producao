@@ -1,5 +1,7 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,14 +17,12 @@ import com.lacosdaalegria.intralacos.session.InfoDiretoria;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
+@RequiredArgsConstructor
 public class DemandaController {
 	
-	@Autowired
-	private DemandaService service;
-	@Autowired
-	private UserInfo info;
-	@Autowired
-	private InfoDiretoria infoDiretoria;
+	private @NonNull  DemandaService service;
+	private @NonNull UserInfo info;
+	private @NonNull InfoDiretoria infoDiretoria;
 	
 	
 	/*

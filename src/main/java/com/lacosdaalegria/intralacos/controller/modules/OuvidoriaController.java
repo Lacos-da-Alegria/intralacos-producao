@@ -1,5 +1,8 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -19,14 +22,12 @@ import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
 @Controller
+@RequiredArgsConstructor
 public class OuvidoriaController {
-	
-	@Autowired
-	private OuvidoriaService service;
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired
-	private UserInfo info;
+
+	private @NonNull OuvidoriaService service;
+	private @NonNull VoluntarioService vService;
+	private @NonNull UserInfo info;
 	
 	/*
 	 * ======================================================================================
@@ -93,14 +94,14 @@ public class OuvidoriaController {
 	
 	@PostMapping("/comunicacao/adicionar/atendente")
 	public String addAtendente(Grupo grupo, String email) {
-		Voluntario voluntario = vService.addRole(email, "ROLE_ATEND");
+		Voluntario voluntario = vService.addRole(email, RoleEnum.ATENDIMENTO);
 		service.addAtendente(grupo, voluntario);
 		return "redirect:/comunicacao/ouvidoria";
 	}
 	
 	@PostMapping("/comunicacao/retirar/atendente")
 	public String removeAtendente(Grupo grupo, Voluntario voluntario) {
-		vService.removeRole(voluntario, "ROLE_ATEND");
+		vService.removeRole(voluntario, RoleEnum.ATENDIMENTO);
 		service.removeAtendente(voluntario, grupo);
 		return "redirect:/comunicacao/ouvidoria";
 	}
