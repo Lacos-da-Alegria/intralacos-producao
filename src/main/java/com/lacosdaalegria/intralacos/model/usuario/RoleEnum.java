@@ -34,13 +34,6 @@ public enum RoleEnum {
         this.papel = papel;
     }
 
-    public Role obj(){
-        Role role = new Role();
-        role.setId(this.codigo);
-        role.setRole(this.papel);
-        return role;
-    }
-
     public static RoleEnum getById(Long id) {
         for(RoleEnum e : values()) {
             if(e.codigo.equals(id)) return e;

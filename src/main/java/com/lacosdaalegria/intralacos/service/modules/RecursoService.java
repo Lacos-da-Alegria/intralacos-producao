@@ -121,8 +121,8 @@ public class RecursoService {
 	@Transactional
 	public void removeCoordenador(Voluntario voluntario) {
 		Coordenador coordenador =  this.coordenador.findByVoluntario(voluntario);
-			this.coordenador.delete(coordenador);
-			vService.removeRole(voluntario, RoleEnum.COORDENADOR);
+        this.coordenador.delete(coordenador);
+        vService.removeRole(voluntario, RoleEnum.COORDENADOR);
 		
 	}
 	

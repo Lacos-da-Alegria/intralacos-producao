@@ -42,14 +42,10 @@ public class VoluntarioService {
 	public void registerVoluntario(Voluntario voluntario) {
 		
 		voluntario.setSenha(bCryptPasswordEncoder.encode(voluntario.getSenha()));
-		
-		Set<Role> roles = new HashSet<>();
 
-		roles.add(RoleEnum.ACEITE.obj());
+		voluntario  = repository.save(voluntario);
 
-		voluntario.setRoles(roles);
-		
-		repository.save(voluntario);
+		addRole(voluntario, RoleEnum.ACEITE);
 	}
 	
 	public void duplicidadeInfo(Voluntario v, BindingResult result) {
@@ -131,21 +127,22 @@ public class VoluntarioService {
 		
 	}
 
-    @Transactional
 	public Voluntario addRole(Voluntario voluntario, RoleEnum roleEnum) {
 
 	    Set<Role> roles = voluntario.getRoles();
 
-	    roles.removeIf(r -> r.getId().equals(roleEnum.getCodigo()));
+	    if(roles != null)
+	        roles.removeIf(r -> r.getId().equals(roleEnum.getCodigo()));
+	    else
+	        roles = new HashSet<>();
 
-        roles.add(roleEnum.obj());
+        roles.add(getRole(roleEnum));
 
 		voluntario.setRoles(roles);
 
 		return repository.save(voluntario);
 	}
 
-	@Transactional
     public Voluntario addRole(String email, RoleEnum roleEnum) {
 
 	    Voluntario voluntario = repository.findByEmail(email);
@@ -153,7 +150,6 @@ public class VoluntarioService {
 	    return addRole(voluntario, roleEnum);
     }
 
-    @Transactional
 	public Voluntario removeRole(Voluntario voluntario, RoleEnum roleEnum) {
 
         Set<Role> roles = voluntario.getRoles();
@@ -292,8 +288,8 @@ public class VoluntarioService {
 		}
 	}
 	
-	public Role getRole(String role) {
-		return this.role.findByRole(role);
+	public Role getRole(RoleEnum roleEnum) {
+		return this.role.findById(roleEnum.getCodigo()).orElse(null);
 	}
 	
 	//Migrar regras de datas para classe Calendario

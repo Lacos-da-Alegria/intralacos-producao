@@ -32,6 +32,7 @@ public class SustentacaoService {
 	public void removeAnalista(Voluntario voluntario) {
 		Analista analista = repository.findByVoluntario(voluntario);
 		repository.delete(analista);
+        vService.removeRole(voluntario, RoleEnum.SUSTENTACAO);
 	}
 	
 	public Promocao registraPromocao(Promocao promocao, UserInfo info) {
