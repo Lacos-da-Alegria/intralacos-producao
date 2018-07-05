@@ -54,7 +54,7 @@ public class AtividadeController {
 	@GetMapping("/atividade/lista")
 	public String listaAtividade(Model model) {
 		
-		if(!info.hasRole("ROLE_VOLUNTARIO"))
+		if(info.hasRole("ROLE_VOLUNTARIO"))
 			model.addAttribute("hospitais", hospital.getAllActive());
 		
 		model.addAttribute("acoes", ongs.getAcoesAtivas());
