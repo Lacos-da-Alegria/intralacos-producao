@@ -12,7 +12,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL5Dialect
         show_sql: true
     hibernate:  
-      ddl-auto: validate
+      ddl-auto: update
   queries:
     users-query: select login, senha, status from voluntario where login=?
     roles-query: select u.login, r.role from voluntario u inner join voluntario_roles ur on(u.id=ur.voluntario_id) inner join role r on(ur.roles_id=r.id) where u.login=?
@@ -29,6 +29,6 @@ spring:
             enable: true  
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
-               
+
 server:
   port: 4545

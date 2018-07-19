@@ -1,13 +1,6 @@
 package com.lacosdaalegria.intralacos.model.atividade;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -65,6 +58,9 @@ public class Hospital {
 	
 	@ManyToOne
 	private Semana semana;
+
+	@ManyToOne
+	private Conselho conselho;
 
 	@Transient
 	private Integer situacao = 0;

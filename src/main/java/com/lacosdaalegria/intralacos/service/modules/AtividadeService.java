@@ -218,18 +218,27 @@ public class AtividadeService {
 	}
 	
 	public boolean finalizaChamada(Hospital hospital) {
+
 		Fila fila = new Fila(hospital, registro.findFilaHospital(hospital, hospital.getSemana()));
+
 		if(fila.finalizada()) {
+
 			hospital.setChamada(false);
+
 			if(!hospital.essaSemana(getSemana())) {
 				hospital.setInscricao(true);
 				hospital.setSemana(null);
 			}
+
 			this.hospital.save(hospital);
+
 			promoveNovatos(fila.novatosQueForam());
 			desativaNovatos(fila.novatosNaoForam());
+
 			return true;
+
 		} else {
+
 			return false;
 		}
 	}
@@ -247,13 +256,13 @@ public class AtividadeService {
 		}
 		return false;
 	}
-	
+
 	private void promoveNovatos(Set<Voluntario> novatos) {
 		for(Voluntario n : novatos) {
 			vService.promoteNovato(n);
 		}
 	}
-	
+
 	private void promoveNovatosOngs(Set<Voluntario> novatos) {
 		for(Voluntario n : novatos) {
 			vService.addRole(n, RoleEnum.NOVATO_ONGS);

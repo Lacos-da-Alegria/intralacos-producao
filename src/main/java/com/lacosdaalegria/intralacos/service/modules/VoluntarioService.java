@@ -14,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,6 +28,8 @@ import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.repository.usuario.ResetTokenRepository;
 import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
 import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
+
+import javax.validation.constraints.NotNull;
 
 @Service
 @Transactional
@@ -63,7 +66,8 @@ public class VoluntarioService {
 		role.setRole("ROLE_"+papel);
 		this.role.save(role);
 	}
-	
+
+	@Transactional
 	public Voluntario promoteNovato(Voluntario voluntario){
 
 		removeRole(voluntario, RoleEnum.NOVATO);
@@ -127,6 +131,7 @@ public class VoluntarioService {
 		
 	}
 
+	@Transactional
 	public Voluntario addRole(Voluntario voluntario, RoleEnum roleEnum) {
 
 	    Set<Role> roles = voluntario.getRoles();
@@ -143,6 +148,7 @@ public class VoluntarioService {
 		return repository.save(voluntario);
 	}
 
+	@Transactional
     public Voluntario addRole(String email, RoleEnum roleEnum) {
 
 	    Voluntario voluntario = repository.findByEmail(email);
@@ -150,6 +156,7 @@ public class VoluntarioService {
 	    return addRole(voluntario, roleEnum);
     }
 
+    @Transactional
 	public Voluntario removeRole(Voluntario voluntario, RoleEnum roleEnum) {
 
         Set<Role> roles = voluntario.getRoles();
