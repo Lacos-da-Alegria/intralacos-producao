@@ -44,14 +44,11 @@ public class Polo{
 	private Integer status = 1;
 	
 	public void removeMembro(Voluntario membro) {
-		for(Voluntario m : membros) {
-			if(m.getId().equals(membro.getId()))
-				membros.remove(m);
-		}
+		membros.removeIf(m -> m.getId().equals(membro.getId()));
 	}
 	
 	public void removeRegiao(Regiao regiao) {
-		regioes.remove(regiao);
+		regioes.removeIf(r -> r.getId().equals(regiao.getId()));
 	}
 
 }

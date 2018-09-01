@@ -63,12 +63,7 @@ public class Equipe {
 	}
 	
 	public void removeMembro(Voluntario membro) {
-		for(Voluntario d : membros){
-			if(d.getId().equals(membro.getId())){
-				membros.remove(d);
-				break;
-			}
-		}
+		membros.removeIf(m -> m.getId().equals(membro.getId()));
 	}
 
 }

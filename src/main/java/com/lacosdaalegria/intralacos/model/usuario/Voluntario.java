@@ -105,6 +105,7 @@ public class Voluntario {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Getter @Setter	private Set<Role> roles;
+
 	@Getter @Setter	private Date dtCriacao = new Date();
 
 	@ManyToOne
