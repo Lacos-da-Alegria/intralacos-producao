@@ -38,7 +38,8 @@ public class VoluntarioService {
 	private @NonNull S3 s3;
 	private @NonNull ResetTokenRepository token;
 	private @NonNull RoleRepository role;
-	
+
+	@Transactional
 	public void registerVoluntario(Voluntario voluntario) {
 		
 		voluntario.setSenha(bCryptPasswordEncoder.encode(voluntario.getSenha()));
@@ -63,7 +64,8 @@ public class VoluntarioService {
 		role.setRole("ROLE_"+papel);
 		this.role.save(role);
 	}
-	
+
+	@Transactional
 	public Voluntario promoteNovato(Voluntario voluntario){
 
 		removeRole(voluntario, RoleEnum.NOVATO);
@@ -75,6 +77,7 @@ public class VoluntarioService {
 		return repository.save(voluntario);
 	}
 
+	@Transactional
 	public void desativaNovato(Voluntario voluntario){
 		voluntario.setStatus(2);
 		voluntario.setObservacao("Novato não foi na atividade confirmada!");
@@ -90,7 +93,8 @@ public class VoluntarioService {
 	public Integer getPosicao(Voluntario novato) {
 		return repository.findPosicaoFila(novato.getDtCriacao(), novato.getPreferencia());
 	}
-	
+
+	@Transactional
 	public void updatePreferencia(Voluntario novato, Hospital hospital) {
 		novato.setPreferencia(hospital);
 		repository.save(novato);
@@ -113,7 +117,8 @@ public class VoluntarioService {
 	public Voluntario findByEmail(String email) {
 		return repository.findByEmail(email);
 	}
-	
+
+	@Transactional
 	public void aceitaTermo(Voluntario voluntario) {
 		
 		this.addRole(voluntario, RoleEnum.NOVATO);
@@ -127,6 +132,7 @@ public class VoluntarioService {
 		
 	}
 
+	@Transactional
 	public Voluntario addRole(Voluntario voluntario, RoleEnum roleEnum) {
 
 	    Set<Role> roles = voluntario.getRoles();
@@ -150,7 +156,8 @@ public class VoluntarioService {
 	    return addRole(voluntario, roleEnum);
     }
 
-	public Voluntario removeRole(Voluntario voluntario, RoleEnum roleEnum) {
+	@Transactional
+    public Voluntario removeRole(Voluntario voluntario, RoleEnum roleEnum) {
 
         Set<Role> roles = voluntario.getRoles();
 
@@ -194,26 +201,30 @@ public class VoluntarioService {
 	public Iterable<Voluntario> aniversariantes(){
 		return repository.findByNascimentoLikeAndStatus(dia()+"/"+mes()+"%", 1);
 	}
-	
+
+	@Transactional
 	public void addResponsavel(Voluntario voluntario, Voluntario responsavel) {
 		if(voluntario.getResponsavel() == null) {
 			voluntario.setResponsavel(responsavel);
 			repository.save(voluntario);
 		}
 	}
-	
+
+	@Transactional
 	public void removeReponsavel(Voluntario voluntario) {
 		voluntario.setResponsavel(null);
 		repository.save(voluntario);
 	}
-	
+
+	@Transactional
 	public void atualizarObservacao(Voluntario voluntario, Voluntario responsavel, String observacao) {
 		if(responsavel.getId().equals(voluntario.getResponsavel().getId())) {
 			voluntario.setObservacao(observacao);
 			repository.save(voluntario);
 		}
 	}
-	
+
+	@Transactional
 	public void desativarNovato(Voluntario voluntario, Voluntario responsavel, String observacao) {
 		if(responsavel.getId().equals(voluntario.getResponsavel().getId())) {
 			voluntario.setObservacao(observacao);
@@ -221,7 +232,8 @@ public class VoluntarioService {
 			repository.save(voluntario);
 		}
 	}
-	
+
+	@Transactional
 	public ResetToken createToken(Voluntario voluntario) {
 		ResetToken token = new ResetToken();
 		token.setVoluntario(voluntario);
