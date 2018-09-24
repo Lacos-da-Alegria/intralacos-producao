@@ -28,6 +28,13 @@ function getAgendaInfo(id){
 		$('#aHorario').html(getDate(new Date(agenda.horario)));
 		$('#aDuracao').html(agenda.duracao);
 		$('#aVoluntarios').html(agenda.voluntarios);
+		
+		$('#aRegiao').html(agenda.instituicao.regiao.nome);
+		$('#aResponsavel').html(agenda.criador.nome);
+		$('#aContatoResp').html('(' + agenda.criador.ddd + ') ' + agenda.criador.whatsapp);
+		$('#aInformacoes').html(agenda.informacoes);
+		
+		$("#grupoWhats").attr("href", agenda.grupoWhats);
 	
 	});
 	

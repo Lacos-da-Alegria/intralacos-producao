@@ -30,85 +30,109 @@
           <section class="wrapper">
 
 		<div class="form-panel">
-		   <h3><a href="javascript:history.back()"><i class="fa fa-arrow-left" aria-hidden="true"></i></a> &nbsp&nbsp <i class="fa fa-university" aria-hidden="true"></i> Cadastrar Instituição no <span th:text="${polo.nome}"></span> </h3>
+		   <h3><a href="/polo/instituicoes"><i class="fa fa-arrow-left" aria-hidden="true"></i></a> &nbsp&nbsp <i class="fa fa-university" aria-hidden="true"></i> Cadastrar Instituição no <span th:text="${polo.nome}"></span> </h3>
 		  	<hr>
 			<div class="row">
-		      <form class="form-horizontal style-form" action="/polo/cadastrar/instituicao" method = "post">
+		      <form class="form-horizontal style-form" th:object="${instituicao}" action="/polo/cadastrar/instituicao" method = "post">
 		      <!-- edit form column -->
 		      <div class="col-md-12 personal-info ">
 		         	<div class="form-group">
 		         		
-		         		<input type="hidden" name="polo" required th:value="${polo.id}">
+		         	<input type="hidden" name="polo" required th:value="${polo.id}" >
 		         	
-		           	<label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-building-o" aria-hidden="true"></i> Nome da Instituição</b></label>
+		         	<input type="hidden" th:field="*{id}" name="id" required >
+		         	
+		           	<label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-building-o" aria-hidden="true"></i> Nome da Instituição</b>
+		           		<span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}" class="validation-message"></span>
+		           		</label>
 		           		<div class="col-sm-10">
-                           <input type="text" class="form-control" name="nome" required>
+                           <input th:field="*{nome}" type="text" class="form-control" name="nome" >
                         </div>		         
 		           	</div>
 		           	<div class="form-group">
-		           	<label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-phone" aria-hidden="true"></i> Telefone</b></label>
+		           	<label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-phone" aria-hidden="true"></i> Telefone</b>
+		           	<span th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}" class="validation-message"></span>
+		           	</label>
 		           		<div class="col-sm-10">
-                           <input type="text" class="form-control" name="telefone" required>
+                           <input th:field="*{telefone}" type="text" class="form-control" name="telefone" >
                         </div>		         
 		           	</div>
 		          <div class="form-group">
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail</b>
+		            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              <input class="form-control" type="text" name="email" >
+		              <input th:field="*{email}" class="form-control" type="text" name="email" >
 		              </div>
 		            </div>
 		             <div class="form-group">  
-			            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-map-marker" aria-hidden="true"></i> Endereço da Instituição</b></label>
+			            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-map-marker" aria-hidden="true"></i> Endereço da Instituição</b>
+			            <span th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}" class="validation-message"></span>
+			            </label>
 			              <div class="col-sm-10">
-			              	<input class="form-control" name="endereco" type="text" >
+			              	<input th:field="*{endereco}" class="form-control" name="endereco" type="text" >
 			              </div>
 			          </div>
 		            <div class="form-group">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Região Administrativa</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Região Administrativa</b>
+		            <span th:if="${#fields.hasErrors('regiao')}" th:errors="*{regiao}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              <select class="form-control select2" name = "regiao"  required>
+		              <select th:field="*{regiao}" class="form-control select2" name = "regiao"  required>
 					  		<option th:each="regiao : ${regioes}" th:value="${regiao.id}" th:text="${regiao.nome}"></option>
 		              </select> 
 		              </div>
 		          </div>
 		          
 		          <div class="form-group">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-user-circle-o" aria-hidden="true"></i> Nome do Responsável</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-user-circle-o" aria-hidden="true"></i> Nome do Responsável</b>
+		            <span th:if="${#fields.hasErrors('responsavel')}" th:errors="*{responsavel}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              <input class="form-control" name="responsavel"  type="text" required>
+		              <input th:field="*{responsavel}" class="form-control" name="responsavel"  type="text" required>
 		              </div>
 		          </div>
 		          
 		          <div class="form-group">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-phone" aria-hidden="true"></i> Contato do Resposável</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-phone" aria-hidden="true"></i> Contato do Resposável</b>
+		            <span th:if="${#fields.hasErrors('contatoResponsavel')}" th:errors="*{contatoResponsavel}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              <input class="form-control" name="contatoResponsavel" type="text" >
+		              <input th:field="*{contatoResponsavel}" class="form-control" name="contatoResponsavel" type="text" >
 		              </div>
 		          </div>
 		           <div class="form-group">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail do Responsánvel</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-envelope-o" aria-hidden="true"></i> E-mail do Responsánvel</b>
+		            <span th:if="${#fields.hasErrors('emailResponsavel')}" th:errors="*{emailResponsavel}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              <input class="form-control" name = "emailResponsavel" type="email" >
+		              <input th:field="*{emailResponsavel}" class="form-control" name = "emailResponsavel" type="email" >
 		              </div>
 		          </div>
 		          <div class="form-group">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-book" aria-hidden="true"></i> Descrição da Instituição</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-book" aria-hidden="true"></i> Descrição da Instituição</b>
+		            <span th:if="${#fields.hasErrors('descricao')}" th:errors="*{descricao}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              	<textarea rows="6" class="form-control placeholder-no-fix" name="descricao" required></textarea>
+		              	<textarea th:field="*{descricao}" rows="6" class="form-control placeholder-no-fix" name="descricao" required></textarea>
 		              </div>
 		          </div>
 		           <div class="form-group">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-tags" aria-hidden="true"></i> Caracteristicas</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-tags" aria-hidden="true"></i> Caracteristicas</b>
+		            <span th:if="${#fields.hasErrors('tags')}" th:errors="*{tags}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              <select class="form-control select2 multiple1" multiple="multiple" name = "tags" required style="width:100%;">
+		              <select th:field="*{tags}" class="form-control select2 multiple1" multiple="multiple" name = "tags" required style="width:100%;">
 							<option th:each="tag : ${tags}" th:if="${tag.tipo == 1}" th:value="${tag.id}" th:text="${tag.nome}"></option>
 		              </select> 
 		              </div>
 		          </div>
 		          <div class="form-group">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Já foi Realizada alguma atividade?</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Já foi Realizada alguma atividade?</b>
+		            <span th:if="${#fields.hasErrors('fomos')}" th:errors="*{fomos}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              <select class="form-control" id="ja_teve" name = "fomos"  required>
+		              <select th:field="*{fomos}" class="form-control" id="ja_teve" name = "fomos"  required>
 								<option value="" >Escolha uma opção*</option>							
 								<option value="1" >Sim</option>
 								<option value="0" >Não</option>
@@ -116,29 +140,37 @@
 		              </div>
 		          </div>
 		          <div class="form-group ativ_relizada" hidden="true">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-bookmark" aria-hidden="true"></i> Descrição da Atividade Realizada</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-bookmark" aria-hidden="true"></i> Descrição da Atividade Realizada</b>
+		            <span th:if="${#fields.hasErrors('atividades')}" th:errors="*{atividades}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              	<textarea rows="6" class="form-control placeholder-no-fix" id="descricao_ativ" name="atividades"></textarea>
+		              	<textarea th:field="*{atividades}" rows="6" class="form-control placeholder-no-fix" id="descricao_ativ" name="atividades"></textarea>
 		              </div>
 		          </div>
 		           <div class="form-group">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-window-restore" aria-hidden="true"></i> Atividades Recomendadas</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-window-restore" aria-hidden="true"></i> Atividades Recomendadas</b>
+		            <span th:if="${#fields.hasErrors('tags')}" th:errors="*{tags}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              <select class="form-control select2 multiple2" multiple="multiple" name = "tags"  style="width:100%;">
+		              <select th:field="*{tags}" class="form-control select2 multiple2" multiple="multiple" name = "tags"  style="width:100%;">
 		              		<option th:each="tag : ${tags}" th:if="${tag.tipo == 2}" th:value="${tag.id}" th:text="${tag.nome}"></option>
 		              </select> 
 		              </div>
 		          </div>
 		          <div class="form-group">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-thermometer-full" aria-hidden="true"></i> Descrição de Pontos Críticos</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-thermometer-full" aria-hidden="true"></i> Descrição de Pontos Críticos</b>
+		            <span th:if="${#fields.hasErrors('pontosCriticos')}" th:errors="*{pontosCriticos}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              	<textarea rows="6" class="form-control placeholder-no-fix" name="pontosCiticos" ></textarea>
+		              	<textarea th:field="*{pontosCriticos}" rows="6" class="form-control placeholder-no-fix" name="pontosCriticos" ></textarea>
 		              </div>
 		          </div>
 		           <div class="form-group">  
-		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-bomb" aria-hidden="true"></i> Pontos Críticos</b></label>
+		            <label class="col-sm-2 col-sm-2 control-label"><b><i class="fa fa-bomb" aria-hidden="true"></i> Pontos Críticos</b>
+		            <span th:if="${#fields.hasErrors('tags')}" th:errors="*{tags}" class="validation-message"></span>
+		            </label>
 		              <div class="col-sm-10">
-		              <select class="form-control select2 multiple3" multiple="multiple" name = "tags"  style="width:100%;">
+		              <select th:field="*{tags}" class="form-control select2 multiple3" multiple="multiple" name = "tags"  style="width:100%;">
 		              		<option th:each="tag : ${tags}" th:if="${tag.tipo == 3}" th:value="${tag.id}" th:text="${tag.nome}"></option>
 		              </select> 
 		              </div>

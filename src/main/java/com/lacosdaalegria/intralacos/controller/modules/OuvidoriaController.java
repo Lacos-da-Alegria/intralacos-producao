@@ -1,9 +1,5 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +12,14 @@ import com.lacosdaalegria.intralacos.model.ouvidoria.Atendimento;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Categoria;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Feedback;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Grupo;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.modules.OuvidoriaService;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor

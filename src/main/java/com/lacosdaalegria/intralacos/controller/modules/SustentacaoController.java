@@ -2,9 +2,6 @@ package com.lacosdaalegria.intralacos.controller.modules;
 
 import javax.validation.Valid;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +16,9 @@ import com.lacosdaalegria.intralacos.service.modules.RecursoService;
 import com.lacosdaalegria.intralacos.service.modules.SustentacaoService;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor

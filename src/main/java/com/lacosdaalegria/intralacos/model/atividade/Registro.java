@@ -137,8 +137,10 @@ public class Registro {
 					}
 				}
 			}
-		} else
-			tipo = 1;
+		} else {
+			tipo= 1;
+			posicao = 10001;
+		}
 	}
 	
 	public void initPosicao(boolean faltante) {

@@ -3,13 +3,12 @@ package com.lacosdaalegria.intralacos.controller.modules;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.validation.Valid;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -25,12 +24,16 @@ import com.lacosdaalegria.intralacos.model.ongs.Instituicao;
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
 import com.lacosdaalegria.intralacos.model.ongs.Tag;
 import com.lacosdaalegria.intralacos.model.usuario.Regiao;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
 import com.lacosdaalegria.intralacos.service.modules.AtividadeService;
 import com.lacosdaalegria.intralacos.service.modules.OngsService;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
@@ -164,7 +167,8 @@ public class OngsController {
 	
 	@GetMapping("/polo/lista/acao")
 	public String listaAcao(Agenda agenda, Model model) {
-		if(Global.rodadaRandomica() || agenda == null){
+		
+		if(agenda == null){
 			return "redirect:/polo/lista/atividade";
 		}
 		
@@ -245,17 +249,55 @@ public class OngsController {
 	
 	@GetMapping("/polo/cadatro/instituicao")
 	public String cadastroInstituicao(Model model) {
+		
 		Polo polo = service.myPolo(info.getVoluntario());
 		model.addAttribute("polo", polo);
 		model.addAttribute("regioes", regiao.poloRegioes(polo));
 		model.addAttribute("tags", service.activeTags());
+		model.addAttribute("instituicao", new Instituicao());
+		
+		return "ongs/cadastroInstituicoes";
+	}
+	
+	@GetMapping("/polo/atualizar/instituicao")
+	public String cadastroInstituicao(Instituicao instituicao, Model model) {
+		
+		Polo polo = service.myPolo(info.getVoluntario());
+		model.addAttribute("polo", polo);
+		model.addAttribute("regioes", regiao.poloRegioes(polo));
+		model.addAttribute("tags", service.activeTags());
+		model.addAttribute("instituicao", instituicao);
+		
 		return "ongs/cadastroInstituicoes";
 	}
 	
 	@PostMapping("/polo/cadastrar/instituicao")
-	public String cadastraInstituicao(Instituicao instituicao) {
-		service.saveInstituicao(instituicao);
-		return "redirect:/polo/instituicoes";
+	public String cadastraInstituicao(@Valid Instituicao instituicao, BindingResult result, Model model, RedirectAttributes redirectAttrs) {
+		
+		Polo polo = service.myPolo(info.getVoluntario());
+		
+		if(result.hasErrors()) {
+			
+			model.addAttribute("polo", polo);
+			model.addAttribute("regioes", regiao.poloRegioes(polo));
+			model.addAttribute("tags", service.activeTags());
+			
+			model.addAttribute("instituicao", instituicao);
+			
+			return "ongs/cadastroInstituicoes";
+			
+		} else {
+			
+			redirectAttrs.addFlashAttribute("successMessage", "Instituição salva com sucesso!");
+			
+			instituicao.setPolo(polo);
+			
+			service.saveInstituicao(instituicao);
+			
+			return "redirect:/polo/instituicoes";
+		}
+		
+		
 	}
 	
 	@PostMapping("/polo/update/imagem")

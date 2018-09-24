@@ -11,14 +11,16 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.usuario.Regiao;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table
@@ -30,18 +32,20 @@ public class Instituicao {
 	@GeneratedValue(strategy =  GenerationType.AUTO)
 	private Long id;
 
-	@NotBlank
+	@NotBlank(message = "Nome da Instituição deve ser informado")
 	private String nome;
 	private Integer status = 1;
 
-	@NotBlank
+	@NotBlank(message = "Telefone da Instituição deve ser informado")
 	private String telefone;
 
-	@NotBlank
+	@NotBlank(message = "Email da Instituição deve ser informado")
+	@Email(message = "Email deve ser valido")
 	private String email;
 
-	@NotBlank
+	@NotBlank(message = "Nome do responsável deve ser informado")
 	private String responsavel;
+	
 	private String contatoResponsavel;
 	private String emailResponsavel;
 
@@ -51,12 +55,14 @@ public class Instituicao {
 	@Lob
 	private String atividades;
 
-	@NotBlank
+	@NotBlank(message = "Endereço da Instituição deve ser informado")
 	private String endereco;
 
 	@ManyToMany
 	private Set<Tag> tags;
-	private boolean fomos;
+	
+	@NotNull(message = "Favor selecionar uma opção")
+	private Boolean fomos;
 
 	@Lob
 	private String pontosCriticos;
