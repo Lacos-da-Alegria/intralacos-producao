@@ -7,7 +7,6 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -26,8 +25,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.BindingResult;
@@ -37,6 +34,8 @@ import com.google.common.base.Objects;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 
 import br.com.caelum.stella.bean.validation.CPF;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table

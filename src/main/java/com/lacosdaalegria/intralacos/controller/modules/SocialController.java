@@ -2,9 +2,6 @@ package com.lacosdaalegria.intralacos.controller.modules;
 
 import javax.servlet.http.HttpServletRequest;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +15,9 @@ import com.lacosdaalegria.intralacos.service.HospitalService;
 import com.lacosdaalegria.intralacos.service.modules.OngsService;
 import com.lacosdaalegria.intralacos.service.modules.SocialService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor

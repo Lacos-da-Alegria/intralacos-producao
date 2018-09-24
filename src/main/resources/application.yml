@@ -31,4 +31,4 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
                
 server:
-  port: 4545
+  port: 7676

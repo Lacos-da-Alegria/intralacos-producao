@@ -15,11 +15,14 @@ public class Global {
 	}
 	
 	public static boolean ehEssaSemana(Date date) {
+		
 		int s1 = getSemanaDoAno(new Date());
 		int s2 = getSemanaDoAno(date);
+		
 		System.out.println(s1 + " - " + s2);
+		
 		if(dia(date) == 1)
-			return s1 == (s2-1);
+			return false;
 		else
 			return s1 == s2;
 	}

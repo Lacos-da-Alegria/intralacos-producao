@@ -4,10 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +17,7 @@ import com.lacosdaalegria.intralacos.model.atividade.Registro;
 import com.lacosdaalegria.intralacos.model.atividade.Semana;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.recurso.Coordenador;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.atividade.ApoioRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.HospitalRepository;
@@ -28,6 +25,9 @@ import com.lacosdaalegria.intralacos.repository.atividade.RegistroRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.SemanaRepository;
 import com.lacosdaalegria.intralacos.repository.ongs.AgendaRepository;
 import com.lacosdaalegria.intralacos.session.UserInfo;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
@@ -213,7 +213,7 @@ public class AtividadeService {
 	public void initSemana(Agenda agenda) {
 		if(agenda.getSemana()==null) {
 			agenda.setSemana(getSemana());
-			ongsService.saveAgenda(agenda);
+			this.ongsService.saveAgenda(agenda);
 		}
 	}
 	

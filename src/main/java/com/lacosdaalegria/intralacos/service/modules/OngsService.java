@@ -5,10 +5,6 @@ import java.util.Date;
 
 import javax.transaction.Transactional;
 
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +14,7 @@ import com.lacosdaalegria.intralacos.model.ongs.Instituicao;
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
 import com.lacosdaalegria.intralacos.model.ongs.Tag;
 import com.lacosdaalegria.intralacos.model.usuario.Regiao;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.ongs.AgendaRepository;
 import com.lacosdaalegria.intralacos.repository.ongs.InstituicaoRepository;
@@ -25,6 +22,9 @@ import com.lacosdaalegria.intralacos.repository.ongs.PoloRepository;
 import com.lacosdaalegria.intralacos.repository.ongs.TagRepository;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
@@ -73,8 +73,8 @@ public class OngsService {
 		this.polo.save(polo);		
 	}
 	
-	public void saveInstituicao(Instituicao instituicao) {
-		this.instituicao.save(instituicao);
+	public Instituicao saveInstituicao(Instituicao instituicao) {
+		return this.instituicao.save(instituicao);
 	}
 	
 	public void removeRegiao(Regiao regiao) {
