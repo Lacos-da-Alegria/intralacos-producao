@@ -47,11 +47,11 @@ public class Hospital {
 	@NotNull
 	private Integer periodo;
 
-	@Max(22)
+	@Max(24)
 	@NotNull
 	private Integer limiteVoluntario;
 
-	@Max(8)
+	@Max(9)
 	@NotNull
 	private Integer limiteApoio;
 
