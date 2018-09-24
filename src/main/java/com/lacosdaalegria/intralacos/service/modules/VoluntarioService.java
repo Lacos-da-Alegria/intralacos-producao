@@ -72,6 +72,7 @@ public class VoluntarioService {
 		verificaNascimento(v, result);
 		verificaLogin(v, result);
 		verificaSenha(v, result);
+		verificaWhats(v, result);
 		
 	}
 	
@@ -104,6 +105,21 @@ public class VoluntarioService {
 		if (!voluntario.getSenha().equals(voluntario.getConfirmaSenha())){
 			result.rejectValue("senha", "invalida");
 		}
+	}
+	
+	private void verificaWhats(Voluntario voluntario, BindingResult result) {
+		
+		String regex = "\\d+";
+
+		if(!voluntario.getDdd().matches(regex)) {
+			result.rejectValue("ddd", "invalido");
+		}
+		
+		if(!voluntario.getWhatsapp().matches(regex)) {
+			result.rejectValue("whatsapp", "invalido");
+		}
+		
+		
 	}
 	
 	public void createRole(String papel) {
