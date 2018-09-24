@@ -213,7 +213,7 @@ public class AtividadeService {
 	public void initSemana(Agenda agenda) {
 		if(agenda.getSemana()==null) {
 			agenda.setSemana(getSemana());
-			ongsService.saveAgenda(agenda);
+			this.ongsService.saveAgenda(agenda);
 		}
 	}
 	

@@ -208,7 +208,8 @@
 		                          <p><b>Endereço:</b><span id="aEndereco"></span></p> 
 		                          <p><b>Horário:</b><span id="aHorario"></span></p>		                          
 		                          <p><b>Duração da Ação:</b><span id="aDuracao"></span> horas</p>
-		                          <p><b>Nº de Voluntários:</b><span id="aVoluntarios"></span></p>	
+		                          <p><b>Nº de Voluntários:</b><span id="aVoluntarios"></span></p>
+		                          <p><b>Nº de Novatos:</b><span id="aNovatos"></span></p>		
 		                      </div>
 		                      <div class="modal-footer">
 		                      	<a class="btn btn-primary" id="grupoWhats" target="_blank">Grupo do Whatsapp</a>
@@ -353,6 +354,7 @@
 			$('#aResponsavel').html(agenda.criador.nome);
 			$('#aContatoResp').html('(' + agenda.criador.ddd + ') ' + agenda.criador.whatsapp);
 			$('#aInformacoes').html(agenda.informacoes);
+			$('#aNovatos').html(agenda.novatos);
 			
 			$("#grupoWhats").attr("href", agenda.grupoWhats);
 			
