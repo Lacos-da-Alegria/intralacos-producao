@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -68,6 +70,8 @@ public class VoluntarioService {
 		}
 		
 		verificaNascimento(v, result);
+		verificaLogin(v, result);
+		verificaSenha(v, result);
 		
 	}
 	
@@ -82,6 +86,24 @@ public class VoluntarioService {
 			result.rejectValue("nascimento", "erro");
 		}
 		
+	}
+	
+	private void verificaLogin(Voluntario voluntario, BindingResult result) {
+		
+		Pattern p = Pattern.compile("[^A-Za-z0-9]");
+		Matcher m = p.matcher(voluntario.getLogin());
+		boolean b = m.find();
+		
+		if (b == true || voluntario.getLogin().contains(" ")){
+			result.rejectValue("login", "invalido");
+		}
+		
+	}
+	
+	private void verificaSenha(Voluntario voluntario, BindingResult result) {
+		if (!voluntario.getSenha().equals(voluntario.getConfirmaSenha())){
+			result.rejectValue("senha", "invalida");
+		}
 	}
 	
 	public void createRole(String papel) {
