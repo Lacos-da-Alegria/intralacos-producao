@@ -63,7 +63,7 @@
 						<div class="form-group il-form-spaccing">
 							<label class="il-form-label"><b>Data de Nascimento*</b> <span th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}"
 									class="validation-message"></span></label>
-							<input id="datemask" class="form-control" th:field="*{nascimento}" placeholder="Data de Nascimento*" type="text" name="nascimento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required>
+							<input id="datemask" class="form-control" th:field="*{nascimento}" placeholder="Data de Nascimento* Ex.: 12/03/1992" type="text" name="nascimento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required>
 						</div>
 					</div>
 					<div class="col-sm-6">
