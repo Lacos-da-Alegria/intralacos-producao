@@ -77,7 +77,7 @@ public class VoluntarioController {
     	ModelAndView modelAndView = new ModelAndView();
     	modelAndView.addObject("voluntario", voluntario);
     	
-        service.duplicidadeInfo(voluntario, result);
+        service.verificaInfo(voluntario, result);
     	
     	if(result.hasErrors()) {
     		

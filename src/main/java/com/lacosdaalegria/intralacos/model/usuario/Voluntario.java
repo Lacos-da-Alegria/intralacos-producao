@@ -98,9 +98,9 @@ public class Voluntario {
 	@NotNull
 	@Getter @Setter	private Integer status = 1;
 	@Setter	private String profile;
-	@Setter	private boolean querOngs;
-	@Setter	private boolean aceitaTermo;
-	@Setter	private boolean promovido;
+	@Getter @Setter	private Boolean querOngs;
+	@Getter @Setter	private boolean aceitaTermo;
+	@Getter @Setter	private boolean promovido;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Getter @Setter	private Set<Role> roles;
@@ -208,10 +208,6 @@ public class Voluntario {
 	 * ============================== Getters and Setters ===================================
 	 * ======================================================================================
 	 */
-
-	public boolean isPromovido() {
-		return promovido;
-	}
 
 	public String getProfile() {
 		if(profile == null)

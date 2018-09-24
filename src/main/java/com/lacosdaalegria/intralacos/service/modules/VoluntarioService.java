@@ -1,11 +1,14 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
-import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,11 +25,15 @@ import com.lacosdaalegria.intralacos.model.MaisLacos;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.usuario.ResetToken;
 import com.lacosdaalegria.intralacos.model.usuario.Role;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.repository.usuario.ResetTokenRepository;
 import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
 import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
@@ -49,14 +56,32 @@ public class VoluntarioService {
 		addRole(voluntario, RoleEnum.ACEITE);
 	}
 	
-	public void duplicidadeInfo(Voluntario v, BindingResult result) {
+	public void verificaInfo(Voluntario v, BindingResult result) {
+		
 		Iterable<Voluntario> voluntarios = repository.
 				findByEmailOrLoginOrWhatsappOrCpf(v.getEmail(), v.getLogin(), v.getWhatsapp(), v.getCpf());
+		
 		if(voluntarios != null) {
 			for(Voluntario vol : voluntarios) {
 				v.verificaDuplicidade(vol, result);
 			}
 		}
+		
+		verificaNascimento(v, result);
+		
+	}
+	
+	private void verificaNascimento(Voluntario voluntario, BindingResult result) {
+		
+		try {
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			formatter.parse(voluntario.getNascimento());
+			
+		} catch(ParseException e) {
+			result.rejectValue("nascimento", "erro");
+		}
+		
 	}
 	
 	public void createRole(String papel) {

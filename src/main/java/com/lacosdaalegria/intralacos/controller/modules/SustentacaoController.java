@@ -86,7 +86,7 @@ public class SustentacaoController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("admin/sustentacao/page");
-		vService.duplicidadeInfo(voluntario, result);
+		vService.verificaInfo(voluntario, result);
 
     	if(hasNoErroUpdate(result)) {
     		vService.updateUserSustentacao(voluntario);

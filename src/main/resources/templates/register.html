@@ -63,7 +63,8 @@
 						<div class="form-group il-form-spaccing">
 							<label class="il-form-label"><b>Data de Nascimento*</b> <span th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}"
 									class="validation-message"></span></label>
-							<input id="datemask" class="form-control" th:field="*{nascimento}" placeholder="Data de Nascimento*" type="text" name="nascimento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required>
+							<input  class="form-control" th:field="*{nascimento}" placeholder="Data de Nascimento*" type="text" name="nascimento" required>
+							<!-- id="datemask" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask -->
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -109,7 +110,7 @@
 					<div class="col-sm-6">
 						<div class="form-group il-form-spaccing">
 							<label class="il-form-label"><b>Como Conheceu o Laços?</b></label>
-							<select name="como_conheceu" class="form-control">
+							<select th:field="*{como_conheceu}" name="como_conheceu" class="form-control">
 								<option value="">Selecione...</option>
 								<option value="amigo">Indicação de um Amigos</option>
 								<option value="social">Através de um Rede Social do Laços</option>
@@ -123,7 +124,7 @@
 						<div class="form-group il-form-spaccing">
 							<label class="il-form-label"><b>Deseja visitar instituições de caridade?</b></label></br>
 							<label>
-								<input type="checkbox" name="querOngs" value="true"> Sim
+								<input th:field="*{querOngs}" type="checkbox" name="querOngs" value="true"> Sim
 							</label>
 						</div>
 					</div>
@@ -131,10 +132,10 @@
 						<div class="form-group il-form-spaccing">
 							<label style="margin-right: 8px" class="il-form-label"><b>Sexo*</b></label>
 							<label>
-								<input type="radio" name="sexo" value="masculino" required> Palhacinho
+								<input th:field="*{sexo}" type="radio" name="sexo" value="masculino" required> Palhacinho
 							</label>
 							<label>
-								<input type="radio" name="sexo" value="feminino" required> Palhacinha
+								<input th:field="*{sexo}" type="radio" name="sexo" value="feminino" required> Palhacinha
 							</label>
 						</div>
 					</div>
