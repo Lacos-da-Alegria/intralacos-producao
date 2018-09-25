@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,6 +44,10 @@ public class Fila {
 	
 	public boolean finalizada() {
 		return !getChamada().stream().filter(r -> r.getStatus().equals(0)).findFirst().isPresent();
+	}
+	
+	public Registro getRegistro(Voluntario voluntario) {
+		return this.chamada.stream().filter(v -> v.ehMeu(voluntario)).findFirst().orElse(null);
 	}
 	
 	public Set<Voluntario> novatosQueForam(){
