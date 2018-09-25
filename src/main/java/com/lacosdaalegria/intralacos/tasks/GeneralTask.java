@@ -1,8 +1,5 @@
 package com.lacosdaalegria.intralacos.tasks;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -10,6 +7,9 @@ import com.lacosdaalegria.intralacos.model.atividade.Semana;
 import com.lacosdaalegria.intralacos.service.modules.AtividadeService;
 import com.lacosdaalegria.intralacos.service.modules.OngsService;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor

@@ -2,15 +2,15 @@ package com.lacosdaalegria.intralacos.service;
 
 import java.util.Set;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
 import com.lacosdaalegria.intralacos.model.usuario.Regiao;
 import com.lacosdaalegria.intralacos.repository.usuario.RegiaoRepository;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional

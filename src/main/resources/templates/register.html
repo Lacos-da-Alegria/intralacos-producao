@@ -36,13 +36,13 @@
 						<div class="form-group il-form-spaccing">
 							<label class="il-form-label"><b>Senha*</b> <span th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"
 									class="validation-message"></span> <span color="red" id="mensagemPassword"></span></label>
-							<input name="senha" id="pass1" type="password" class="form-control" placeholder="Senha* - Min. de 6 Caracteres" required>
+							<input name="senha" th:field="*{senha}" id="pass1" type="password" class="form-control" placeholder="Senha* - Min. de 6 Caracteres" required>
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-group il-form-spaccing">
 							<label class="il-form-label"><b>Confirmar Senha*</b></label>
-							<input name="dual_senha" type="password" id="pass2" class="form-control" placeholder="Confirmar Senha*" onChange="checkPasswordMatch();" required>
+							<input name="confirmaSenha" th:field="*{confirmaSenha}" type="password" id="pass2" class="form-control" placeholder="Confirmar Senha*" onChange="checkPasswordMatch();" required>
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -63,7 +63,7 @@
 						<div class="form-group il-form-spaccing">
 							<label class="il-form-label"><b>Data de Nascimento*</b> <span th:if="${#fields.hasErrors('nascimento')}" th:errors="*{nascimento}"
 									class="validation-message"></span></label>
-							<input id="datemask" class="form-control" th:field="*{nascimento}" placeholder="Data de Nascimento*" type="text" name="nascimento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required>
+							<input id="datemask" class="form-control" th:field="*{nascimento}" placeholder="Data de Nascimento* Ex.: 12/03/1992" type="text" name="nascimento" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask required>
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -109,7 +109,7 @@
 					<div class="col-sm-6">
 						<div class="form-group il-form-spaccing">
 							<label class="il-form-label"><b>Como Conheceu o Laços?</b></label>
-							<select name="como_conheceu" class="form-control">
+							<select th:field="*{como_conheceu}" name="como_conheceu" class="form-control">
 								<option value="">Selecione...</option>
 								<option value="amigo">Indicação de um Amigos</option>
 								<option value="social">Através de um Rede Social do Laços</option>
@@ -123,7 +123,7 @@
 						<div class="form-group il-form-spaccing">
 							<label class="il-form-label"><b>Deseja visitar instituições de caridade?</b></label></br>
 							<label>
-								<input type="checkbox" name="querOngs" value="true"> Sim
+								<input th:field="*{querOngs}" type="checkbox" name="querOngs" value="true"> Sim
 							</label>
 						</div>
 					</div>
@@ -131,10 +131,10 @@
 						<div class="form-group il-form-spaccing">
 							<label style="margin-right: 8px" class="il-form-label"><b>Sexo*</b></label>
 							<label>
-								<input type="radio" name="sexo" value="masculino" required> Palhacinho
+								<input th:field="*{sexo}" type="radio" name="sexo" value="masculino" required> Palhacinho
 							</label>
 							<label>
-								<input type="radio" name="sexo" value="feminino" required> Palhacinha
+								<input th:field="*{sexo}" type="radio" name="sexo" value="feminino" required> Palhacinha
 							</label>
 						</div>
 					</div>

@@ -1,11 +1,16 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
-import java.util.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,11 +27,15 @@ import com.lacosdaalegria.intralacos.model.MaisLacos;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.usuario.ResetToken;
 import com.lacosdaalegria.intralacos.model.usuario.Role;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.repository.usuario.ResetTokenRepository;
 import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
 import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
@@ -49,15 +58,95 @@ public class VoluntarioService {
 		addRole(voluntario, RoleEnum.ACEITE);
 	}
 	
-	public void duplicidadeInfo(Voluntario v, BindingResult result) {
+	
+	/* ==========================================================
+	 * ================ Bloco de Verificações ===================
+	   ==========================================================*/
+	
+	public void verificaInfo(Voluntario v, BindingResult result) {
+		
+		verificaDuplicidade(v, result);
+		verificarAtualizar(v, result);
+		verificaLogin(v, result);
+		verificaSenha(v, result);
+	}
+	
+	public void verificaInfoSustentancao(Voluntario v, BindingResult result) {
+		verificaDuplicidade(v, result);
+		verificaLogin(v, result);
+	}
+	
+	public void verificarAtualizar(Voluntario v, BindingResult result) {
+		verificaNascimento(v, result);
+		verificaWhats(v, result);
+	}
+	
+	private void verificaDuplicidade(Voluntario v, BindingResult result) {
+		
 		Iterable<Voluntario> voluntarios = repository.
 				findByEmailOrLoginOrWhatsappOrCpf(v.getEmail(), v.getLogin(), v.getWhatsapp(), v.getCpf());
+		
 		if(voluntarios != null) {
 			for(Voluntario vol : voluntarios) {
 				v.verificaDuplicidade(vol, result);
 			}
 		}
+		
 	}
+	
+	private void verificaNascimento(Voluntario voluntario, BindingResult result) {
+		
+		if (!voluntario.getNascimento().matches("\\d{2}/\\d{2}/\\d{4}")) {
+			result.rejectValue("nascimento", "erro");
+			return;
+		}
+		
+		try {
+			
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			formatter.parse(voluntario.getNascimento());
+			
+		} catch(ParseException e) {
+			result.rejectValue("nascimento", "erro");
+		}
+		
+	}
+	
+	private void verificaLogin(Voluntario voluntario, BindingResult result) {
+		
+		Pattern p = Pattern.compile("[^A-Za-z0-9]");
+		Matcher m = p.matcher(voluntario.getLogin());
+		boolean b = m.find();
+		
+		if (b == true || voluntario.getLogin().contains(" ")){
+			result.rejectValue("login", "invalido");
+		}
+		
+	}
+	
+	private void verificaSenha(Voluntario voluntario, BindingResult result) {
+		if (!voluntario.getSenha().equals(voluntario.getConfirmaSenha())){
+			result.rejectValue("senha", "invalida");
+		}
+	}
+	
+	private void verificaWhats(Voluntario voluntario, BindingResult result) {
+		
+		String regex = "\\d+";
+
+		if(!voluntario.getDdd().matches(regex)) {
+			result.rejectValue("ddd", "invalido");
+		}
+		
+		if(!voluntario.getWhatsapp().matches(regex)) {
+			result.rejectValue("whatsapp", "invalido");
+		}
+		
+	}
+	
+	/* ==========================================================
+	 * ============== Fim Bloco de Verificações =================
+	   ==========================================================*/
 	
 	public void createRole(String papel) {
 		Role role = new Role();
@@ -135,20 +224,27 @@ public class VoluntarioService {
 	@Transactional
 	public Voluntario addRole(Voluntario voluntario, RoleEnum roleEnum) {
 
-	    Set<Role> roles = voluntario.getRoles();
-
-	    if(roles != null)
-	        roles.removeIf(r -> r.getId().equals(roleEnum.getCodigo()));
-	    else
-	        roles = new HashSet<>();
-
+	    Set<Role> roles = treatRoles(voluntario.getRoles(), roleEnum);
+	 
         roles.add(getRole(roleEnum));
 
 		voluntario.setRoles(roles);
 
 		return repository.save(voluntario);
 	}
+	
+	private Set<Role> treatRoles(Set<Role> roles, RoleEnum roleEnum){
+		
+		 if(roles != null) {
+		        roles.removeIf(r -> r.getId().equals(roleEnum.getCodigo()));
+		 	} else {
+		        roles = new HashSet<>();
+		 	}
+		 
+		 return roles;
+	}
 
+	@Transactional
     public Voluntario addRole(String email, RoleEnum roleEnum) {
 
 	    Voluntario voluntario = repository.findByEmail(email);
@@ -169,21 +265,25 @@ public class VoluntarioService {
 
 	}
 
+	@Transactional
 	public Voluntario getByLogin(String login) {
 		return repository.findByLogin(login);
 	}
 	
+	@Transactional
 	public void updateUserInfo(Voluntario voluntario, Voluntario update) {
 		voluntario.updateInfo(update);
 		repository.save(voluntario);
 	}
 	
+	@Transactional
 	public void updateUserSustentacao(Voluntario voluntario) {
 		Voluntario v = repository.findById(voluntario.getId()).get();
 		v.updateInfoSustentacao(voluntario);
 		repository.save(v);
 	}
 	
+	@Transactional
 	public void updateProfile(MultipartFile file, Voluntario voluntario) {
 		String profile = s3.carregaImagem("pic", voluntario.getId().toString(), file);
 		voluntario.setProfile("https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-318693850464/" + profile);
@@ -303,6 +403,11 @@ public class VoluntarioService {
 	public Role getRole(RoleEnum roleEnum) {
 		return this.role.findById(roleEnum.getCodigo()).orElse(null);
 	}
+	
+	
+	/*
+	 * ==================================================================================================================
+	 */
 	
 	//Migrar regras de datas para classe Calendario
 	private Date vencimentoToken() {

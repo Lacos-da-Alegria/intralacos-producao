@@ -1,8 +1,5 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,6 +14,9 @@ import com.lacosdaalegria.intralacos.repository.ouvidoria.AtendimentoRepository;
 import com.lacosdaalegria.intralacos.repository.ouvidoria.CategoriaRepository;
 import com.lacosdaalegria.intralacos.repository.ouvidoria.FeedbackRepository;
 import com.lacosdaalegria.intralacos.repository.ouvidoria.GrupoRepository;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional

@@ -1,6 +1,5 @@
 package com.lacosdaalegria.intralacos.session;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;

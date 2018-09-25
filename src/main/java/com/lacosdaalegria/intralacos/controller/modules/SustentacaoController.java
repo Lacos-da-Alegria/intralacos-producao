@@ -86,7 +86,8 @@ public class SustentacaoController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("admin/sustentacao/page");
-		vService.duplicidadeInfo(voluntario, result);
+		
+		vService.verificaInfoSustentancao(voluntario, result);
 
     	if(hasNoErroUpdate(result)) {
     		vService.updateUserSustentacao(voluntario);
@@ -108,15 +109,12 @@ public class SustentacaoController {
 			return "admin/sustentacao/page";
 		}
 		
+		model.addAttribute("voluntario", vService.promoteNovato(promocao.getNovato()));
+		
+		model.addAttribute("successMessage", "Novato promovido com sucesso!");
+		
 		promocao = service.registraPromocao(promocao, info);
 		
-		if(promocao.getId() != null) {
-			model.addAttribute("voluntario", vService.promoteNovato(promocao.getNovato()));
-			model.addAttribute("successMessage", "Novato promovido com sucesso!");
-		} else {
-			model.addAttribute("voluntario", promocao.getNovato());
-			model.addAttribute("errorMessage", "Ocorreu um erro, novato não foi promovido!");
-		}
 		return "admin/sustentacao/page";
 	}
 	

@@ -2,9 +2,6 @@ package com.lacosdaalegria.intralacos.session;
 
 import java.util.HashSet;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.Authentication;
@@ -19,6 +16,9 @@ import com.lacosdaalegria.intralacos.service.modules.AtividadeService;
 import com.lacosdaalegria.intralacos.service.modules.DemandaService;
 import com.lacosdaalegria.intralacos.service.modules.OuvidoriaService;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor

@@ -1,9 +1,5 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,11 +7,15 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lacosdaalegria.intralacos.model.capacitacao.Aula;
 import com.lacosdaalegria.intralacos.model.capacitacao.Educador;
 import com.lacosdaalegria.intralacos.model.capacitacao.Materia;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.capacitacao.AulaRepository;
 import com.lacosdaalegria.intralacos.repository.capacitacao.EducadorRepository;
 import com.lacosdaalegria.intralacos.repository.capacitacao.MateriaRepository;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional

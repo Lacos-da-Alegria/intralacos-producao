@@ -1,10 +1,6 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +10,16 @@ import com.lacosdaalegria.intralacos.model.recurso.ControleNovato;
 import com.lacosdaalegria.intralacos.model.recurso.Coordenador;
 import com.lacosdaalegria.intralacos.model.recurso.Diretoria;
 import com.lacosdaalegria.intralacos.model.recurso.Equipe;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.atividade.ApoioRepository;
 import com.lacosdaalegria.intralacos.repository.recurso.ControleNovatoRepository;
 import com.lacosdaalegria.intralacos.repository.recurso.CoordenadorRepository;
 import com.lacosdaalegria.intralacos.repository.recurso.DiretoriaRepository;
 import com.lacosdaalegria.intralacos.repository.recurso.EquipeRepository;
+
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
