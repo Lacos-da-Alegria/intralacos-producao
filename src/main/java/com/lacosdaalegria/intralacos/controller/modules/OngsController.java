@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.atividade.Fila;
+import com.lacosdaalegria.intralacos.model.atividade.Registro;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.ongs.Instituicao;
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
@@ -188,6 +189,14 @@ public class OngsController {
 		}
 		
 		return "redirect:/polo/lista/atividade";
+	}
+	
+	@PostMapping("/polo/retirar/novato")
+	public String retirarNovato(Registro registro, Voluntario voluntario) {
+		
+		atividade.cancelar(voluntario, registro);
+		
+		return "redirect:/polo/lista/acao?agenda=" + registro.getAgenda().getId();
 	}
 	
 
