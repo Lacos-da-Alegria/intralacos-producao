@@ -36,9 +36,11 @@ public class SustentacaoService {
 	}
 	
 	public Promocao registraPromocao(Promocao promocao, UserInfo info) {
+		
 		promocao.setAnalista(info.getVoluntario());
 		promocao.setCoordenador(promocao.getCoordenador_().getVoluntario());
 		promocao.setPrimeiraAtividade(promocao.getCoordenador_().getHospital());
+		
 		return this.promocao.save(promocao);
 	}
 	

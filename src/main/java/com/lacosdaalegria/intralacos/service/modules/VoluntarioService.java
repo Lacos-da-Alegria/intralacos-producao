@@ -224,20 +224,27 @@ public class VoluntarioService {
 	@Transactional
 	public Voluntario addRole(Voluntario voluntario, RoleEnum roleEnum) {
 
-	    Set<Role> roles = voluntario.getRoles();
-
-	    if(roles != null)
-	        roles.removeIf(r -> r.getId().equals(roleEnum.getCodigo()));
-	    else
-	        roles = new HashSet<>();
-
+	    Set<Role> roles = treatRoles(voluntario.getRoles(), roleEnum);
+	 
         roles.add(getRole(roleEnum));
 
 		voluntario.setRoles(roles);
 
 		return repository.save(voluntario);
 	}
+	
+	private Set<Role> treatRoles(Set<Role> roles, RoleEnum roleEnum){
+		
+		 if(roles != null) {
+		        roles.removeIf(r -> r.getId().equals(roleEnum.getCodigo()));
+		 	} else {
+		        roles = new HashSet<>();
+		 	}
+		 
+		 return roles;
+	}
 
+	@Transactional
     public Voluntario addRole(String email, RoleEnum roleEnum) {
 
 	    Voluntario voluntario = repository.findByEmail(email);
@@ -258,21 +265,25 @@ public class VoluntarioService {
 
 	}
 
+	@Transactional
 	public Voluntario getByLogin(String login) {
 		return repository.findByLogin(login);
 	}
 	
+	@Transactional
 	public void updateUserInfo(Voluntario voluntario, Voluntario update) {
 		voluntario.updateInfo(update);
 		repository.save(voluntario);
 	}
 	
+	@Transactional
 	public void updateUserSustentacao(Voluntario voluntario) {
 		Voluntario v = repository.findById(voluntario.getId()).get();
 		v.updateInfoSustentacao(voluntario);
 		repository.save(v);
 	}
 	
+	@Transactional
 	public void updateProfile(MultipartFile file, Voluntario voluntario) {
 		String profile = s3.carregaImagem("pic", voluntario.getId().toString(), file);
 		voluntario.setProfile("https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-318693850464/" + profile);
@@ -392,6 +403,11 @@ public class VoluntarioService {
 	public Role getRole(RoleEnum roleEnum) {
 		return this.role.findById(roleEnum.getCodigo()).orElse(null);
 	}
+	
+	
+	/*
+	 * ==================================================================================================================
+	 */
 	
 	//Migrar regras de datas para classe Calendario
 	private Date vencimentoToken() {
