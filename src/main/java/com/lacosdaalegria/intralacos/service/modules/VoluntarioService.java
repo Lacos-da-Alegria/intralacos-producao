@@ -1,5 +1,6 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -103,7 +104,8 @@ public class VoluntarioService {
 		
 		try {
 			
-			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			formatter.setLenient(false);
 			formatter.parse(voluntario.getNascimento());
 			
 		} catch(ParseException e) {
