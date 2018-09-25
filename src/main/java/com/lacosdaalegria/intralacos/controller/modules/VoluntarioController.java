@@ -1,13 +1,11 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -71,8 +69,7 @@ public class VoluntarioController {
 	}
 	
     @PostMapping("/cadastro")
-    public ModelAndView createNewUser(@Valid Voluntario voluntario, BindingResult result, 
-    				HttpServletRequest request) {
+    public ModelAndView createNewUser(@Valid Voluntario voluntario, BindingResult result) {
     	
     	ModelAndView modelAndView = new ModelAndView();
     	modelAndView.addObject("voluntario", voluntario);
@@ -120,7 +117,9 @@ public class VoluntarioController {
 		modelAndView.addObject("ras", regiao.getAllActive());
 		modelAndView.setViewName("userPage");
 		
-    	if(hasNoErroUpdate(result)) {
+		service.verificarAtualizar(voluntario, result);
+		
+    	if(!result.hasErrors()) {
     		
     		service.updateUserInfo(info.getVoluntario(), voluntario);
     		modelAndView.addObject("voluntario", info.getVoluntario());
@@ -138,15 +137,6 @@ public class VoluntarioController {
 		
         return "redirect:/info/usuario";
     }
-	
-	//Metodo que valida result para atualização, deve ser transferido para camada de serviço
-	private boolean hasNoErroUpdate(BindingResult result) {
-		for(ObjectError e : result.getAllErrors()) {
-			if(!e.getCodes()[0].contains("senha") && !e.getCodes()[0].contains("preferencia"))
-				return false;
-		}
-		return true;
-	}
 	
 	/*
 	 * ======================================================================================

@@ -58,7 +58,30 @@ public class VoluntarioService {
 		addRole(voluntario, RoleEnum.ACEITE);
 	}
 	
+	
+	/* ==========================================================
+	 * ================ Bloco de Verificações ===================
+	   ==========================================================*/
+	
 	public void verificaInfo(Voluntario v, BindingResult result) {
+		
+		verificaDuplicidade(v, result);
+		verificarAtualizar(v, result);
+		verificaLogin(v, result);
+		verificaSenha(v, result);
+	}
+	
+	public void verificaInfoSustentancao(Voluntario v, BindingResult result) {
+		verificaDuplicidade(v, result);
+		verificaLogin(v, result);
+	}
+	
+	public void verificarAtualizar(Voluntario v, BindingResult result) {
+		verificaNascimento(v, result);
+		verificaWhats(v, result);
+	}
+	
+	private void verificaDuplicidade(Voluntario v, BindingResult result) {
 		
 		Iterable<Voluntario> voluntarios = repository.
 				findByEmailOrLoginOrWhatsappOrCpf(v.getEmail(), v.getLogin(), v.getWhatsapp(), v.getCpf());
@@ -69,14 +92,14 @@ public class VoluntarioService {
 			}
 		}
 		
-		verificaNascimento(v, result);
-		verificaLogin(v, result);
-		verificaSenha(v, result);
-		verificaWhats(v, result);
-		
 	}
 	
 	private void verificaNascimento(Voluntario voluntario, BindingResult result) {
+		
+		if (!voluntario.getNascimento().matches("\\d{2}/\\d{2}/\\d{4}")) {
+			result.rejectValue("nascimento", "erro");
+			return;
+		}
 		
 		try {
 			
@@ -119,8 +142,11 @@ public class VoluntarioService {
 			result.rejectValue("whatsapp", "invalido");
 		}
 		
-		
 	}
+	
+	/* ==========================================================
+	 * ============== Fim Bloco de Verificações =================
+	   ==========================================================*/
 	
 	public void createRole(String papel) {
 		Role role = new Role();
