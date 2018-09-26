@@ -36,11 +36,12 @@
                           <table class="table table-striped table-advance table-hover">
 	                  	  	  <h3 style="margin-left:10px;"> <b> <i class="fa fa-microphone" aria-hidden="true"></i> Ouvidoria <span class="hidden-phone">do Laços da Alegria</span> </b> 
 	                  	  	  	<!-- <a href="#" type="button" class="btn btn-default pull-right" style="margin-right:10px;"><i class="fa fa-ticket fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Meus Atendimentos</span></a> -->
-	                  	  	  	<a data-toggle="modal"  href="#ModalFeedBack" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-user-secret fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Feedback Anônimo</span></a>
-								<a data-toggle="modal"  href="#ModalAtendimento" type="button" class="btn btn-success pull-right" style="margin-right:10px;"><i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Abrir Atendimento</span></a>	                  	  	  	
+	                  	  	  	<a data-step='5' id="stepFeedback" data-intro="Aqui você abri um feedback anônimo, não haverá resposta. Mas será enviado para a diretoria para que se possa tomar as devidas providências" data-toggle="modal"  href="#ModalFeedBack" type="button" class="btn btn-primary pull-right" style="margin-right:10px;"><i class="fa fa-user-secret fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Feedback Anônimo</span></a>
+								<a data-step='2' id="stepAtentimento" data-intro="Clique aqui para abrir um atendimento esperando resposta!" data-toggle="modal"  href="#ModalAtendimento" type="button" class="btn btn-success pull-right" style="margin-right:10px;"><i class="fa fa-plus-square fa-lg" aria-hidden="true"></i> <span class="hidden-phone">&nbsp&nbsp&nbsp Abrir Atendimento</span></a>
+								<button class="btn pull-right" onclick="iniciaTour()" style="margin-right:10px;"><i class="fa fa-eye" aria-hidden="true"></i> <span class="hidden-phone">Iniciar Tutorial</span></button>	                  	  	  	
 	                  	  	  </h3>	                  	      	                   	  
-	                  	  	  <hr>    
-                              <thead>
+	                  	  	  <hr> 
+                              <thead id="stepLista" data-step='6' data-intro="Aqui você tem um histórico dos seus atendimentos!">
                               <tr>
                                   <th><i class="fa fa-star-half-o " aria-hidden="true"></i> <span class="hidden-phone">Situação</span></th>
                                   <th><i class="fa fa-hourglass-half " aria-hidden="true"></i> <span class="hidden-phone">Abertura</span></th>
@@ -56,37 +57,14 @@
 	                              <td th:text="${atendimento.criacao}"></td>
 	                              <td th:text="${atendimento.categoria.nome}"></td>
 	                              <td th:text="${atendimento.nomeAtendente()}"></td>
-	                              <td><a th:onclick="'apresentaDetalhe(\'' + ${atendimento.mostraOuvidoria()} + '\', \'' + ${atendimento.mostraResposta()} + '\' , ' + ${atendimento.id} + ');'" style="font-size:16px;"  class="btn btn-primary btn-xs fa fa-info-circle"></a></td>
-                              </tr>   
-                              </c:forEach>                              
+	                              <td><a data-step='7' data-intro="Clique aqui para ver os detalhes e a resposta que foi dada para esse atendimento!" th:onclick="'apresentaDetalhe(\'' + ${atendimento.mostraOuvidoria()} + '\', \'' + ${atendimento.mostraResposta()} + '\' , ' + ${atendimento.id} + ');'" style="font-size:16px;"  class="btn btn-primary btn-xs fa fa-info-circle"></a></td>
+                              </tr>
                               </tbody>
                           </table>
                       </div><!-- /content-panel -->
                   </div><!-- /col-md-12 -->
               </div><!-- /row -->		
                     
-					<!-- Modal -->
-					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
-		              <div class="modal-dialog">
-		                  <div class="modal-content">
-		                      <div class="modal-header">
-		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
-		                      </div>
-		                      <div class="modal-body">
-		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
-		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
-		
-		                      </div>
-		                      <div class="modal-footer">
-		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
-		                          <button class="btn btn-theme" type="button">Enviar</button>
-		                      </div>
-		                  </div>  
-		              </div>
-		          </div>
-		        <!-- modal -->
-				  
 				<!-- Modal -->
 					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalFeedBack" class="modal fade">
 		              <div class="modal-dialog">
@@ -123,14 +101,14 @@
 		                      <form action="/info/criar/atendimento" method="post">
 		                      <div class="modal-body">
 		                          <p>Escolha o atendimento, escreva o seu questionamento que iremos responder o mais rápido possível</p> 
-		                        <select name="categoria" class="form-control" required>
+		                        <select data-step='3' data-intro="Escolha aqui a categoria que melhor categoriza sua dúvida ou problema!" name="categoria" class="form-control" required>
 									<option value="">Escolha uma Opção*</option>								
 									<option th:each="categoria : ${categorias}" th:value="${categoria.id}" th:text="${categoria.nome}"></option>	
 								</select>
 								<br>							 
 								<textarea rows="8" class="form-control placeholder-no-fix" name="ouvidoria"></textarea>			
 								<br>
-								<small style="color:red;">*Esse atendimento não é anônimo</small> 					 
+								<small data-step='4' data-intro="Só para lembrar esse atendimento não é anônimo." style="color:red;">*Esse atendimento não é anônimo</small> 					 
 		                      </div>
 		                      <div class="modal-footer">  
 		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
@@ -204,6 +182,30 @@
         	
         	$('#ModalDetalhe').modal('show');        	
           };
+          
+          function iniciaTour(){
+          
+          var options = {'skipLabel': 'Fechar', 'prevLabel': 'Voltar', 'nextLabel': 'Próximo', 'doneLabel': 'Pronto'};
+    		
+		    introJs().setOptions(options).onbeforechange(function(targetElement) {
+				
+				if(targetElement.id == 'stepAtentimento'){
+					$('#stepAtentimento').click();				
+				}
+				
+				if(targetElement.id == 'stepFeedback'){
+					$('#ModalAtendimento').toggle();
+					$('#stepFeedback').click();				
+				}
+				
+				if(targetElement.id == 'stepLista'){
+					$('#ModalFeedBack').toggle();
+				}
+				
+
+			}).start();
+		    
+		};
           
     </script> 
 
