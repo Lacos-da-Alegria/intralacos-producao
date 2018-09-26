@@ -2,7 +2,6 @@ package com.lacosdaalegria.intralacos.controller.modules;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,17 +17,17 @@ import com.lacosdaalegria.intralacos.service.modules.SustentacaoService;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class SustentacaoController {
 	
-	@Autowired
-	private SustentacaoService service;
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired
-	private RecursoService recurso;
-	@Autowired
-	private UserInfo info;
+	private @NonNull SustentacaoService service;
+	private @NonNull VoluntarioService vService;
+	private @NonNull RecursoService recurso;
+	private @NonNull UserInfo info;
 	
 	/*
 	 * ======================================================================================
@@ -87,7 +86,8 @@ public class SustentacaoController {
 		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("admin/sustentacao/page");
-		vService.duplicidadeInfo(voluntario, result);
+		
+		vService.verificaInfoSustentancao(voluntario, result);
 
     	if(hasNoErroUpdate(result)) {
     		vService.updateUserSustentacao(voluntario);
@@ -109,15 +109,12 @@ public class SustentacaoController {
 			return "admin/sustentacao/page";
 		}
 		
+		model.addAttribute("voluntario", vService.promoteNovato(promocao.getNovato()));
+		
+		model.addAttribute("successMessage", "Novato promovido com sucesso!");
+		
 		promocao = service.registraPromocao(promocao, info);
 		
-		if(promocao.getId() != null) {
-			model.addAttribute("voluntario", vService.promoteNovato(promocao.getNovato()));
-			model.addAttribute("successMessage", "Novato promovido com sucesso!");
-		} else {
-			model.addAttribute("voluntario", promocao.getNovato());
-			model.addAttribute("errorMessage", "Ocorreu um erro, novato não foi promovido!");
-		}
 		return "admin/sustentacao/page";
 	}
 	

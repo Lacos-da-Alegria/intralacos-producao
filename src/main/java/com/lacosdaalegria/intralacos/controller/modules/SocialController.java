@@ -2,7 +2,6 @@ package com.lacosdaalegria.intralacos.controller.modules;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,17 +16,17 @@ import com.lacosdaalegria.intralacos.service.modules.OngsService;
 import com.lacosdaalegria.intralacos.service.modules.SocialService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class SocialController {
 	
-	@Autowired
-	private SocialService service;
-	@Autowired
-	private HospitalService hospital;
-	@Autowired
-	private OngsService ongs;
-	@Autowired
-	private UserInfo info;
+	private @NonNull SocialService service;
+	private @NonNull HospitalService hospital;
+	private @NonNull OngsService ongs;
+	private @NonNull UserInfo info;
 	
 	/*
 	 * ======================================================================================

@@ -1,16 +1,18 @@
 package com.lacosdaalegria.intralacos.controller.navegation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class GeneralController {
 	
-	@Autowired
-	UserInfo info;
+	private @NonNull UserInfo info;
 	
 	@GetMapping("/login")
 	public String logginPage() {

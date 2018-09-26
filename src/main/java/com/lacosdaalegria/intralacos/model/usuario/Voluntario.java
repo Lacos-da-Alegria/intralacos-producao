@@ -7,7 +7,6 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -26,8 +25,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.BindingResult;
@@ -37,6 +34,8 @@ import com.google.common.base.Objects;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 
 import br.com.caelum.stella.bean.validation.CPF;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table
@@ -99,12 +98,13 @@ public class Voluntario {
 	@NotNull
 	@Getter @Setter	private Integer status = 1;
 	@Setter	private String profile;
-	@Setter	private boolean querOngs;
-	@Setter	private boolean aceitaTermo;
-	@Setter	private boolean promovido;
+	@Getter @Setter	private Boolean querOngs;
+	@Getter @Setter	private boolean aceitaTermo;
+	@Getter @Setter	private boolean promovido;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@Getter @Setter	private Set<Role> roles;
+
 	@Getter @Setter	private Date dtCriacao = new Date();
 
 	@ManyToOne
@@ -198,22 +198,7 @@ public class Voluntario {
 		email = voluntario.getEmail();
 		cpf = voluntario.getCpf();
 	}
-	
-	public void addRole(Role role) {
-		if(roles == null)
-			roles = new HashSet<>();
-		roles.add(role);
-	} 
-	
-	public void removeRole(String role) {
-		for(Role r : roles) {
-			if(r.getRole().equals(role)) {
-				roles.remove(r);
-				break;
-			}
-		}
-	}
-	
+
 	public boolean hasRole(String role) {
 		return roles.stream().filter(r -> Objects.equal(r.getRole(), "ROLE_"+role)).findFirst().isPresent();
 	}
@@ -224,23 +209,11 @@ public class Voluntario {
 	 * ======================================================================================
 	 */
 
-	public boolean isAceitaTermo() {
-		return aceitaTermo;
-	}
-	
-	public boolean isPromovido() {
-		return promovido;
-	}
-
 	public String getProfile() {
 		if(profile == null)
 			return "/assets/img/ui-sam.jpg";
 		else 
 			return profile;
-	}
-
-	public boolean isQuerOngs() {
-		return querOngs;
 	}
 
 }

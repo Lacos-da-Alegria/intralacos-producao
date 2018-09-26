@@ -11,11 +11,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table
@@ -35,7 +36,9 @@ public class Diretoria {
 
 	@NotBlank
 	private String role;
+
 	private Integer status = 1;
+
 	private Integer ordem;
 	 
 	public void addDiretor(Voluntario diretor) {
@@ -46,12 +49,7 @@ public class Diretoria {
 	}
 	
 	public void removeDiretor(Voluntario diretor) {
-		for(Voluntario d : diretores){
-			if(d.getId().equals(diretor.getId())){
-				diretores.remove(d);
-				break;
-			}
-		}
+		diretores.removeIf(d -> d.getId().equals(diretor.getId()));
 	}
 
 }

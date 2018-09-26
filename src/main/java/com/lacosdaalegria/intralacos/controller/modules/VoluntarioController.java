@@ -1,14 +1,11 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,27 +23,19 @@ import com.lacosdaalegria.intralacos.service.modules.OngsService;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class VoluntarioController {
 	
-	
-	private RegiaoService regiao;
-	private UserInfo info;
-	private VoluntarioService service;
-	private HospitalService hospital; 
-	private OngsService ongs;
-	private EmailService email;
-	
-	@Autowired
-	public VoluntarioController(RegiaoService regiao, UserInfo info, VoluntarioService service,
-			HospitalService hospital, OngsService ongs, EmailService email) {
-		this.regiao = regiao;
-		this.info = info;
-		this.service = service;
-		this.hospital = hospital;
-		this.ongs = ongs;
-		this.email = email;
-	}
+	private @NonNull RegiaoService regiao;
+	private @NonNull UserInfo info;
+	private @NonNull VoluntarioService service;
+	private @NonNull HospitalService hospital;
+	private @NonNull OngsService ongs;
+	private @NonNull EmailService email;
 	
 	/*
 	 * ======================================================================================
@@ -80,13 +69,12 @@ public class VoluntarioController {
 	}
 	
     @PostMapping("/cadastro")
-    public ModelAndView createNewUser(@Valid Voluntario voluntario, BindingResult result, 
-    				HttpServletRequest request) {
+    public ModelAndView createNewUser(@Valid Voluntario voluntario, BindingResult result) {
     	
     	ModelAndView modelAndView = new ModelAndView();
     	modelAndView.addObject("voluntario", voluntario);
     	
-        service.duplicidadeInfo(voluntario, result);
+        service.verificaInfo(voluntario, result);
     	
     	if(result.hasErrors()) {
     		
@@ -129,7 +117,9 @@ public class VoluntarioController {
 		modelAndView.addObject("ras", regiao.getAllActive());
 		modelAndView.setViewName("userPage");
 		
-    	if(hasNoErroUpdate(result)) {
+		service.verificarAtualizar(voluntario, result);
+		
+    	if(!result.hasErrors()) {
     		
     		service.updateUserInfo(info.getVoluntario(), voluntario);
     		modelAndView.addObject("voluntario", info.getVoluntario());
@@ -147,15 +137,6 @@ public class VoluntarioController {
 		
         return "redirect:/info/usuario";
     }
-	
-	//Metodo que valida result para atualização, deve ser transferido para camada de serviço
-	private boolean hasNoErroUpdate(BindingResult result) {
-		for(ObjectError e : result.getAllErrors()) {
-			if(!e.getCodes()[0].contains("senha") && !e.getCodes()[0].contains("preferencia"))
-				return false;
-		}
-		return true;
-	}
 	
 	/*
 	 * ======================================================================================

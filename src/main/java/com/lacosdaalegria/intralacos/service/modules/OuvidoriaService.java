@@ -1,6 +1,5 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -16,18 +15,18 @@ import com.lacosdaalegria.intralacos.repository.ouvidoria.CategoriaRepository;
 import com.lacosdaalegria.intralacos.repository.ouvidoria.FeedbackRepository;
 import com.lacosdaalegria.intralacos.repository.ouvidoria.GrupoRepository;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class OuvidoriaService {
 	
-	@Autowired
-	private AtendimentoRepository atendimento;
-	@Autowired
-	private CategoriaRepository categoria;
-	@Autowired
-	private GrupoRepository grupo;
-	@Autowired
-	private FeedbackRepository feedback;
+	private @NonNull AtendimentoRepository atendimento;
+	private @NonNull CategoriaRepository categoria;
+	private @NonNull GrupoRepository grupo;
+	private @NonNull FeedbackRepository feedback;
 	
 	public void saveCategoira(Categoria categoria){
 		this.categoria.save(categoria);

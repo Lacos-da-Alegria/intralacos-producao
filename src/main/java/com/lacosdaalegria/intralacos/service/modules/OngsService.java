@@ -5,7 +5,6 @@ import java.util.Date;
 
 import javax.transaction.Transactional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +14,7 @@ import com.lacosdaalegria.intralacos.model.ongs.Instituicao;
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
 import com.lacosdaalegria.intralacos.model.ongs.Tag;
 import com.lacosdaalegria.intralacos.model.usuario.Regiao;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.ongs.AgendaRepository;
 import com.lacosdaalegria.intralacos.repository.ongs.InstituicaoRepository;
@@ -23,24 +23,21 @@ import com.lacosdaalegria.intralacos.repository.ongs.TagRepository;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class OngsService {
 
-	@Autowired
-	private AgendaRepository agenda;
-	@Autowired
-	private InstituicaoRepository instituicao;
-	@Autowired
-	private PoloRepository polo;
-	@Autowired
-	private TagRepository tag;
-	@Autowired
-	private RegiaoService regiao;
-	@Autowired
-	private S3 s3;
-	@Autowired
-	private VoluntarioService vService;
+	private @NonNull AgendaRepository agenda;
+	private @NonNull InstituicaoRepository instituicao;
+	private @NonNull PoloRepository polo;
+	private @NonNull TagRepository tag;
+	private @NonNull RegiaoService regiao;
+	private @NonNull S3 s3;
+	private @NonNull VoluntarioService vService;
 	
 	public Iterable<Instituicao> findInstituicoes(Polo polo){
 		return instituicao.findByPolo(polo);
@@ -72,12 +69,12 @@ public class OngsService {
 	public void removeMembro(Voluntario membro) {
 		Polo polo = this.polo.findByMembros(membro);
 		polo.removeMembro(membro);
-		vService.removeRole(membro, "ROLE_ONGS");
+		vService.removeRole(membro, RoleEnum.POLO);
 		this.polo.save(polo);		
 	}
 	
-	public void saveInstituicao(Instituicao instituicao) {
-		this.instituicao.save(instituicao);
+	public Instituicao saveInstituicao(Instituicao instituicao) {
+		return this.instituicao.save(instituicao);
 	}
 	
 	public void removeRegiao(Regiao regiao) {

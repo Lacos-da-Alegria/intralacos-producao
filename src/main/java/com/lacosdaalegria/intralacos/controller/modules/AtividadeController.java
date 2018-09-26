@@ -1,6 +1,5 @@
 package com.lacosdaalegria.intralacos.controller.modules;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,19 +20,18 @@ import com.lacosdaalegria.intralacos.service.modules.OngsService;
 import com.lacosdaalegria.intralacos.service.modules.RecursoService;
 import com.lacosdaalegria.intralacos.session.UserInfo;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class AtividadeController {
 	
-	@Autowired
-	private HospitalService hospital;
-	@Autowired
-	private AtividadeService service;
-	@Autowired
-	private OngsService ongs;
-	@Autowired
-	private UserInfo info;
-	@Autowired
-	private RecursoService recurso;
+	private @NonNull HospitalService hospital;
+	private @NonNull AtividadeService service;
+	private @NonNull OngsService ongs;
+	private @NonNull UserInfo info;
+	private @NonNull RecursoService recurso;
 	
 	/*
 	 * ======================================================================================
@@ -56,7 +54,7 @@ public class AtividadeController {
 	@GetMapping("/atividade/lista")
 	public String listaAtividade(Model model) {
 		
-		if(!info.hasRole("ROLE_VOLUNTARIO"))
+		if(info.hasRole("ROLE_VOLUNTARIO"))
 			model.addAttribute("hospitais", hospital.getAllActive());
 		
 		model.addAttribute("acoes", ongs.getAcoesAtivas());

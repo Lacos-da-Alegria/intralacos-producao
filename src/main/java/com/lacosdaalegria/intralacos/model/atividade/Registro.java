@@ -21,8 +21,8 @@ import org.hibernate.annotations.DynamicUpdate;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 
-@Entity
 @Table
+@Entity
 @DynamicUpdate
 @Getter @Setter
 public class Registro {
@@ -137,8 +137,10 @@ public class Registro {
 					}
 				}
 			}
-		} else
-			tipo = 1;
+		} else {
+			tipo= 1;
+			posicao = 10001;
+		}
 	}
 	
 	public void initPosicao(boolean faltante) {

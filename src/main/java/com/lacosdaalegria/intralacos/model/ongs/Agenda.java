@@ -7,58 +7,67 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
 
 import com.lacosdaalegria.intralacos.model.atividade.Semana;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table
 @DynamicUpdate
+@Getter @Setter
 public class Agenda {
 
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
-	@Getter @Setter	private Long id;
+	private Long id;
 
 	@ManyToOne
-	@Getter @Setter private Instituicao instituicao;
+	private Instituicao instituicao;
 
 	@NotNull
-	@Getter @Setter private String nome;
+	private String nome;
 
 	@NotNull
-	@Getter @Setter private Integer voluntarios;
-	@Getter @Setter private boolean limite;
-	@Getter @Setter private Date criacao = new Date();
+	private Integer voluntarios;
+	private boolean limite;
+	private Date criacao = new Date();
 
 	@ManyToOne
-	@Getter @Setter private Voluntario criador;
-	@Getter @Setter private Integer status = 1;
-
-	@NotNull
-	@Getter @Setter private Date horario;
-
-	@NotNull
-	@Getter @Setter private Integer duracao;
-	@Setter private boolean inscricao = false;
-	@Setter private boolean chamada = false;
+	private Voluntario criador;
+	private Integer status = 1;
 	
-	@Getter @Setter
+	@Lob
+	private String informacoes;
+	
+	@NotBlank
+	private String grupoWhats;
+
+	@NotNull
+	private Date horario;
+
+	@NotNull
+	private Integer duracao;
+	private boolean inscricao = false;
+	private boolean chamada = false;
+	
 	private Integer novatos;
 
 	@Transient
-	@Getter @Setter private Integer situacao = 0;
+	private Integer situacao = 0;
 
 	@ManyToOne
-	@Getter @Setter private Semana semana;
+	private Semana semana;
 	
 	public boolean ehAgora(int dia, int periodo) {
 		return getDia().equals(dia) && getPeriodo().equals(periodo);

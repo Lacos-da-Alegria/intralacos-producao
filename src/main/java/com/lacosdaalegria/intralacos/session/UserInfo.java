@@ -2,7 +2,6 @@ package com.lacosdaalegria.intralacos.session;
 
 import java.util.HashSet;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.Authentication;
@@ -18,18 +17,18 @@ import com.lacosdaalegria.intralacos.service.modules.DemandaService;
 import com.lacosdaalegria.intralacos.service.modules.OuvidoriaService;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserInfo {
 
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired
-	private OuvidoriaService ouvidoria;
-	@Autowired
-	private AtividadeService atividade;
-	@Autowired
-	private DemandaService demanda;
+	private @NonNull VoluntarioService vService;
+	private @NonNull OuvidoriaService ouvidoria;
+	private @NonNull AtividadeService atividade;
+	private @NonNull DemandaService demanda;
 	
 	private Voluntario voluntario;
 	private Integer posicao;

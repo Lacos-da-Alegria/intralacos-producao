@@ -2,7 +2,6 @@ package com.lacosdaalegria.intralacos.service;
 
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,12 +9,15 @@ import com.lacosdaalegria.intralacos.model.ongs.Polo;
 import com.lacosdaalegria.intralacos.model.usuario.Regiao;
 import com.lacosdaalegria.intralacos.repository.usuario.RegiaoRepository;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class RegiaoService {
 
-	@Autowired
-	RegiaoRepository repository;
+	private @NonNull RegiaoRepository repository;
 	
 	public Iterable<Regiao> getAllActive(){
 		return repository.findByStatusOrderByNome(1);

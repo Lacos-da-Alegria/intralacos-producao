@@ -11,25 +11,21 @@
       <div class="nav notify-row" id="top_menu">
           <!--  notification start -->
           <ul class="nav top-menu">
-              <!-- settings start -->
-              <li class="dropdown tooltips" data-placement="left" data-original-title="Indique Um Amigo">
-                  <a data-toggle="modal" class="dropdown-toggle" href="volunteer-area.html#myModal">
-                      <i class="fa li_megaphone" ></i>                            
+              
+              <li style="cursor: pointer;" class="dropdown tooltips" data-placement="left" data-original-title="Iniciar Tutorial">
+                  <a data-toggle="modal" class="dropdown-toggle" onclick="iniciaTour()">
+                      <i class="fa li_eye" ></i>                            
                   </a>
-                  					
               </li>
-              <!-- settings end -->
-              <!-- inbox dropdown start-->
               
                <li class="dropdown tooltips" data-placement="left" data-original-title="Ir para Ouvidoria">
-                  <a class="dropdown-toggle" href="/info/ouvidoria">
+                  <a class="dropdown-toggle" href="/info/ouvidoria" data-step='1' data-intro="Qualquer dúvida é só ir aqui e abrir um atendimento!">
                       <i class="fa li_bubble" ></i>                     
 					  <span th:if="${@userInfo.getRespostas() > 0}" class="button__badge blink" th:text="${@userInfo.getRespostas()}"></span>	                                                     
                   </a>
               </li>  
-              <!-- inbox dropdown end -->
+              
           </ul>      
-          <!--  notification end -->
       </div>
       
       <div class="top-menu">

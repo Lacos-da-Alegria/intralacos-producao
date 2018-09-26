@@ -30,10 +30,10 @@
           <section class="wrapper">
 					
 					<div class="row">
-						<div th:class="${rodada ? 'col-sm-12' : 'col-sm-6'}" th:style="${rodada ? '' : 'margin-top:35px;'}">
-							<h1 class="centered" th:text="${rodada ? 'A lista ficará disponível a partir de Quarta-Feira' : 'Lista de Atividade'}"></h1>
-						</div>
-					<div class="col-sm-6" th:if="${!rodada}">	
+					<div th:class="col-sm-6" style="margin-top:15px">
+						<h1 class="centered">Lista da Atividade</h1>
+					</div>
+					<div class="col-sm-6">	
 						<div class="col-sm-12 col-sm-12" style="margin:5px; margin-top:16px;">
 							<label class="col-sm-3 col-sm-3 control-label"><b><i class="fa fa-question-circle-o" aria-hidden="true"></i> Ações</b></label>
 		             	 	<select class="form-control select2" id="agenda" name="agenda"  style="width:100%;">
@@ -59,7 +59,7 @@
 							<div class="custom-check goleft">
 				             <table id="todo" class="table table-hover custom-check">
 				              <tbody>
-								<tr th:each="voluntario,iter : ${fila.lista}">
+								<tr th:if="${!rodada}" th:each="voluntario,iter : ${fila.lista}">
 									<td>				                      
 			                     	   <a th:text="${iter.index+1}+'º'"></a>
 			      					</td>
@@ -141,6 +141,9 @@
 			      					<td>				                      
 			                     	   <a th:utext="${'(' + voluntario.ddd + ')  ' + voluntario.whatsapp}"></a>
 			      					</td>
+			      					<td>				                      
+			                     	   <button data-toggle="modal" href="#ModalRetirar" th:onclick="'modalRetirar('+${fila.getRegistro(voluntario).id} + ',' + ${voluntario.id} +');'" class="btn btn-danger btn-xs" style="margin-left:10px;"><i class="fa fa-times "></i></button>
+			      					</td>
 			      				</tr>
 				              </tbody>
 				          </table>
@@ -156,22 +159,27 @@
                   	
 					
 					<!-- Modal -->
-					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+					<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="ModalRetirar" class="modal fade">
 		              <div class="modal-dialog">
 		                  <div class="modal-content">
-		                      <div class="modal-header">
+		                      <div class="modal-header-d">
 		                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		                          <h4 class="modal-title">Indique Aqui seu Amigo</h4>
+		                          <h4 class="modal-title centered">Cancelar Participação de Novato</h4>
 		                      </div>
-		                      <div class="modal-body">
-		                          <p>Entre com o e-mail abaixo para resetar sua senha.</p>
-		                          <input type="text" name="email" placeholder="E-mail" autocomplete="off" class="form-control placeholder-no-fix">
-		
+		                      <div class="modal-body centered">
+		                          <p>Você Realmente quer <b>Retirar</b> esse Novato da Atividade dessa Semana?</p>		                       	
 		                      </div>
+		                      <form action="/polo/retirar/novato" method="post">
 		                      <div class="modal-footer">
-		                          <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
-		                          <button class="btn btn-theme" type="button">Enviar</button>
+		                      
+		                       	<input hidden type="number" name="registro" id="idRegistro" >
+		                       	<input hidden type="number" name="voluntario" id="idNovato" >
+		                       
+		                       
+		                          <button data-dismiss="modal" class="btn btn-default" type="button">Fechar</button>
+		                          <button class="btn btn-danger" type="submit">Confirmar Retirada</button>
 		                      </div>
+		                      </form>
 		                  </div>
 		              </div>
 		          </div>
@@ -194,6 +202,15 @@
 		});
 		
 		$('.select2').select2();
+		
+		function modalRetirar(registro, novato) {
+		
+          $('#modalNovatosInscrito').modal('toggle');
+          
+       	  $("#idRegistro").val(registro);
+       	  $("#idNovato").val(novato);
+          
+        };
 		
 	</script>
 

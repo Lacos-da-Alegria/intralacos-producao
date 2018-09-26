@@ -1,6 +1,5 @@
 package com.lacosdaalegria.intralacos.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,16 +10,17 @@ import com.lacosdaalegria.intralacos.repository.atividade.HospitalRepository;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class HospitalService {
 	
-	@Autowired
-	HospitalRepository repository;
-	@Autowired
-	VoluntarioRepository voluntario;
-	@Autowired
-	private S3 s3;
+	private @NonNull HospitalRepository repository;
+	private @NonNull VoluntarioRepository voluntario;
+	private @NonNull S3 s3;
 	
 	public Iterable<Hospital> getAllActive(){
 		return repository.findByStatus(1);

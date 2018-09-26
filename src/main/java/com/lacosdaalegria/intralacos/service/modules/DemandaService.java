@@ -1,46 +1,45 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
 import org.hibernate.Hibernate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lacosdaalegria.intralacos.model.demanda.Demanda;
 import com.lacosdaalegria.intralacos.model.demanda.Nota;
 import com.lacosdaalegria.intralacos.model.recurso.Equipe;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.demanda.DemandaRepository;
 import com.lacosdaalegria.intralacos.repository.demanda.NotaRepository;
 import com.lacosdaalegria.intralacos.repository.recurso.DiretoriaRepository;
 import com.lacosdaalegria.intralacos.repository.recurso.EquipeRepository;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class DemandaService {
 	
-	@Autowired
-	private EquipeRepository equipe;
-	@Autowired
-	private DemandaRepository demanda;
-	@Autowired
-	private NotaRepository nota;
-	@Autowired
-	private VoluntarioService vService;
-	@Autowired
-	private DiretoriaRepository diretoria;
+	private @NonNull EquipeRepository equipe;
+	private @NonNull DemandaRepository demanda;
+	private @NonNull NotaRepository nota;
+	private @NonNull VoluntarioService vService;
+	private @NonNull DiretoriaRepository diretoria;
 	
 	public Equipe getEquipe(Voluntario voluntario) {
 		return equipe.findByMembrosOrLider(voluntario, voluntario);
 	}
 	
 	public Equipe addMembro(Equipe equipe, String email) {
-		Voluntario membro = vService.addRole(email, "ROLE_DEMANDA");
+		Voluntario membro = vService.addRole(email, RoleEnum.DEMANDA);
 		equipe.addMembro(membro);
 		return this.equipe.save(equipe);
 	}
 	
 	public Equipe removeMembro(Equipe equipe, Voluntario membro) {
-		vService.removeRole(membro, "ROLE_DEMANDA");
+		vService.removeRole(membro, RoleEnum.DEMANDA);
 		equipe.removeMembro(membro);
 		return this.equipe.save(equipe);
 	}

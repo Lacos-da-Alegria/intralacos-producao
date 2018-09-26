@@ -38,12 +38,7 @@ public class Grupo {
 	private Integer status = 1;
 	
 	public void removeAtendete(Voluntario voluntario) {
-		for(Voluntario v : atendentes) {
-			if(v.getId().equals(voluntario.getId())) {
-				atendentes.remove(v);
-				break;
-			}
-		}
+		atendentes.removeIf(a -> a.getId().equals(voluntario.getId()));
 	}
 
 }

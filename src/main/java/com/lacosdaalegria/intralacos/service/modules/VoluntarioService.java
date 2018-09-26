@@ -1,11 +1,17 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,68 +28,152 @@ import com.lacosdaalegria.intralacos.model.MaisLacos;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
 import com.lacosdaalegria.intralacos.model.usuario.ResetToken;
 import com.lacosdaalegria.intralacos.model.usuario.Role;
+import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.repository.usuario.ResetTokenRepository;
 import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
 import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
 
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class VoluntarioService {
 	
-	@Autowired
-	private VoluntarioRepository repository;
-	@Autowired
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	@Autowired
-	private S3 s3;
-	@Autowired
-	private ResetTokenRepository token;
-	@Autowired
-	private RoleRepository role;
-	
+	private @NonNull VoluntarioRepository repository;
+	private @NonNull BCryptPasswordEncoder bCryptPasswordEncoder;
+	private @NonNull S3 s3;
+	private @NonNull ResetTokenRepository token;
+	private @NonNull RoleRepository role;
+
+	@Transactional
 	public void registerVoluntario(Voluntario voluntario) {
 		
 		voluntario.setSenha(bCryptPasswordEncoder.encode(voluntario.getSenha()));
-		
-		voluntario.addRole(getRole("ROLE_ACEITE"));
-		
-		repository.save(voluntario);
+
+		voluntario  = repository.save(voluntario);
+
+		addRole(voluntario, RoleEnum.ACEITE);
 	}
 	
-	public void duplicidadeInfo(Voluntario v, BindingResult result) {
+	
+	/* ==========================================================
+	 * ================ Bloco de Verificações ===================
+	   ==========================================================*/
+	
+	public void verificaInfo(Voluntario v, BindingResult result) {
+		
+		verificaDuplicidade(v, result);
+		verificarAtualizar(v, result);
+		verificaLogin(v, result);
+		verificaSenha(v, result);
+	}
+	
+	public void verificaInfoSustentancao(Voluntario v, BindingResult result) {
+		verificaDuplicidade(v, result);
+		verificaLogin(v, result);
+	}
+	
+	public void verificarAtualizar(Voluntario v, BindingResult result) {
+		verificaNascimento(v, result);
+		verificaWhats(v, result);
+	}
+	
+	private void verificaDuplicidade(Voluntario v, BindingResult result) {
+		
 		Iterable<Voluntario> voluntarios = repository.
 				findByEmailOrLoginOrWhatsappOrCpf(v.getEmail(), v.getLogin(), v.getWhatsapp(), v.getCpf());
+		
 		if(voluntarios != null) {
 			for(Voluntario vol : voluntarios) {
 				v.verificaDuplicidade(vol, result);
 			}
 		}
+		
 	}
+	
+	private void verificaNascimento(Voluntario voluntario, BindingResult result) {
+		
+		if (!voluntario.getNascimento().matches("\\d{2}/\\d{2}/\\d{4}")) {
+			result.rejectValue("nascimento", "erro");
+			return;
+		}
+		
+		try {
+			
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			formatter.setLenient(false);
+			formatter.parse(voluntario.getNascimento());
+			
+		} catch(ParseException e) {
+			result.rejectValue("nascimento", "erro");
+		}
+		
+	}
+	
+	private void verificaLogin(Voluntario voluntario, BindingResult result) {
+		
+		Pattern p = Pattern.compile("[^A-Za-z0-9]");
+		Matcher m = p.matcher(voluntario.getLogin());
+		boolean b = m.find();
+		
+		if (b == true || voluntario.getLogin().contains(" ")){
+			result.rejectValue("login", "invalido");
+		}
+		
+	}
+	
+	private void verificaSenha(Voluntario voluntario, BindingResult result) {
+		if (!voluntario.getSenha().equals(voluntario.getConfirmaSenha())){
+			result.rejectValue("senha", "invalida");
+		}
+	}
+	
+	private void verificaWhats(Voluntario voluntario, BindingResult result) {
+		
+		String regex = "\\d+";
+
+		if(!voluntario.getDdd().matches(regex)) {
+			result.rejectValue("ddd", "invalido");
+		}
+		
+		if(!voluntario.getWhatsapp().matches(regex)) {
+			result.rejectValue("whatsapp", "invalido");
+		}
+		
+	}
+	
+	/* ==========================================================
+	 * ============== Fim Bloco de Verificações =================
+	   ==========================================================*/
 	
 	public void createRole(String papel) {
 		Role role = new Role();
 		role.setRole("ROLE_"+papel);
 		this.role.save(role);
 	}
-	
+
+	@Transactional
 	public Voluntario promoteNovato(Voluntario voluntario){
 
-		removeRole(voluntario, "ROLE_NOVATO");
-		addRole(voluntario, "ROLE_VOLUNTARIO");
+		removeRole(voluntario, RoleEnum.NOVATO);
+		addRole(voluntario, RoleEnum.VOLUNTARIO);
 		
 		voluntario.setPromovido(true);
 		voluntario.setObservacao("Voluntário promovido - " + new Date());
+
 		return repository.save(voluntario);
 	}
-	
+
+	@Transactional
 	public void desativaNovato(Voluntario voluntario){
 		voluntario.setStatus(2);
 		voluntario.setObservacao("Novato não foi na atividade confirmada!");
 		repository.save(voluntario);
 	}
-	
 	
 	/*
 	 * ======================================================================================
@@ -94,7 +184,8 @@ public class VoluntarioService {
 	public Integer getPosicao(Voluntario novato) {
 		return repository.findPosicaoFila(novato.getDtCriacao(), novato.getPreferencia());
 	}
-	
+
+	@Transactional
 	public void updatePreferencia(Voluntario novato, Hospital hospital) {
 		novato.setPreferencia(hospital);
 		repository.save(novato);
@@ -106,10 +197,7 @@ public class VoluntarioService {
 	}
 	
 	public void admin(Voluntario voluntario) {
-		
-		voluntario.addRole(getRole("ROLE_ADMIN"));
-		
-		repository.save(voluntario);
+		this.addRole(voluntario, RoleEnum.ADMIN);
 	}
 	
 	public void initMaisLacos(MaisLacos maisLacos, Voluntario voluntario) {
@@ -120,64 +208,94 @@ public class VoluntarioService {
 	public Voluntario findByEmail(String email) {
 		return repository.findByEmail(email);
 	}
-	
+
+	@Transactional
 	public void aceitaTermo(Voluntario voluntario) {
 		
-		addRole(voluntario, "ROLE_NOVATO");
-		removeRole(voluntario, "ROLE_ACEITE");
+		this.addRole(voluntario, RoleEnum.NOVATO);
+		this.removeRole(voluntario, RoleEnum.ACEITE);
 		
 		voluntario.setAceitaTermo(true);
 		
-		updateRole("ROLE_NOVATO");
+		updateRole(RoleEnum.NOVATO);
 		
 		repository.save(voluntario);
 		
 	}
-	
-	public Voluntario addRole(String email, String role) {
 
-		Voluntario voluntario = repository.findByEmail(email);
-		
-		voluntario.getRoles().add(getRole(role));
-		
+	@Transactional
+	public Voluntario addRole(Voluntario voluntario, RoleEnum roleEnum) {
+
+	    Set<Role> roles = treatRoles(voluntario.getRoles(), roleEnum);
+	 
+        roles.add(getRole(roleEnum));
+
+		voluntario.setRoles(roles);
+
 		return repository.save(voluntario);
 	}
 	
-	public Voluntario addRole(Voluntario voluntario, String role) {
-		voluntario.getRoles().add(getRole(role));
+	private Set<Role> treatRoles(Set<Role> roles, RoleEnum roleEnum){
+		
+		 if(roles != null) {
+		        roles.removeIf(r -> r.getId().equals(roleEnum.getCodigo()));
+		 	} else {
+		        roles = new HashSet<>();
+		 	}
+		 
+		 return roles;
+	}
+
+	@Transactional
+    public Voluntario addRole(String email, RoleEnum roleEnum) {
+
+	    Voluntario voluntario = repository.findByEmail(email);
+
+	    return addRole(voluntario, roleEnum);
+    }
+
+	@Transactional
+    public Voluntario removeRole(Voluntario voluntario, RoleEnum roleEnum) {
+
+        Set<Role> roles = voluntario.getRoles();
+
+        roles.removeIf(r -> r.getId().equals(roleEnum.getCodigo()));
+
+        voluntario.setRoles(roles);
+
 		return repository.save(voluntario);
+
 	}
-	
-	public void removeRole(Voluntario voluntario, String role) {
-		voluntario.removeRole(role);
-		repository.save(voluntario);
-	}
-	
+
+	@Transactional
 	public Voluntario getByLogin(String login) {
 		return repository.findByLogin(login);
 	}
 	
+	@Transactional
 	public void updateUserInfo(Voluntario voluntario, Voluntario update) {
 		voluntario.updateInfo(update);
 		repository.save(voluntario);
 	}
 	
+	@Transactional
 	public void updateUserSustentacao(Voluntario voluntario) {
 		Voluntario v = repository.findById(voluntario.getId()).get();
 		v.updateInfoSustentacao(voluntario);
 		repository.save(v);
 	}
 	
+	@Transactional
 	public void updateProfile(MultipartFile file, Voluntario voluntario) {
 		String profile = s3.carregaImagem("pic", voluntario.getId().toString(), file);
 		voluntario.setProfile("https://s3-us-west-2.amazonaws.com/elasticbeanstalk-us-west-2-318693850464/" + profile);
 		repository.save(voluntario);
 	}
 	
-	private void updateRole(String role) {
+	private void updateRole(RoleEnum roleEnum) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		List<GrantedAuthority> updatedAuthorities = new ArrayList<>(auth.getAuthorities());
-		updatedAuthorities.add(new SimpleGrantedAuthority(role)); 
+		updatedAuthorities.add(new SimpleGrantedAuthority(roleEnum.getPapel()));
 		Authentication newAuth = new UsernamePasswordAuthenticationToken(auth.getPrincipal(), auth.getCredentials(), updatedAuthorities);
 		SecurityContextHolder.getContext().setAuthentication(newAuth);
 	}
@@ -185,26 +303,30 @@ public class VoluntarioService {
 	public Iterable<Voluntario> aniversariantes(){
 		return repository.findByNascimentoLikeAndStatus(dia()+"/"+mes()+"%", 1);
 	}
-	
+
+	@Transactional
 	public void addResponsavel(Voluntario voluntario, Voluntario responsavel) {
 		if(voluntario.getResponsavel() == null) {
 			voluntario.setResponsavel(responsavel);
 			repository.save(voluntario);
 		}
 	}
-	
+
+	@Transactional
 	public void removeReponsavel(Voluntario voluntario) {
 		voluntario.setResponsavel(null);
 		repository.save(voluntario);
 	}
-	
+
+	@Transactional
 	public void atualizarObservacao(Voluntario voluntario, Voluntario responsavel, String observacao) {
 		if(responsavel.getId().equals(voluntario.getResponsavel().getId())) {
 			voluntario.setObservacao(observacao);
 			repository.save(voluntario);
 		}
 	}
-	
+
+	@Transactional
 	public void desativarNovato(Voluntario voluntario, Voluntario responsavel, String observacao) {
 		if(responsavel.getId().equals(voluntario.getResponsavel().getId())) {
 			voluntario.setObservacao(observacao);
@@ -212,7 +334,8 @@ public class VoluntarioService {
 			repository.save(voluntario);
 		}
 	}
-	
+
+	@Transactional
 	public ResetToken createToken(Voluntario voluntario) {
 		ResetToken token = new ResetToken();
 		token.setVoluntario(voluntario);
@@ -279,9 +402,14 @@ public class VoluntarioService {
 		}
 	}
 	
-	public Role getRole(String role) {
-		return this.role.findByRole(role);
+	public Role getRole(RoleEnum roleEnum) {
+		return this.role.findById(roleEnum.getCodigo()).orElse(null);
 	}
+	
+	
+	/*
+	 * ==================================================================================================================
+	 */
 	
 	//Migrar regras de datas para classe Calendario
 	private Date vencimentoToken() {
