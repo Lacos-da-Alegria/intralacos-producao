@@ -33,23 +33,27 @@
 				
 		         	<h2 class="centered">Seja Bem Vindo ao Laços da Alegria!</h2><br>
 
-					<ul class="nav nav-pills" th:if="${#lists.size(acoes) > 0 }">
-						<li class="active"><a data-toggle="pill" href="#home">Home</a></li>
-						<li ><a data-toggle="pill" href="#acoes">Ong's <span class="badge bg-important" th:text="${#lists.size(acoes)}"></span></a></li>
+					<ul class="nav nav-pills">
+						<li th:if="${#lists.size(acoes) > 0 }" id="stepOfHome" class="active" data-step='5' data-intro="Agora hospitais!"><a id="stepPillHome" data-toggle="pill" href="#home">Home</a></li>
+						<li th:if="${#lists.size(acoes) > 0 }" id="stepOfOngs" data-step='2' data-intro="Enquanto espera para visitar em hospitais, também temos diversas ações em ong's levando alegria e amor para todo o DF"><a id="stepPillOngs" data-toggle="pill" href="#acoes">Ong's <span class="badge bg-important" th:text="${#lists.size(acoes)}"></span></a></li>
+					
+						<li class="pull-right"><button class="btn" onclick="iniciaTour()"><i class="fa fa-eye" aria-hidden="true"></i> Iniciar Tutorial</button></li>
 					</ul>
+					
+					
 					  
 					<div class="tab-content">
                   	
                   	<div id="home" class="tab-pane fade in active row mt">
                   	
-                  		<div class="col-lg-3 col-md-3 col-sm-3 mb">
+                  		<div class="col-lg-3 col-md-3 col-sm-3 mb" data-step='6' data-intro="Todos temos que começar por algum lugar. Aqui não é diferente, mas você pode alterar o hospital que você deseja começar para ter a menor fila :p">
 							<div class="weather-3 pn centered">
 								<i class="fa fa-hand-spock-o"></i>
 								<h1 th:text="${@userInfo.getPosicao()+'º'}"></h1>
 								<div class="info">
 									<div class="row">
 										<div class="dropdown">
-											<h3 class="centered dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><span th:text="${@userInfo.getVoluntario().getPreferencia().getTag()}"></span> <i class="fa fa-caret-square-o-down"></i></h3>
+											<h3 data-step='7' data-intro="So clicar para mudar a preferência do seu primeiro hospital" class="centered dropdown-toggle" style="cursor:pointer;" data-toggle="dropdown"><span th:text="${@userInfo.getVoluntario().getPreferencia().getTag()}"></span> <i class="fa fa-caret-square-o-down"></i></h3>
 											<ul class="dropdown-menu" style="margin-left:18%">
 										      <li th:each="h : ${hospitais}" th:if="${@userInfo.getVoluntario().getPreferencia().getId() != h.id}"><a th:href="${'/novato/atualizar/preferencia?hospital='+h.id}" th:text="${h.nome}"></a></li>
 										    </ul>
@@ -61,7 +65,9 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-lg-3 col-md-3 col-sm-3 mb">
+						
+						
+						<div class="col-lg-3 col-md-3 col-sm-3 mb" data-step='8' data-intro="Aqui temos diversas informações importantes para você. Caso tenha mais alguma dúvida é só ir no menu na opção 'Informações Importantes'. Caso a dúvida persista entre em contato conosco na opção do menu 'Fale Conosco' e sempre é possível aprender mais na opção 'Vamos Aprender'. Estamos te esperando.">
 							<div id="myCarousel" class="carousel slide" data-ride="carousel">
 							    <!-- Indicators -->
 							    <ol class="carousel-indicators">
@@ -102,10 +108,10 @@
 					<div id="acoes" class="tab-pane fade row mt">
 						<!-- Inicio Card Atividade Ongs -->	
 						<input type="hidden" id="novato_ongs" th:value="${novato_ongs}">
-						<div th:each="acao : ${acoes}" th:id="'div-acao-'+ ${acao.id}" class="col-lg-3 col-md-3 col-sm-3 mb" >
-							<div class="content-panel pn">
+						<div th:each="acao, iter : ${acoes}" th:id="'div-acao-'+ ${acao.id}" class="col-lg-3 col-md-3 col-sm-3 mb" >
+							<div id="stepOngs" data-step='3' data-intro="Essa é uma ação do Laços caso queira participar, só clicar no botão verde ali embaixo. Claro não se esqueça de cancelar caso não vá!" class="content-panel pn">
 								<div class="col-xs-4 col-xs-offset-8">
-									<button class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getAgendaInfo('+${acao.id}+')'">INFO</button>
+									<button data-step='4' data-intro="Para mais informações é so clicar aqui! Te onde será a ação, horário, responsável e até o grupo do whatsapp atividade." class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getAgendaInfo('+${acao.id}+')'">INFO</button>
 								</div>
 								<div id="profile-01" th:style="'background-image: url('+${acao.instituicao.imagem()}+'); background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
 									<br><h3 class="with-shadow" th:text="${acao.nome}"></h3>
@@ -128,39 +134,39 @@
 					
 					</div>
 					
-					 <div class="row">
+					 <div data-step='9' data-intro="Aqui temos alguns números que mostram o tamanho da nossa família" class="row">
 					 
 					 <br><h1 class= "centered">Mais Laços!</h1><br>
 					 
-                  		<div class="col-md-2 col-sm-2 col-md-offset-1 box0">
+                  		<div class="col-md-2 col-sm-2 col-md-offset-1 box0" data-step='10' data-intro="Nossos número de voluntários!">
                   			<div class="box1">
 					  			<span class="li_heart"></span>
 					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getVoluntarios(),0,'POINT')}"></h3>
                   			</div>
 					  			<p>Hoje o Laços da Alegria conta com <span th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getVoluntarios(),0,'POINT')}"></span> lindos voluntários!</p>
                   		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
+                  		<div class="col-md-2 col-sm-2 box0" data-step='11' data-intro="Assim como você esses são novatos que estão esperando para entrar!">
                   			<div class="box1">
 					  			<span class="li_star"></span>
 					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getNovatos(),0,'POINT')}"></h3>
                   			</div>
 					  			<p>Nos temos <span th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getNovatos(),0,'POINT')}"></span> novatinhos esperando para entrar para nossa família!</p>
                   		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
+                  		<div class="col-md-2 col-sm-2 box0" data-step='12' data-intro="Aqui você pode ver quantas visitas a hospitais você irá s2">
                   			<div class="box1">
 					  			<span class="li_fire"></span>
 					  			<h3>0</h3>
                   			</div>
 					  			<p>Como é bom começar, pronto para a sua primeira visita?</p>
                   		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
+                  		<div class="col-md-2 col-sm-2 box0" data-step='13' data-intro="E aqui as visitas nas maravilhosas ONG's">
                   			<div class="box1">
 					  			<span class="li_diamond"></span>
 					  			<h3>0</h3>
                   			</div>
 					  			<p>Esperando ansiosos por você em uma de nossas ações. Elas são simplesmente maravilhosas!</p>
                   		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
+                  		<div class="col-md-2 col-sm-2 box0" data-step='14' data-intro="E somando a nossa força e em todas as ações temos esse tantão de hora só esse ano!">
                   			<div class="box1">
 					  			<span class="li_lab"></span>
 					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getHoras(),0,'POINT')}"></h3>
@@ -327,6 +333,24 @@
 	<a th:if="${session.vindas}" id="hidden_link" data-fancybox href="https://www.youtube.com/watch?v=6xi2aZGSAtY?autoplay=1"></a>
 	
     <script src="/assets/js/custom/novato-home.js"></script>
+    
+    <script>
+    	function iniciaTour(){
+    		
+		    introJs().setOptions({'skipLabel': 'Fechar', 'prevLabel': 'Voltar', 'nextLabel': 'Próximo', 'doneLabel': 'Pronto'}).onbeforechange(function(targetElement) {
+				
+				if(targetElement.id == 'stepOfOngs'){
+					$('#stepPillOngs').click();				
+				}
+				
+				if(targetElement.id == 'stepOfHome'){
+					$('#stepPillHome').click();				
+				}
+
+			}).start();
+		    
+		};
+    </script>
     
      <script th:if="${@userInfo.isFaltante()}">
         $(document).ready(function () {

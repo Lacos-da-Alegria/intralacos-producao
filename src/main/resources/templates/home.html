@@ -34,9 +34,10 @@
 				  
 				  <h1 class= "centered">Atividades dessa Semana!</h1>
 				  
-				  <ul class="nav nav-pills" th:if="${#lists.size(acoes) > 0 }">
-				    <li class="active"><a data-toggle="pill" href="#hospitais">Hospitais</a></li>
-				    <li ><a data-toggle="pill" href="#acoes">Ong's <span class="badge bg-important" th:text="${#lists.size(acoes)}"></span></a></li>
+				  <ul class="nav nav-pills">
+				    <li id="stepOfHome" data-step='2' data-intro="Nossos hospitais!" class="active"><a id="stepPillHome" data-toggle="pill" href="#hospitais">Hospitais</a></li>
+				    <li id="stepOfOngs" data-step='7' data-intro="E é só clicar aqui para ver todas atividades em ONG's que vamos ter por todo o DF!" ><a id="stepPillOngs" data-toggle="pill" href="#acoes">Ong's <span class="badge bg-important" th:text="${#lists.size(acoes)}"></span></a></li>
+				    <li class="pull-right"><button class="btn" onclick="iniciaTour()"><i class="fa fa-eye" aria-hidden="true"></i> Iniciar Tutorial</button></li>
 				  </ul>
 				  
 		 <div class="tab-content">
@@ -45,21 +46,21 @@
          <!-- Comeca a logica chosse when dos botoens de participacao das atividades -->
          
 			<!-- Inicio Card Atividade Hospital -->	
-			<div th:each="hospital : ${hospitais}" th:id="'div-hospital-'+ ${hospital.id}" class="col-lg-3 col-md-3 col-sm-3 mb">
+			<div data-step='3' data-intro="Cada caixinha dessa é uma atividade de hospitais! Você pode participar de qualquer um, sempre que quiser e poder! Não custa lembrar sempre que não poder ir na atividade lembre-se de cancelar!" th:each="hospital : ${hospitais}" th:id="'div-hospital-'+ ${hospital.id}" class="col-lg-3 col-md-3 col-sm-3 mb">
 				<div class="content-panel pn">
 					<div class="col-xs-4 col-xs-offset-8">
-						<button class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getHospitalInfo('+${hospital.id}+')'">INFO</button>
+						<button data-step='4' data-intro="Clicando aqui você consegue mais informações sobre a atividade." class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getHospitalInfo('+${hospital.id}+')'">INFO</button>
 					</div>
 					<div id="profile-01" th:style="'background-image: url('+${hospital.imageHospital()}+'); background-size: cover; background-repeat: no-repeat; background-position: 50% 50%;'">
 						<br><h3 class="with-shadow" th:text="${hospital.tag}"></h3>
 					</div>
 						<span hidden th:id="'hospital-' + ${hospital.id}" th:data-situacao="${hospital.situacao}"></span>
-						<a th:onclick="'registroHospital('+${hospital.id}+')'" >
+						<a data-step='5' data-intro="Aqui você clica para participar e cancelar. Só não será possivel se inscrever ou cancelar caso exista conflito de horário ou o período de isncrição já tenha acabado." th:onclick="'registroHospital('+${hospital.id}+')'" >
 							<div th:id="'corH-' + ${hospital.id}" class="centered profile-01l">								
 								<p th:id="'textoH-' + ${hospital.id}"><i class="fa fa-spinner fa-pulse fa-fw"> </i> Carregando</p>
 							</div>
 						</a>
-					<div class="centered">
+					<div data-step='6' data-intro="Aqui apartir de quarta-feira você tem informações sobre se foi sortiado para a atividado ou a sua posição na fila de espera!" class="centered">
 						<h6>
 							<span th:id="${rodada ? '' : 'iconA-' + hospital.id}"><i class="fa li_paperplane"></i></span>
 			 			<br><span th:text="${hospital.nome}"></span></h6>
@@ -76,7 +77,7 @@
          <!-- Comeca a logica chosse when dos botoens de participacao das atividades -->
          
 				<!-- Inicio Card Atividade Ongs -->	
-				<div th:each="acao : ${acoes}" th:id="'div-acao-'+ ${acao.id}" class="col-lg-3 col-md-3 col-sm-3 mb" >
+				<div data-step='8' data-intro="Aqui estão todas atividades nas ONG's. Aqui funciona igualzinho aos hospitais!" th:each="acao : ${acoes}" th:id="'div-acao-'+ ${acao.id}" class="col-lg-3 col-md-3 col-sm-3 mb" >
 					<div class="content-panel pn">
 						<div class="col-xs-4 col-xs-offset-8">
 							<button class="btn btn-clear-g with-shadow" data-toggle="modal" th:onclick="'getAgendaInfo('+${acao.id}+')'">INFO</button>
@@ -104,39 +105,39 @@
                    </div>
                    </div>		
 					
-					<div class="row">
+					<div data-step='9' data-intro="Aqui temos alguns números que mostram o tamanho da nossa família" class="row">
 						
 						<h1 class= "centered">Mais Laços!</h1><br>
 				
-                  		<div class="col-md-2 col-sm-2 col-md-offset-1 box0">
+                  		<div class="col-md-2 col-sm-2 col-md-offset-1 box0" data-step='10' data-intro="Assim como vocês nós temos outros maravilhosos voluntários!">
                   			<div class="box1">
 					  			<span class="li_heart"></span>
 					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getVoluntarios(),0,'POINT')}"></h3>
                   			</div>
 					  			<p>Hoje o Laços da Alegria conta com <span th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getVoluntarios(),0,'POINT')}"></span> lindos voluntários!</p>
                   		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
+                  		<div class="col-md-2 col-sm-2 box0" data-step='11' data-intro="Aqui temos os nossos lindos novatos que estão ansiosos para entrar para família!">
                   			<div class="box1">
 					  			<span class="li_star"></span>
 					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getNovatos(),0,'POINT')}"></h3>
                   			</div>
 					  			<p>Nos temos <span th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getNovatos(),0,'POINT')}"></span> novatinhos esperando para entrar para nossa família!</p>
                   		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
+                  		<div class="col-md-2 col-sm-2 box0" data-step='12' data-intro="Aqui você pode ver quantas visitas a hospitais você irá s2">
                   			<div class="box1">
 					  			<span class="li_diamond"></span>
 					  			<h3 th:text="${@userInfo.getMaisLacos().getHospitais()}"></h3>
                   			</div>
 					  			<p>Você já fez incriveis <span th:text="${@userInfo.getMaisLacos().getHospitais()}"></span> visitas aos nossos lindos hospitais! Que maravilhoso <i class="fa fa-heart" aria-hidden="true"></i></p>
                   		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
+                  		<div class="col-md-2 col-sm-2 box0" data-step='13' data-intro="E aqui as visitas nas maravilhosas ONG's.">
                   			<div class="box1">
 					  			<span class="li_fire"></span>
 					  			<h3 th:text="${@userInfo.getMaisLacos().getOngs()}"></h3>
                   			</div>
 					  			<p>Você não para hein! Já foi em <span th:text="${@userInfo.getMaisLacos().getOngs()}"></span> ações e muitas mais virão!</p>
                   		</div>
-                  		<div class="col-md-2 col-sm-2 box0">
+                  		<div class="col-md-2 col-sm-2 box0" data-step='14' data-intro="E somando a nossa força e em todas as ações temos esse tantão de hora só esse ano!">
                   			<div class="box1">
 					  			<span class="li_lab"></span>
 					  			<h3 th:text="${#numbers.formatInteger(@userInfo.getMaisLacos().getHoras(),0,'POINT')}"></h3>
@@ -767,7 +768,23 @@
 			});
 			
 			return request;
-		}
+		};
+		
+		function iniciaTour(){
+    		
+		    introJs().setOptions({'skipLabel': 'Fechar', 'prevLabel': 'Voltar', 'nextLabel': 'Próximo', 'doneLabel': 'Pronto'}).onbeforechange(function(targetElement) {
+				
+				if(targetElement.id == 'stepOfOngs'){
+					$('#stepPillOngs').click();				
+				}
+				
+				if(targetElement.id == 'stepOfHome'){
+					$('#stepPillHome').click();				
+				}
+
+			}).start();
+		    
+		};
     
     </script>
     

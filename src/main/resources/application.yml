@@ -9,18 +9,17 @@ spring:
   jpa:
     properties:
       hibernate: 
-        dialect: org.hibernate.dialect.MySQL5Dialect
-        show_sql: true
+        dialect: org.hibernate.dialect.MySQL5Dialect 
     hibernate:  
-      ddl-auto: validate
+      ddl-auto: update
   queries:
     users-query: select login, senha, status from voluntario where login=?
     roles-query: select u.login, r.role from voluntario u inner join voluntario_roles ur on(u.id=ur.voluntario_id) inner join role r on(ur.roles_id=r.id) where u.login=?
   mail:
     host: smtp.gmail.com
     port: 465
-    username: intralacos@gmail.com
-    password: 123465qw
+    username: contato@email.com
+    password: password
     properties:
       mail:
         smtp:
