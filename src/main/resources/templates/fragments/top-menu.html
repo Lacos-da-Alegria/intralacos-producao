@@ -22,7 +22,7 @@
               <!-- inbox dropdown start-->
               
                <li class="dropdown tooltips" data-placement="left" data-original-title="Ir para Ouvidoria">
-                  <a class="dropdown-toggle" href="/info/ouvidoria">
+                  <a class="dropdown-toggle" href="/info/ouvidoria" data-step='1' data-intro="Qualquer dúvida é só ir aqui e abrir um atendimento!">
                       <i class="fa li_bubble" ></i>                     
 					  <span th:if="${@userInfo.getRespostas() > 0}" class="button__badge blink" th:text="${@userInfo.getRespostas()}"></span>	                                                     
                   </a>
