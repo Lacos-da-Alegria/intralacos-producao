@@ -1,13 +1,5 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.ongs.Instituicao;
@@ -22,9 +14,13 @@ import com.lacosdaalegria.intralacos.repository.ongs.PoloRepository;
 import com.lacosdaalegria.intralacos.repository.ongs.TagRepository;
 import com.lacosdaalegria.intralacos.repository.s3.S3;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
-
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.transaction.Transactional;
+import java.util.Date;
 
 @Service
 @Transactional
@@ -123,7 +119,7 @@ public class OngsService {
 	}
 	
 	public Iterable<Agenda> getAgenda(Polo polo){
-		return agenda.findByPolo(polo, addMonth(-1));
+		return agenda.findByPolo(polo, Global.addMonth(-1));
 	}
 	
 	public Iterable<Agenda> getChamadas(Polo polo){
@@ -135,7 +131,7 @@ public class OngsService {
 	}
 
 	public Iterable<Agenda> calendarioAcoes(){
-		return agenda.findByHorarioBetweenAndStatus(addMonth(-1), addMonth(3), 1);
+		return agenda.findByHorarioBetweenAndStatus(Global.addMonth(-1), Global.addMonth(3), 1);
 	}
 	
 	public Iterable<Agenda> getAcoesAtivas(){
@@ -157,7 +153,7 @@ public class OngsService {
 	}
 	
 	private Iterable<Agenda> getAcoesEssaSemana(){
-		return agenda.findByHorarioBetweenAndStatus(new Date(), addDays(7), 1);
+		return agenda.findByHorarioBetweenAndStatus(new Date(), Global.addDays(7), 1);
 	}
 	
 	public void saveAllAgendas(Iterable<Agenda> agendas) {
@@ -174,18 +170,5 @@ public class OngsService {
 		this.instituicao.save(instituicao);
 	}
 	
-	private Date addDays(Integer day) {
-		Calendar c = Calendar.getInstance(); 
-		c.setTime(new Date()); 
-		c.add(Calendar.DATE, day);
-		return c.getTime();
-	}
-	
-	private Date addMonth(Integer month) {
-		Calendar c = Calendar.getInstance(); 
-		c.setTime(new Date()); 
-		c.add(Calendar.MONTH, month);
-		return c.getTime();
-	}
-	
+
 }
