@@ -15,16 +15,41 @@ public class Global {
 	}
 	
 	public static boolean ehEssaSemana(Date date) {
-		
+		return ehMesmaSemanaENaoDomingo(date) || ehSemanaDiferenteEhDomingoSemanaProxima(date);
+	}
+
+    public static Date addDays(Integer day) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, day);
+        return c.getTime();
+    }
+
+    public static Date addMonth(Integer month) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.MONTH, month);
+        return c.getTime();
+    }
+
+	private static boolean ehMesmaSemanaENaoDomingo(Date date){
+
 		int s1 = getSemanaDoAno(new Date());
 		int s2 = getSemanaDoAno(date);
-		
-		System.out.println(s1 + " - " + s2);
-		
-		if(dia(date) == 1)
-			return false;
-		else
-			return s1 == s2;
+
+		return s1 == s2 && dia(date) != 1;
+	}
+
+	private static boolean ehSemanaDiferenteEhDomingoSemanaProxima(Date date){
+
+		int s1 = getSemanaDoAno(new Date());
+		int s2 = getSemanaDoAno(date);
+
+		return s1 != s2 && dia(date) == 1 && ehProximaSemana(s1, s2);
+	}
+
+	private static boolean ehProximaSemana(int s1, int s2){
+		return Math.abs(s1 -  s2) == 1;
 	}
 	
 	private static int getSemanaDoAno(Date date) {
