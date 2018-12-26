@@ -90,8 +90,7 @@ public class SustentacaoController {
 		vService.verificaInfoSustentancao(voluntario, result);
 
     	if(hasNoErroUpdate(result)) {
-    		vService.updateUserSustentacao(voluntario);
-    		modelAndView.addObject("voluntario", voluntario);
+    		modelAndView.addObject("voluntario", vService.updateUserSustentacao(voluntario));
             modelAndView.addObject("successMessage", "Informações atualizadas com sucesso!");
     	}
     	

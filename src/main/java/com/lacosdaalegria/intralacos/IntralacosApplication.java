@@ -1,5 +1,6 @@
 package com.lacosdaalegria.intralacos;
 
+import lombok.extern.java.Log;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.util.Locale;
 
+@Log
 @EnableScheduling
 @SpringBootApplication
 public class IntralacosApplication {

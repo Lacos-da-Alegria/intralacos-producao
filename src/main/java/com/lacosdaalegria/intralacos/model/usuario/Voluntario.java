@@ -110,7 +110,7 @@ public class Voluntario {
 	@ManyToOne
 	@Getter @Setter	private Voluntario responsavel;
 	@Getter @Setter	private String observacao;
-	
+
 	public String profilePic() {
 		if(profile == null)
 			return "/assets/img/ui-sam.jpg";

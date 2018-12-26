@@ -17,7 +17,7 @@ import com.lacosdaalegria.intralacos.model.atividade.Registro;
 import com.lacosdaalegria.intralacos.model.atividade.Semana;
 import com.lacosdaalegria.intralacos.model.ongs.Agenda;
 import com.lacosdaalegria.intralacos.model.recurso.Coordenador;
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
+import com.lacosdaalegria.intralacos.model.usuario.enuns.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.atividade.ApoioRepository;
 import com.lacosdaalegria.intralacos.repository.atividade.HospitalRepository;

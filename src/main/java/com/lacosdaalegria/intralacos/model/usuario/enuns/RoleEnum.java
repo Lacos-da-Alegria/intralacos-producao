@@ -1,4 +1,4 @@
-package com.lacosdaalegria.intralacos.model.usuario;
+package com.lacosdaalegria.intralacos.model.usuario.enuns;
 
 import lombok.Getter;
 
