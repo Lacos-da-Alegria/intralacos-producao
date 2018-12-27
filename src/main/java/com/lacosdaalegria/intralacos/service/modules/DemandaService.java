@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lacosdaalegria.intralacos.model.demanda.Demanda;
 import com.lacosdaalegria.intralacos.model.demanda.Nota;
 import com.lacosdaalegria.intralacos.model.recurso.Equipe;
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
+import com.lacosdaalegria.intralacos.model.usuario.enuns.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.demanda.DemandaRepository;
 import com.lacosdaalegria.intralacos.repository.demanda.NotaRepository;

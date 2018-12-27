@@ -1,17 +1,24 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import com.google.common.base.Objects;
+import com.lacosdaalegria.intralacos.email.Email;
+import com.lacosdaalegria.intralacos.email.EmailService;
+import com.lacosdaalegria.intralacos.model.MaisLacos;
+import com.lacosdaalegria.intralacos.model.atividade.Hospital;
+import com.lacosdaalegria.intralacos.model.usuario.ControleEntrada;
+import com.lacosdaalegria.intralacos.model.usuario.Role;
+import com.lacosdaalegria.intralacos.model.usuario.UserToken;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
+import com.lacosdaalegria.intralacos.model.usuario.enuns.RoleEnum;
+import com.lacosdaalegria.intralacos.model.usuario.enuns.TokenTypeEnum;
+import com.lacosdaalegria.intralacos.repository.s3.S3;
+import com.lacosdaalegria.intralacos.repository.usuario.ControleEntradaRepository;
+import com.lacosdaalegria.intralacos.repository.usuario.UserTokenRepository;
+import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
+import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
+import com.lacosdaalegria.intralacos.service.HospitalService;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,21 +29,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.common.base.Objects;
-import com.lacosdaalegria.intralacos.model.MaisLacos;
-import com.lacosdaalegria.intralacos.model.atividade.Hospital;
-import com.lacosdaalegria.intralacos.model.usuario.ResetToken;
-import com.lacosdaalegria.intralacos.model.usuario.Role;
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
-import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
-import com.lacosdaalegria.intralacos.repository.s3.S3;
-import com.lacosdaalegria.intralacos.repository.usuario.ResetTokenRepository;
-import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
-import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import static com.lacosdaalegria.intralacos.model.usuario.enuns.StatusEnum.*;
+import static com.lacosdaalegria.intralacos.model.usuario.enuns.TokenTypeEnum.ATIVAR_NOVATO;
+import static com.lacosdaalegria.intralacos.model.usuario.enuns.TokenTypeEnum.RESETAR_SENHA;
 
 @Service
 @Transactional
@@ -46,8 +50,11 @@ public class VoluntarioService {
 	private @NonNull VoluntarioRepository repository;
 	private @NonNull BCryptPasswordEncoder bCryptPasswordEncoder;
 	private @NonNull S3 s3;
-	private @NonNull ResetTokenRepository token;
+	private @NonNull UserTokenRepository token;
 	private @NonNull RoleRepository role;
+	private @NonNull HospitalService hospitalService;
+	private @NonNull ControleEntradaRepository controleEntradaRepository;
+	private @NonNull EmailService emailService;
 
 	@Transactional
 	public void registerVoluntario(Voluntario voluntario) {
@@ -116,7 +123,7 @@ public class VoluntarioService {
 	
 	private void verificaLogin(Voluntario voluntario, BindingResult result) {
 		
-		Pattern p = Pattern.compile("[^A-Za-z0-9]");
+		Pattern p = Pattern.compile("[^a-z0-9]");
 		Matcher m = p.matcher(voluntario.getLogin());
 		boolean b = m.find();
 		
@@ -204,6 +211,7 @@ public class VoluntarioService {
 		maisLacos.setVoluntarios(repository.findTotalVoluntarios());
 		maisLacos.setNovatos(repository.findTotalNovatos());
 	}
+
 	
 	public Voluntario findByEmail(String email) {
 		return repository.findByEmail(email);
@@ -279,10 +287,10 @@ public class VoluntarioService {
 	}
 	
 	@Transactional
-	public void updateUserSustentacao(Voluntario voluntario) {
+	public Voluntario updateUserSustentacao(Voluntario voluntario) {
 		Voluntario v = repository.findById(voluntario.getId()).get();
 		v.updateInfoSustentacao(voluntario);
-		repository.save(v);
+		return repository.save(v);
 	}
 	
 	@Transactional
@@ -312,6 +320,7 @@ public class VoluntarioService {
 		}
 	}
 
+
 	@Transactional
 	public void removeReponsavel(Voluntario voluntario) {
 		voluntario.setResponsavel(null);
@@ -336,9 +345,10 @@ public class VoluntarioService {
 	}
 
 	@Transactional
-	public ResetToken createToken(Voluntario voluntario) {
-		ResetToken token = new ResetToken();
+	public UserToken createResetToken(Voluntario voluntario) {
+		UserToken token = new UserToken();
 		token.setVoluntario(voluntario);
+		token.setTokenType(RESETAR_SENHA.obj());
 		this.token.save(token);
 		return token;
 	}
@@ -364,14 +374,22 @@ public class VoluntarioService {
 	
 	public String resetSenha(String token, String senha, String _senha) {
 		String mensagem = "";
-		ResetToken rToken = this.token.findByTokenAndStatusAndCriacaoGreaterThanEqual(token, 1, vencimentoToken());
+		UserToken rToken = getUserTokenExpires(token, RESETAR_SENHA);
 		if(rToken != null) {
 			mensagem = resetSenha(rToken.getVoluntario(), senha, _senha, rToken);
 		} else 
 			mensagem = "@O token utilizado para resetar a senha é inválido";
 		return mensagem;
 	}
-	
+
+	public UserToken getUserTokenExpires(String token, TokenTypeEnum tokenType){
+		return this.token.findByTokenAndStatusAndCriacaoGreaterThanEqualAndTokenType(token, ATIVO.obj(), vencimentoToken(), tokenType.obj());
+	}
+
+    public UserToken getUserToken(String token, TokenTypeEnum tokenType){
+        return this.token.findByTokenAndStatusAndTokenType(token, ATIVO.obj(), tokenType.obj());
+    }
+
 	public boolean validaSenha(Voluntario voluntario, String senha) {
 		return bCryptPasswordEncoder.matches(senha, voluntario.getSenha());
 	}
@@ -390,11 +408,11 @@ public class VoluntarioService {
 		return repository.findByLogin(valor);
 	}
 	
-	private String resetSenha(Voluntario voluntario, String senha, String senha_, ResetToken token) {
+	private String resetSenha(Voluntario voluntario, String senha, String senha_, UserToken token) {
 		if(Objects.equal(senha, senha_)) {
 			voluntario.setSenha(bCryptPasswordEncoder.encode(senha));
 			repository.save(voluntario);
-			token.setStatus(2);
+			token.setStatus(INATIVO.obj());
 			this.token.save(token);
 			return "Senha atualizada com sucesso!";
 		} else {
@@ -405,8 +423,100 @@ public class VoluntarioService {
 	public Role getRole(RoleEnum roleEnum) {
 		return this.role.findById(roleEnum.getCodigo()).orElse(null);
 	}
+
+
+    /*
+     * ======================================================================================
+     * ====================== Confirmar Participação Novato por Email =======================
+     * ======================================================================================
+     */
 	
-	
+
+    //Rotica para registrar novatos que precisammos enviar o email
+    public void gerarTokenConfirmacaoNovatos(){
+
+        desativarInativos();
+
+        registraAptosParaConfirmacao();
+
+    }
+
+    private void desativarInativos(){
+
+        controleEntradaRepository.findByTokenTypeAndStatus(ATIVO.obj()).forEach(c -> tratarControle(c));
+
+    }
+
+    private void tratarControle(ControleEntrada controleEntrada){
+
+        desativaNovato(controleEntrada.getUserToken().getVoluntario());
+
+        controleEntrada.getUserToken().setStatus(INATIVO.obj());
+        controleEntrada.setStatus(INATIVO.obj());
+
+        controleEntradaRepository.save(controleEntrada);
+
+    }
+
+    private void registraAptosParaConfirmacao(){
+
+        hospitalService.getAllActive()
+                .forEach(h -> repository.novatosAptosConfirmacao(h.getId())
+                        .forEach(v -> gerarRegistroControleEntrada(v)));
+
+    }
+
+    private void gerarRegistroControleEntrada(Voluntario voluntario){
+        controleEntradaRepository.save(ControleEntrada.build(voluntario));
+    }
+
+
+    //Rotina para envio de email
+    public void enviarEmailConfirmacao(){
+        controleEntradaRepository.findByTokenTypeAndStatus(ATIVO.obj())
+                .forEach(c -> emailService.send(Email.build(c.getUserToken())));
+    }
+
+    //Confirmação ou desativação de conta
+    public void confirmarContaAtiva(String token, RedirectAttributes redirectAttrs){
+
+        ControleEntrada controleEntrada = controleEntradaRepository.findByToken(token);
+
+        if(controleEntrada == null){
+            redirectAttrs.addFlashAttribute("errorMessage", "O token informado é inválido");
+        } else {
+
+            controleEntrada.setStatus(CONFIRMADO.obj());
+            controleEntrada.getUserToken().setStatus(INATIVO.obj());
+
+            controleEntradaRepository.save(controleEntrada);
+
+            redirectAttrs.addFlashAttribute("successMessage", "Show, agora é só aguardar que entraremos em contato!");
+
+        }
+
+    }
+
+    public void destivarConta(String token, RedirectAttributes redirectAttrs){
+
+        ControleEntrada controleEntrada = controleEntradaRepository.findByToken(token);
+
+        if(controleEntrada == null){
+            redirectAttrs.addFlashAttribute("errorMessage", "O token informado é inválido");
+        } else {
+
+            controleEntrada.setStatus(SEM_INTERESSE.obj());
+            controleEntrada.getUserToken().setStatus(INATIVO.obj());
+
+            controleEntradaRepository.save(controleEntrada);
+
+            desativaNovato(controleEntrada.getUserToken().getVoluntario());
+
+            redirectAttrs.addFlashAttribute("successMessage", "A sua conta foi desativada com sucesso");
+
+        }
+    }
+
 	/*
 	 * ==================================================================================================================
 	 */

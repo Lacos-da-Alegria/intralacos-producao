@@ -12,7 +12,7 @@ import com.lacosdaalegria.intralacos.model.ouvidoria.Atendimento;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Categoria;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Feedback;
 import com.lacosdaalegria.intralacos.model.ouvidoria.Grupo;
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
+import com.lacosdaalegria.intralacos.model.usuario.enuns.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.modules.OuvidoriaService;
 import com.lacosdaalegria.intralacos.service.modules.VoluntarioService;

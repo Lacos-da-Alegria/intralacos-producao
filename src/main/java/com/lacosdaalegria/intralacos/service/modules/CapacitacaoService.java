@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.lacosdaalegria.intralacos.model.capacitacao.Aula;
 import com.lacosdaalegria.intralacos.model.capacitacao.Educador;
 import com.lacosdaalegria.intralacos.model.capacitacao.Materia;
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
+import com.lacosdaalegria.intralacos.model.usuario.enuns.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.repository.capacitacao.AulaRepository;
 import com.lacosdaalegria.intralacos.repository.capacitacao.EducadorRepository;

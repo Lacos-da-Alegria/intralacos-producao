@@ -25,7 +25,7 @@ import com.lacosdaalegria.intralacos.model.ongs.Instituicao;
 import com.lacosdaalegria.intralacos.model.ongs.Polo;
 import com.lacosdaalegria.intralacos.model.ongs.Tag;
 import com.lacosdaalegria.intralacos.model.usuario.Regiao;
-import com.lacosdaalegria.intralacos.model.usuario.RoleEnum;
+import com.lacosdaalegria.intralacos.model.usuario.enuns.RoleEnum;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
 import com.lacosdaalegria.intralacos.service.modules.AtividadeService;

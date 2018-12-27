@@ -3,6 +3,8 @@ package com.lacosdaalegria.intralacos.controller.modules;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.lacosdaalegria.intralacos.email.Email;
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.lacosdaalegria.intralacos.email.EmailService;
 import com.lacosdaalegria.intralacos.model.Global;
 import com.lacosdaalegria.intralacos.model.atividade.Hospital;
-import com.lacosdaalegria.intralacos.model.usuario.ResetToken;
+import com.lacosdaalegria.intralacos.model.usuario.UserToken;
 import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
 import com.lacosdaalegria.intralacos.service.HospitalService;
 import com.lacosdaalegria.intralacos.service.RegiaoService;
@@ -26,6 +28,7 @@ import com.lacosdaalegria.intralacos.session.UserInfo;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
+@Log
 @Controller
 @RequiredArgsConstructor
 public class VoluntarioController {
@@ -149,8 +152,8 @@ public class VoluntarioController {
 		Voluntario voluntario = service.findByEmail(email);
 		if(voluntario != null) {
 			redirectAttrs.addFlashAttribute("successMessage", "E-mail enviado para resetar sua senha");
-			ResetToken token = service.createToken(voluntario);
-			this.email.sendToken(token);
+			UserToken token = service.createResetToken(voluntario);
+			this.email.send(Email.build(token));
 		} else {
 			redirectAttrs.addFlashAttribute("errorMessage", "Não há cadastro vinculado a esse e-mail");
 		}
@@ -211,6 +214,22 @@ public class VoluntarioController {
 		service.reativarConta(info.getVoluntario());
 		return "redirect:/novato/home";
 	}
+
+    @GetMapping("/cadastro/confirmar/participacao")
+    public String confirmarContaAtiva(String token, RedirectAttributes redirectAttrs) {
+
+        service.confirmarContaAtiva(token, redirectAttrs);
+
+        return "redirect:/login";
+    }
+
+    @GetMapping("/cadastro/desativar")
+    public String desativarConta(String token, RedirectAttributes redirectAttrs) {
+
+        service.destivarConta(token, redirectAttrs);
+
+        return "redirect:/login";
+    }
 	
 	/*
 	 * ======================================================================================
