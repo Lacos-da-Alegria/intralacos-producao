@@ -30,7 +30,6 @@ public class GeneralTask {
 	
 	@Scheduled(cron="0 * * ? * SUN")
 	public void desativaAtivaVoluntarios() {
-		voluntarioService.ativarVoluntarios();
 		voluntarioService.desativarVoluntarios();
 	}
 
