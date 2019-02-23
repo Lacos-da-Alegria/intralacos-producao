@@ -1,24 +1,23 @@
 package com.lacosdaalegria.intralacos.service.modules;
 
-import com.google.common.base.Objects;
-import com.lacosdaalegria.intralacos.email.Email;
-import com.lacosdaalegria.intralacos.email.EmailService;
-import com.lacosdaalegria.intralacos.model.MaisLacos;
-import com.lacosdaalegria.intralacos.model.atividade.Hospital;
-import com.lacosdaalegria.intralacos.model.usuario.ControleEntrada;
-import com.lacosdaalegria.intralacos.model.usuario.Role;
-import com.lacosdaalegria.intralacos.model.usuario.UserToken;
-import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
-import com.lacosdaalegria.intralacos.model.usuario.enuns.RoleEnum;
-import com.lacosdaalegria.intralacos.model.usuario.enuns.TokenTypeEnum;
-import com.lacosdaalegria.intralacos.repository.s3.S3;
-import com.lacosdaalegria.intralacos.repository.usuario.ControleEntradaRepository;
-import com.lacosdaalegria.intralacos.repository.usuario.UserTokenRepository;
-import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
-import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
-import com.lacosdaalegria.intralacos.service.HospitalService;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import static com.lacosdaalegria.intralacos.model.usuario.enuns.StatusEnum.ATIVO;
+import static com.lacosdaalegria.intralacos.model.usuario.enuns.StatusEnum.CONFIRMADO;
+import static com.lacosdaalegria.intralacos.model.usuario.enuns.StatusEnum.INATIVO;
+import static com.lacosdaalegria.intralacos.model.usuario.enuns.StatusEnum.SEM_INTERESSE;
+import static com.lacosdaalegria.intralacos.model.usuario.enuns.TokenTypeEnum.RESETAR_SENHA;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,16 +30,27 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.google.common.base.Objects;
+import com.lacosdaalegria.intralacos.email.Email;
+import com.lacosdaalegria.intralacos.email.EmailService;
+import com.lacosdaalegria.intralacos.model.MaisLacos;
+import com.lacosdaalegria.intralacos.model.atividade.Hospital;
+import com.lacosdaalegria.intralacos.model.usuario.ControleEntrada;
+import com.lacosdaalegria.intralacos.model.usuario.Role;
+import com.lacosdaalegria.intralacos.model.usuario.UserToken;
+import com.lacosdaalegria.intralacos.model.usuario.Voluntario;
+import com.lacosdaalegria.intralacos.model.usuario.enuns.RoleEnum;
+import com.lacosdaalegria.intralacos.model.usuario.enuns.TokenTypeEnum;
+import com.lacosdaalegria.intralacos.repository.atividade.RegistroRepository;
+import com.lacosdaalegria.intralacos.repository.s3.S3;
+import com.lacosdaalegria.intralacos.repository.usuario.ControleEntradaRepository;
+import com.lacosdaalegria.intralacos.repository.usuario.RoleRepository;
+import com.lacosdaalegria.intralacos.repository.usuario.UserTokenRepository;
+import com.lacosdaalegria.intralacos.repository.usuario.VoluntarioRepository;
+import com.lacosdaalegria.intralacos.service.HospitalService;
 
-import static com.lacosdaalegria.intralacos.model.usuario.enuns.StatusEnum.*;
-import static com.lacosdaalegria.intralacos.model.usuario.enuns.TokenTypeEnum.ATIVAR_NOVATO;
-import static com.lacosdaalegria.intralacos.model.usuario.enuns.TokenTypeEnum.RESETAR_SENHA;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Transactional
@@ -55,6 +65,7 @@ public class VoluntarioService {
 	private @NonNull HospitalService hospitalService;
 	private @NonNull ControleEntradaRepository controleEntradaRepository;
 	private @NonNull EmailService emailService;
+	private @NonNull RegistroRepository registroRepository;
 
 	@Transactional
 	public void registerVoluntario(Voluntario voluntario) {
@@ -208,8 +219,8 @@ public class VoluntarioService {
 	}
 	
 	public void initMaisLacos(MaisLacos maisLacos, Voluntario voluntario) {
-		maisLacos.setVoluntarios(repository.findTotalVoluntarios());
-		maisLacos.setNovatos(repository.findTotalNovatos());
+		maisLacos.setVoluntarios(repository.findTotalVoluntarios2());
+		maisLacos.setNovatos(repository.findTotalNovatos2());
 	}
 
 	
@@ -364,6 +375,7 @@ public class VoluntarioService {
 	
 	@Transactional
 	public void desativarVoluntarios() {
+		//não verificava se o cara tinha 4 visitas primeiro para depois ver os 3 meses no caso
 		Iterable<Voluntario> voluntarios = repository.findVoluntarioDesativar();
 		
 		voluntarios.forEach(v -> v.setStatus(2));

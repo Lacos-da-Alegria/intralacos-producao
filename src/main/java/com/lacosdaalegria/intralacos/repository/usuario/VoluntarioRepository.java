@@ -30,6 +30,67 @@ public interface VoluntarioRepository extends CrudRepository<Voluntario, Long> {
 	@Query("SELECT count(v) FROM Voluntario v WHERE v.status = 1 and v.promovido = TRUE")
 	Integer findTotalVoluntarios();
 	
+	@Query(value = 	"SELECT count(id)\n" + 
+					"FROM voluntario v \n" + 
+					"WHERE v.status = 1 \n" + 
+					"and v.promovido = false\n" + 
+					"and v.id not in (\n" + 
+					"select d.voluntario_id\n" + 
+					"FROM (\n" + 
+					"select r.voluntario_id, datediff(CURRENT_DATE(), max(r.criacao)) as dias\n" + 
+					"from registro r\n" + 
+					"inner join (\n" + 
+					"  select voluntario_id, count(*) as total\n" + 
+					"  from registro r1\n" + 
+					"  where r1.status in ( 2)\n" + 
+					"  group by voluntario_id\n" + 
+					"  HAVING total > 3\n" + 
+					") b\n" + 
+					"on b.voluntario_id = r.voluntario_id\n" + 
+					"inner join voluntario v\n" + 
+					"on v.id = r.voluntario_id\n" + 
+					"where v.status = 1\n" + 
+					"AND v.promovido = false\n" + 
+					"group by r.voluntario_id\n" + 
+					"HAVING dias <90\n" + 
+					") d\n" + 
+					")", nativeQuery = true)
+	Integer findTotalNovatos2();
+	
+	@Query(value = "SELECT count(id)\n" + 
+			"		FROM voluntario v \n" + 
+			"		WHERE v.status = 1 \n" + 
+			"		and v.promovido = true\n" + 
+			"		and v.id not in (\n" + 
+			"		select d.voluntario_id\n" + 
+			"		FROM (\n" + 
+			"		select r.voluntario_id, datediff(CURRENT_DATE(), max(r.criacao)) as dias\n" + 
+			"		from registro r\n" + 
+			"		inner join (\n" + 
+			"		  select voluntario_id, count(*) as total\n" + 
+			"		  from registro r1\n" + 
+			"		  where r1.status in ( 1)\n" + 
+			"		  group by voluntario_id\n" + 
+			"		  HAVING total > 3\n" + 
+			"		) b\n" + 
+			"		on b.voluntario_id = r.voluntario_id\n" + 
+			"		inner join voluntario v\n" + 
+			"		on v.id = r.voluntario_id\n" + 
+			"		where v.status = 1\n" + 
+			"		AND v.promovido = true\n" + 
+			"		group by r.voluntario_id\n" + 
+			"		HAVING dias <90\n" + 
+			"		) d\n" + 
+			"		)", nativeQuery = true)
+
+	Integer findTotalVoluntarios2();
+	
+	
+	
+	/*
+		
+	 */
+	
 	Iterable<Voluntario> findByNascimentoLikeAndStatus(String nascimento, Integer status);
 	
 	Iterable<Voluntario> findTop30ByPreferenciaAndStatusAndPromovidoFalseOrderByDtCriacao(Hospital preferencia, Integer status);
@@ -38,7 +99,7 @@ public interface VoluntarioRepository extends CrudRepository<Voluntario, Long> {
 	
 	@Query(value = "SELECT v.* FROM voluntario v WHERE v.status = 1 and v.promovido = 1 and "
 			+ "v.id not in (SELECT DISTINCT voluntario_id from registro r where "
-			+ "r.status = 1 and r.criacao >=  now() - interval 4 month)", nativeQuery = true)
+			+ "r.status = 1 and r.criacao >=  now() - interval 3 month)", nativeQuery = true)
 	Iterable<Voluntario> findVoluntarioDesativar();
 	
 	@Query(value = "SELECT v.* FROM voluntario v WHERE v.status != 1 and v.promovido = 1 and "
