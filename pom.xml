@@ -6,7 +6,7 @@
 	<groupId>com.lacosdaalegria</groupId>
 	<artifactId>intralacos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<name>intralacos</name>
 	<description>Intralaços aplicação de gestão do voluntariado da Associação Laços da Alegria</description>
